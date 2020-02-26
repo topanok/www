@@ -4,6 +4,7 @@
 	include(__DIR__ . "/framework/router.php");
 	$router=new Router;
 	$router->go();
+	$yes='ok';
 ?>
 
 
