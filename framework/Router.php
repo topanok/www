@@ -1,5 +1,4 @@
 <?php
-	namespace Framework;
 	class Router{
 		private $first='controller_';
 		private $end='.php';
