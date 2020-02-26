@@ -1,23 +1,11 @@
 <?php
 	ini_set('display_errors',1);
 	error_reporting(E_ALL);
-	include(__DIR__ . "/framework/router.php");
-	$router=new Router;
+	spl_autoload_register();
+	//include(__DIR__ . "/framework/router.php");
+	$router=new Framework\Router;
 	$router->go();
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

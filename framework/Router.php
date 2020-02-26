@@ -1,4 +1,8 @@
 <?php
+	namespace Framework;
+	
+	use ReflectionMethod;
+	
 	class Router{
 		private $end='Controller.php';
 		public function getUri(){
