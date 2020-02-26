@@ -1,7 +1,6 @@
 <?php
 	class Router{
-		private $first='controller_';
-		private $end='.php';
+		private $end='Controller.php';
 		public function getUri(){
 			return trim($_SERVER['REQUEST_URI'],'/');
 		}
@@ -9,12 +8,12 @@
 			$uri=$this->getUri();
 			$arrOfUri=explode('/',$uri);
 			$correctUri=false;
-			$controller=$this->first.$arrOfUri[0].$this->end;
+			$controller=$arrOfUri[0].$this->end;
 			if (file_exists('app/controllers/'.$controller) && count($arrOfUri)>=2) {
 				$class=ucfirst($arrOfUri[0]);
 				$method=$arrOfUri[1];
 				spl_autoload_register(function ($class) {
-					include 'app/controllers/controller_'.$class . '.php';
+					include 'app/controllers/'.$class .$this->end;
 				});
 				$obj=new $class;
 				if(method_exists($class,$method)){
