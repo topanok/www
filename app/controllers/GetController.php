@@ -1,6 +1,6 @@
 <?php
 	namespace App\Controllers ;
-	class Get{
+	class GetController{
 		public function yes(){
 		echo 'class Get';
 		}

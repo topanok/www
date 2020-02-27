@@ -1,6 +1,6 @@
 <?php
 	namespace App\Controllers ;
-	class Page{
+	class PageController{
 		public function returnPage(){
 			echo 'Page content';
 		}
