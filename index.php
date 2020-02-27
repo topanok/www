@@ -1,9 +1,9 @@
 <?php
 	ini_set('display_errors',1);
 	error_reporting(E_ALL);
-	spl_autoload_register();
+	require_once __DIR__ .'/vendor/autoload.php';
 	//include(__DIR__ . "/framework/router.php");
-	$router=new Framework\Router;
+	$router=new Router;
 	$router->go();
 ?>
 
