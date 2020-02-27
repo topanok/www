@@ -2,8 +2,7 @@
 	ini_set('display_errors',1);
 	error_reporting(E_ALL);
 	require_once __DIR__ .'/vendor/autoload.php';
-	//include(__DIR__ . "/framework/router.php");
-	$router=new Router;
+	$router=new Framework\Router;
 	$router->go();
 ?>
 

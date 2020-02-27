@@ -2,6 +2,7 @@
 	namespace Framework;
 	
 	use ReflectionMethod;
+	
 	class Router{
 		private $end='Controller.php';
 		public function getUri(){
@@ -15,10 +16,9 @@
 			if (file_exists('app/controllers/'.$controller) && count($arrOfUri)>=2) {
 				$class=ucfirst($arrOfUri[0]);
 				$method=$arrOfUri[1];
-				spl_autoload_register(function ($class) {
-					include 'app/controllers/'.$class .$this->end;
-				});
-				$obj=new $class;
+				$class = "App\Controllers\\{$class}";
+				var_dump($class);
+				$obj= new $class;
 				if(method_exists($class,$method)){
 					$func_reflection = new ReflectionMethod($class,$method);
 					$num_of_params = $func_reflection->getNumberOfParameters();
