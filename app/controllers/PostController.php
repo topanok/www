@@ -1,4 +1,5 @@
 <?php
+	namespace App\Controllers;
 	class Post {
 		public function create($text,$text2){
 			$content=$text.$text2;
