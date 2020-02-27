@@ -1,6 +1,6 @@
 <?php
 	namespace Framework;
-	
+
 	use ReflectionMethod;
 	
 	class Router{
