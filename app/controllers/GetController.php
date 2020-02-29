@@ -1,6 +1,9 @@
 <?php
 	namespace App\Controllers ;
-	class GetController{
+	
+	use Framework\Controller;
+	
+	class GetController extends Controller{
 		public function yes(){
 		echo 'class Get';
 		}

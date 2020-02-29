@@ -13,6 +13,7 @@ class ComposerStaticInitac2d75c90d6c023f2f7bcb942a27eb16
         ),
         'A' => 
         array (
+            'App\\Views\\' => 10,
             'App\\Controllers\\' => 16,
         ),
     );
@@ -21,6 +22,10 @@ class ComposerStaticInitac2d75c90d6c023f2f7bcb942a27eb16
         'Framework\\' => 
         array (
             0 => __DIR__ . '/../..' . '/framework',
+        ),
+        'App\\Views\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/views',
         ),
         'App\\Controllers\\' => 
         array (

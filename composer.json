@@ -2,7 +2,8 @@
     "autoload": {
         "psr-4": {
             "App\\Controllers\\": "app/controllers/",
-            "Framework\\": "framework/"
+            "Framework\\": "framework/",
+			"App\\Views\\": "app/views/"
         }
     }
 }
