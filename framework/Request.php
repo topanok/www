@@ -16,5 +16,8 @@
 		public function getQueryParam(string $query): string {
 			return $_GET[$query];
 		}
+		public function isPost():bool{
+			return isset($_POST);
+		}
 	}
 ?>
