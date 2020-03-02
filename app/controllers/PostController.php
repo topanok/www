@@ -2,6 +2,7 @@
 	namespace App\Controllers;
 	
 	use Framework\Controller;
+	use Framework\Request;
 	
 	class PostController extends Controller{
 		public function create($text,$text2){
@@ -11,6 +12,9 @@
 		}
 		public function addText(){
 			echo 'yes';
+		}
+		public function getRequest(){
+			return new Request;
 		}
 	}
 ?>

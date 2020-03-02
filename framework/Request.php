@@ -1,7 +1,7 @@
 <?php
 	namespace Framework;
 	
-	use IRequest;
+	use Framework\IRequest;
 	
 	class Request implements IRequest{
 		public function getParams(): array{
