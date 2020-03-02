@@ -17,7 +17,12 @@
 			return $_GET[$query];
 		}
 		public function isPost():bool{
-			return isset($_POST);
+			if($_SERVER['REQUEST_METHOD']=='POST'){
+			return true;
+			}
+			else{
+				return false;
+			}
 		}
 	}
 ?>
