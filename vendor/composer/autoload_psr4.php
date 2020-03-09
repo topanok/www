@@ -8,5 +8,9 @@ $baseDir = dirname($vendorDir);
 return array(
     'Framework\\' => array($baseDir . '/framework'),
     'App\\Views\\' => array($baseDir . '/app/views'),
+    'App\\Template\\' => array($baseDir . '/app/template'),
+    'App\\Models\\' => array($baseDir . '/app/models'),
+    'App\\Layouts\\' => array($baseDir . '/app/layouts'),
     'App\\Controllers\\' => array($baseDir . '/app/controllers'),
+    'App\\Config\\' => array($baseDir . '/app/config'),
 );

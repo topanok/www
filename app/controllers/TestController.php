@@ -1,15 +1,19 @@
 <?php
-	namespace Framework;
-	
+	namespace App\Controllers;
+
 	use PDO;
 	use Framework\ConnectDB;
+	use App\Models\WorkersModel;
 	
-	class AbstractRepository extends ConnectDB{
+	class TestController extends ConnectDB{
 
-		private $table='answers';
-		
-		public function save(object $model){
-			$options=array_slice($model->getOptions(),1);
+		private $table='workers';
+
+		public function save($model){
+			$obj=new WorkersModel('Vaska',32,1554);
+			//$class=explode('\\',get_class($obj));
+			//$table= strtolower((str_replace('Model','',end($class))));
+			$options=array_slice($obj->getOptions(),1);
 			$columns=implode(',', array_keys($options));
 			$values=array_values($options);
 			$str='';
@@ -32,7 +36,7 @@
 		
 		public function getByParam(string $column,$value){
 			$stmt=$this->connect()->query(" SELECT * FROM $this->table WHERE $column = '$value' ");
-			return $results = $stmt->fetchall(PDO::FETCH_ASSOC);
+			$results = $stmt->fetchall(PDO::FETCH_ASSOC);
 		}
 		
 		public function delByParam(string $column,$value){

@@ -14,7 +14,11 @@ class ComposerStaticInitac2d75c90d6c023f2f7bcb942a27eb16
         'A' => 
         array (
             'App\\Views\\' => 10,
+            'App\\Template\\' => 13,
+            'App\\Models\\' => 11,
+            'App\\Layouts\\' => 12,
             'App\\Controllers\\' => 16,
+            'App\\Config\\' => 11,
         ),
     );
 
@@ -27,9 +31,25 @@ class ComposerStaticInitac2d75c90d6c023f2f7bcb942a27eb16
         array (
             0 => __DIR__ . '/../..' . '/app/views',
         ),
+        'App\\Template\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/template',
+        ),
+        'App\\Models\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/models',
+        ),
+        'App\\Layouts\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/layouts',
+        ),
         'App\\Controllers\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/controllers',
+        ),
+        'App\\Config\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/config',
         ),
     );
 
