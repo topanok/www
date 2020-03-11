@@ -4,11 +4,11 @@
 	class WorkersModel{
 		private $columns=[];
 
-		protected function setData(array $columns){
+		public function setData(array $columns){
 			$this->columns=$columns;
 		}
 
-		protected function getData() {
+		public function getData() {
 			return $this->columns;
 		}
 		
