@@ -10,10 +10,12 @@
 		private $table='workers';
 
 		public function save($model){
-			$obj=new WorkersModel('Vaska',32,1554);
+			$array=array('name'=>'ivanko','age'=>23,'salary'=>1550);
+			$obj=new WorkersModel;
+			$obj->setData($array);
 			//$class=explode('\\',get_class($obj));
 			//$table= strtolower((str_replace('Model','',end($class))));
-			$options=array_slice($obj->getOptions(),1);
+			$options=$obj->getData();
 			$columns=implode(',', array_keys($options));
 			$values=array_values($options);
 			$str='';
@@ -27,7 +29,7 @@
 		
 		public function getById(int $id):array{
 			$stmt = $this->connect()->query(" SELECT * FROM $this->table WHERE id = $id ");
-			return $results = $stmt->fetchall(PDO::FETCH_ASSOC);
+			return $results = $stmt->fetch(PDO::FETCH_ASSOC);
 		}
 		
 		public function delById(int $id) {
@@ -45,6 +47,12 @@
 		
 		public function insertByParam(string $column,$value){
 			$this->connect()->exec("INSERT INTO $this->table ($column) VALUES ('$value')");
+		}
+
+		public function getList(){
+			$stmt = $this->connect()->query(" SELECT * FROM $this->table ");
+			$results = $stmt->fetchall(PDO::FETCH_ASSOC);
+			var_dump($results);
 		}
 	}
 ?>

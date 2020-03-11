@@ -9,7 +9,7 @@
 		private $table='answers';
 		
 		public function save(object $model){
-			$options=array_slice($model->getOptions(),1);
+			$options=array_slice($model->getData(),1);
 			$columns=implode(',', array_keys($options));
 			$values=array_values($options);
 			$str='';
