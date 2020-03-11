@@ -12,27 +12,16 @@
 			return $this->columns;
 		}
 		
-		protected function setName($name){
-			$this->columns['name']=$name;
-		}
-		protected function getName(){
-			return $this->columns['name'];
-		}
-		protected function setAge($age){
-			$this->columns['age']=$age;
-		}
-		protected function getAge(){
-			return $this->columns['age'];
-		}
-		protected function setSalary($salary){
-			$this->columns['salary']=$salary;
-		}
-		protected function getSalary(){
-			return $this->columns['salary'];
-		}
 		public function __call($method, $parameters){
-			if (in_array($method, get_class_methods($this))){
-				return call_user_func_array(array($this, $method), $parameters);
+			$arr=array('0'=>'set','1'=>'get');
+			if (in_array(substr($method, 0, 3), $arr)){
+					$key=strtolower(substr($method, 3));
+				if (substr($method, 0, 3)=='set' && array_key_exists($key,$this->columns)){
+					$this->columns[$key]=$parameters[0];
+				}
+				else{
+					return $this->columns[$key];
+				}
 			}
 		}
 	}
