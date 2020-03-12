@@ -1,12 +1,11 @@
 <?php
 	namespace Framework;
+
+	use Framework\Db;
 	
-	use PDO;
-	use Framework\ConnectDB;
-	
-	class AbstractRepository extends ConnectDB{
+	class AbstractRepository{
 		public function getObjDb(){
-			$objDb=new ConnectDB;
+			$objDb=new Db;
 			return $objDb;
 		}
 	}
