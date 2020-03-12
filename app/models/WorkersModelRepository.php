@@ -5,10 +5,9 @@
 		private $table='workers';
 		
 		public function getById(int $id):object{
-			$stmt = $this->connect()->query(" SELECT * FROM $this->table WHERE id = $id ");
-			$result = $stmt->fetch(PDO::FETCH_ASSOC);
+			$objDb=Framework\AbstractRepository::getObjDb();
 			$obj=new App\Models\WorkersModel;
-			$obj->setData($result);
+			$obj->setData($objDb->getById($id));
 			return $obj;
 		}
 	}
