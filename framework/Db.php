@@ -70,5 +70,4 @@
 			$stmt=$this->connect()->query(" SELECT * FROM $this->table ");
 			return $results = $stmt->fetchall(PDO::FETCH_ASSOC);
 		}
-		
 	}
