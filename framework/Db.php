@@ -4,7 +4,11 @@
 	use Framework\ConnectDB;
 	
 	class Db extends ConnectDB{
-		public $table='workers';
+		private $table;
+		
+		public function __construct($table){
+			$this->table=$table;
+		}
 		
 		public function save(object $model){
 			$options=$model->getData();
@@ -17,8 +21,7 @@
 			$str = substr($str, 0, -1);
 			If (array_key_exists('id',$options)){
 				$id=(int) $options['id'];
-				$obj=new Db;
-				$data=$obj->getById($id);
+				$data=$this->getById($id);
 				if(!empty($data)){
 					$columns=array_slice(array_keys($options), 1);
 					$columns=implode(',',$columns);
@@ -58,5 +61,10 @@
 		
 		public function insertByParam(string $column,$value){
 			$this->connect()->exec("INSERT INTO $this->table ($column) VALUES ('$value')");
+		}
+		
+		public function getList(){
+			$stmt=$this->connect()->query(" SELECT * FROM $this->table ");
+			return $results = $stmt->fetchall(PDO::FETCH_ASSOC);
 		}
 	}
