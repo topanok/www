@@ -11,32 +11,35 @@
 		}
 		
 		public function save(object $model){
-			$options=$model->getData();
-			$columns=array_keys($options);
-			$values=array_values($options);
-			$str='';
-			for($i=0;$i<count($values);$i++){
-				$str.='?,';
-			}
-			$str = substr($str, 0, -1);
-			If (array_key_exists('id',$options)){
-				$id=(int) $options['id'];
-				$data=$this->getById($id);
-				if(!empty($data)){
-					$columns=array_slice(array_keys($options), 1);
-					$columns=implode(',',$columns);
-					$values=array_slice(array_values($options), 1);
-					$str='';
-					for($i=0;$i<count($values);$i++){
-						$str.='?,';
-					}
-					$stmt = $this->connect()->prepare("UPDATE $this->table ($columns) VALUES ($str) WHERE id='$id'");
-					$stmt->execute($values);
-				}
+			$data=$model->getData();
+			If (array_key_exists('id',$data)){
+				return $this->update($data);
 			}
 			else{
+				$columns=array_keys($data);
 				$columns=implode(',', $columns);
+				$values=array_values($data);
+				$str='';
+				for($i=0;$i<count($values);$i++){
+					$str.='?,';
+				}
+				$str = substr($str, 0, -1);
 				$stmt = $this->connect()->prepare("INSERT INTO $this->table ($columns) VALUES ($str)");
+				$stmt->execute($values);
+			}
+		}
+		
+		private function update(array $data){
+			$id=(int) $data['id'];
+			$dataDb=$this->getById($id);
+			if(!empty($dataDb)){
+				$columns=array_slice(array_keys($data), 1);
+				$columns=implode('=?,',$columns);
+				$columns .= '=?';
+				$values=array_slice(array_values($data), 1);
+				$values[]=$id;
+				$sql="UPDATE $this->table SET $columns WHERE id=?";
+				$stmt = $this->connect()->prepare($sql);
 				$stmt->execute($values);
 			}
 		}
@@ -67,4 +70,5 @@
 			$stmt=$this->connect()->query(" SELECT * FROM $this->table ");
 			return $results = $stmt->fetchall(PDO::FETCH_ASSOC);
 		}
+		
 	}
