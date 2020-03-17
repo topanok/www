@@ -29,7 +29,7 @@
 							$params[]=$arrOfUri[$i+2];
 						}
 						$reflectionMethod = new ReflectionMethod($class, $method );
-						return $reflectionMethod->invokeArgs(new $class(), $params);
+						return $reflectionMethod->invokeArgs(new $class, $params);
 					}
 				}	
 			} 

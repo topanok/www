@@ -4,6 +4,8 @@
 	require_once __DIR__ .'/vendor/autoload.php';
 	$router = new Framework\Router;
 	$router->go();
+	//$mail=new Framework\Mailer;
+    //$mail->smtpmail('topanok2015@ukr.net', 'Test', 'Work it');
 ?>
 
 

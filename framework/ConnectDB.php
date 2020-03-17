@@ -1,7 +1,7 @@
 <?php
 	namespace Framework;
 	
-	use App\Config\Config;
+	use App\Config\DBConfig;
 	use PDO;
 	
 	class ConnectDB extends Config{
@@ -11,7 +11,7 @@
 			  PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
 			];
 		public function connect():object {
-			return new PDO($this->dsn, $this->userName, $this->pass, $this->options);
+			return new PDO($this->dsn, $this->getName(), $this->getPass(), $this->options);
 		}
 	}
 ?>
