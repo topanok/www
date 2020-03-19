@@ -1,18 +1,23 @@
 <?php
 	namespace App\Config;
+	use Librarys\PHPMailer\PHPMailer;
 	
 	abstract class SMTPConfig {
-		private $config= [
-			"smtp_username"=> "topanok2015@gmail.com",
-			"smtp_password"=> "Y2FzZXkwODA0ODY=",       //encoded
-			"smtp_from"=> "topanok2015@gmail.com",
-			"smtp_host"=> "smtp.gmail.com",
-			"smtp_port"=> "465",
-			"smtp_debug"=> 'true',
-			"smtp_charset"=> "UTF-8"
-		];
-		public function getConfig(){
-			return $this->config;
+		public function getPHPMailerobj(){
+			$mail=new PHPMailer();
+			$mail->isSMTP();   
+			$mail->CharSet = "UTF-8";                                          
+			$mail->SMTPAuth   = true;
+			$mail->isHTML(true);
+
+			// Настройки SMTP
+			$mail->Host       = 'smtp.gmail.com';        		// SMTP сервер
+			$mail->Username   = 'topanok2015@gmail.com'; 		// Логин на почте
+			$mail->Password   = 'casey080486';           		// Пароль на почте
+			$mail->SMTPSecure = 'ssl';
+			$mail->Port       = 465;
+			$mail->setFrom('topanok2015@gmail.com', 'Bogdan'); 	// Адрес самой почты и имя отправителя
+			return $mail;
 		}
 	}
 ?>

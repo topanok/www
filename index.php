@@ -2,12 +2,11 @@
 	ini_set('display_errors',1);
 	error_reporting(E_ALL);
 	require_once __DIR__ .'/vendor/autoload.php';
-	$router = new Framework\Router;
-	$router->go();
-	//$mail=new Framework\Mailer;
-    //$mail->smtpmail('topanok2015@ukr.net', 'Test', 'Work it');
+	//$router = new Framework\Router;
+	//$router->go();
+	$mail = new Framework\Mailer;
+	$mail->sendMail('topanok2015@ukr.net','Theme','It work!!!');
 ?>
-
 
 
 

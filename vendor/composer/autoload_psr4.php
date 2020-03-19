@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Librarys\\PHPMailer\\' => array($baseDir . '/librarys/PHPMailer'),
     'Framework\\' => array($baseDir . '/framework'),
     'App\\Views\\' => array($baseDir . '/app/views'),
     'App\\Template\\' => array($baseDir . '/app/template'),
