@@ -1,11 +1,22 @@
 <?php
 	namespace Framework;
 	use App\Config\SMTPConfig;
+	use Librarys\PHPMailer\PHPMailer;
 	
 	class Mailer extends SMTPConfig{
 		
 		public function sendMail($to,$theme,$mesage){
-			$mail=$this->getPHPMailerobj();
+			$mail=new PHPMailer();
+			$mail->isSMTP();   
+			$mail->CharSet = 	$this->charSet;                                          
+			$mail->SMTPAuth =	$this->SMTPAuth;
+			$mail->isHTML($this->isHtml);
+			$mail->Host       = $this->host;
+			$mail->Username   = $this->userName;
+			$mail->Password   = $this->password;
+			$mail->SMTPSecure = $this->SMTPSecure;
+			$mail->Port       = $this->port;
+			$mail->setFrom($this->fromMail, $this->fromName);
 			$mail->addAddress($to);
 			$mail->Subject = $theme;
 			$mail->Body    = $mesage;

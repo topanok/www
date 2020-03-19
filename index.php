@@ -5,7 +5,7 @@
 	//$router = new Framework\Router;
 	//$router->go();
 	$mail = new Framework\Mailer;
-	$mail->sendMail('topanok2015@ukr.net','Theme','It work!!!');
+	$mail->sendMail('topanok2015@gmail.com','Theme','It work!!!');
 ?>
 
 
