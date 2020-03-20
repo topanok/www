@@ -12,5 +12,8 @@
 		public $port        = 465;
 		public $fromMail	='topanok2015@ukr.net';
 		public $fromName	='Bogdan';
+		public $sendCopy	=true;
+		public $sendCopyMail='topanok2015@ukr.net';
+		public $sendCopyName='Bogdan';
 	}
 ?>

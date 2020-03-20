@@ -31,11 +31,23 @@
 					}
 				}   
 			}
+			if($this->sendCopy){
+				if (filter_var($this->sendCopyMail, FILTER_VALIDATE_EMAIL)) {
+					$mail->AddCC($this->sendCopyMail, $this->sendCopyName);
+				} else {
+					$err= "E-mail адрес получателя копии '$this->sendCopyMail' указан неверно.\n";
+				}
+			}
 			if ($mail->send()) {
-				echo "Сообщение отправлено";
+				echo "Сообщение отправлено<br>";
+				if(isset($err)){
+					echo $err;
+				}
 			} else {
 				echo "Сообщение не было отправлено. Неверно указаны настройки вашей почты";
 			}
+			$mail->ClearAddresses();
+			$mail->ClearAttachments();
 		}
 	}
 ?>
