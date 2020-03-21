@@ -4,32 +4,23 @@
 	require_once __DIR__ .'/vendor/autoload.php';
 	//$router = new Framework\Router;
 	//$router->go();
-	$text=['name'=>'name','placeholder'=>'Введіть_ім"я'];
-	$email=['name'=>'email','placeholder'=>'Введіть_Email'];
-	$password=['maxlength'=>'25', 'name'=>'password', 'placeholder'=>'Введіть_пароль'];
-	$textarea=['name'=>'text','placeholder'=>'Введіть_текст'];
-	$radio=['name'=>'radio','value'=>'Yes','nameToSee'=>'Radio','Checked'=>''];
-	$checkbox=['name'=>'checkbox','value'=>'Yes','nameToSee'=>'Checkbox','Checked'=>''];
-	$file=['name'=>'file'];
-	$submit=['value'=>'Відправити'];
 	
 	$form = new Framework\FormBuilder;
 	$form->setId('Test');
 	$form->setMethod('GET');
 	$form->setClass('Form');
 	
-	$form->addField('text',$text);
-	$form->addField('email',$email);
-	$form->addField('password',$password);
-	$form->addField('textarea',$textarea);
-	$form->addField('radio',$radio);
-	$form->addField('checkbox',$checkbox);
-	$form->addField('file',$file);
-	$form->addField('submit',$submit);
+	$form->addField('text');
+	$form->addField('email');
+	$form->addField('password');
+	$form->addField('textarea');
+	$form->addField('radio');
+	$form->addField('checkbox');
+	$form->addField('file');
+	$form->addField('select');
+	$form->addField('submit');
 	$form->createForm();
 ?>
-
-
 
 
 
