@@ -4,11 +4,25 @@
 	require_once __DIR__ .'/vendor/autoload.php';
 	//$router = new Framework\Router;
 	//$router->go();
-	$mail = new Framework\Mailer;
-	$mail->sendMail('topanok2015@gmail.com','Theme','It work!!!');
+	$text=['name'=>'name','placeholder'=>'Ім\'я'];
+	$submit=['value'=>'Відправити'];
+	$select=['name'=>'select', 'size'=>'3', 'option_values'=>['Чебурашка','Крокодил','Бегемот']];
+	$form = new Framework\FormBuilder;
+	$form->setId('Test');
+	$form->setMethod('GET');
+	$form->setClass('Form');
+	
+	$form->addField('text',$text);
+	/*$form->addField('email');
+	$form->addField('password');
+	$form->addField('textarea');
+	$form->addField('radio');
+	$form->addField('checkbox');
+	$form->addField('file');*/
+	$form->addField('select',$select);
+	$form->addField('submit',$submit);
+	$form->createForm();
 ?>
-
-
 
 
 
