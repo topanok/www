@@ -12,7 +12,7 @@
 			$form = new FormBuilder;
 			$form->setId('Reg');
 			$form->setMethod('POST');
-			$form->setClass('Register');
+			$form->setClass('form-control');
 			
 			$form->addField('text',['name'=>'name','placeholder'=>'Ім\'я']);
 			$form->addField('text',['name'=>'surname','placeholder'=>'Фамілія']);
