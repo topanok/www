@@ -2,7 +2,7 @@
 	namespace Framework;
 	use App\Config\FormConfig;
 	
-	class FormBuilder extends FormConfig{
+	class FormBuilder{
 		private $form;
 		private $input='';
 		private $class;
@@ -28,21 +28,23 @@
 			$this->input.='></p>';
 		}
 		private function addSelect(){
-			$option='';
-			$this->input.='<p><select';
-			foreach ($this->options as $key=>$value){
-				if(is_string($value)){
-				$this->input.=' '.$key.'="'.$value.'"';
-				}
-			}
-			$this->input.='>';
-			$this->input.='<option disabled>Виберіть</option>';
 			if(isset($this->options['option_values'])){
+				$this->input.='<p><select';
+				foreach ($this->options as $key=>$value){
+					if(is_string($value)){
+					$this->input.=' '.$key.'="'.$value.'"';
+					}
+				}
+				$this->input.='>';
+				$this->input.='<option disabled>Виберіть</option>';
 				foreach ($this->options['option_values'] as $value){
 					$this->input.='<option value="'.$value.'">'.$value.'</option>';
 				}
+				$this->input.='</select></p>';
 			}
-			$this->input.='</select></p>';
+			else {
+				echo 'Error! Array not have option_values.';
+			}
 		}
 		private function addTextarea(){
 			$this->input.='<p><textarea';
@@ -63,21 +65,21 @@
 				$this->input.='></p>';
 			}
 		}
-		public function addField(string $type){
+		public function addField(string $type, array $options){
 			$this->type=$type;
-			$this->options=$this->getOptions($type);
+			$this->options=$options;
 			switch ($type) {
 				case 'textarea':
-					$this->addTextarea();
+					$this->addTextarea($options);
 					break;
 				case 'select':
-					$this->addSelect();
+					$this->addSelect($options);
 					break;
 				case 'radio':
-					$this->addRadioOrCheck();
+					$this->addRadioOrCheck($options);
 					break;
 				case 'checkbox':
-					$this->addRadioOrCheck();
+					$this->addRadioOrCheck($options);
 					break;
 				default:
 					$this->addInput();
