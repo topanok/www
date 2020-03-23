@@ -23,7 +23,9 @@
 			$data=$form->createForm();
 			
 			$this->render('app/views/ViewRegister.php',$data);
-			
+			$this->save();
+		}
+		private function save(){	
 			$request=$this->getRequest();
 			$data=$request->getParams();
 			$user=new UsersModelRepository;
