@@ -1,6 +1,5 @@
 <?php
 	namespace Framework;
-	use App\Config\FormConfig;
 	
 	class FormBuilder{
 		private $form;
@@ -88,8 +87,8 @@
 		public function createForm(){
 			$this->form='<form id="'.$this->id.'" class="'.$this->class.'" method="'.$this->method.'">';
 			$this->form.=$this->input.'</form>';
-			echo $this->form;
-			file_put_contents('Test.txt',$this->form);
+			return $this->form;
+			//file_put_contents('Test.txt',$this->form);
 		}
 	}
 ?>

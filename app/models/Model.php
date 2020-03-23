@@ -1,7 +1,7 @@
 <?php
 	namespace App\Models;
 
-	class WorkersModel{
+	class Model{
 		private $columns=[];
 
 		public function setData(array $columns){
