@@ -19,14 +19,14 @@
 				if(empty($userIsset) && empty($emailIsset)){
 					$data['password']=password_hash($data['password'], PASSWORD_DEFAULT);
 					$db->save($user->set($data));
-					echo 'Ви успішно зареєструвались!';
+					echo '<div><h3>Ви успішно зареєструвались!</h3></div>';
 				}
 				else{
-					echo 'Вже існує юзер з таким логіном чи імейлом!';
+					echo '<div><h3>Вже існує юзер з таким логіном чи імейлом!</h3></div>';
 				}
 			}
 			else{
-				echo 'Заповніть всі поля!';
+				echo '<div><h3>Заповніть всі поля!</h3></div>';
 			} 
 		}
 
@@ -36,12 +36,12 @@
 			$form->setMethod('POST');
 			$form->setClass('form-control');
 			
-			$form->addField('text',['name'=>'name','placeholder'=>'Ім\'я']);
-			$form->addField('text',['name'=>'surname','placeholder'=>'Фамілія']);
-			$form->addField('email',['name'=>'email','placeholder'=>'Email']);
-			$form->addField('text',['name'=>'login','placeholder'=>'Login']);
-			$form->addField('password',['maxlength'=>'25', 'name'=>'password', 'placeholder'=>'Пароль']);
-			$form->addField('submit',['value'=>'Відправити']);
+			$form->addField('text',['name'=>'name','class'=>'form-control','placeholder'=>'Ім\'я']);
+			$form->addField('text',['name'=>'surname','class'=>'form-control','placeholder'=>'Фамілія']);
+			$form->addField('email',['name'=>'email','class'=>'form-control','placeholder'=>'Email']);
+			$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Login']);
+			$form->addField('password',['maxlength'=>'25', 'name'=>'password','class'=>'form-control', 'placeholder'=>'Пароль']);
+			$form->addField('submit',['value'=>'Відправити','class'=>'btn btn-primary btn-lg btn-block']);
 			$data=$form->createForm();
 			
 			$this->render('app/views/ViewRegister.php',$data);
@@ -55,9 +55,9 @@
 			$form->setMethod('POST');
 			$form->setClass('form-control');
 			
-			$form->addField('text',['name'=>'login','placeholder'=>'Логін']);
-			$form->addField('password',['maxlength'=>'25', 'name'=>'password', 'placeholder'=>'Пароль']);
-			$form->addField('submit',['value'=>'Відправити']);
+			$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Логін']);
+			$form->addField('password',['maxlength'=>'25', 'name'=>'password', 'class'=>'form-control', 'placeholder'=>'Пароль']);
+			$form->addField('submit',['value'=>'Відправити','class'=>'btn btn-primary btn-lg btn-block']);
 			$data=$form->createForm();
 			
 			$this->render('app/views/ViewLogin.php',$data);
@@ -71,14 +71,14 @@
 				if(!empty($userIsset)){
 					if(password_verify ( $data['password'] , $userIsset[0]['password'] ) ) {
 						$_SESSION['login']=$data['login'];
-						echo 'Вітаємо '.$userIsset[0]['name'].' ! Ви увійшли як '.$data['login'].'.';
+						echo '<div><h3>Вітаємо '.$userIsset[0]['name'].' ! Ви увійшли як '.$data['login'].'.</h3></div>';
 					}
 					else{
-						echo 'Невірний пароль!';
+						echo '<div><h3>Невірний пароль!</h3></div>';
 					}
 				}
 				else{
-					echo 'Користувача з таким логіном не існує';
+					echo '<div><h3>Користувача з таким логіном не існує</h3></div>';
 				}
 			}
 		}
