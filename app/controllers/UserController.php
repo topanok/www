@@ -3,32 +3,9 @@
 	
 	use Framework\Controller;
 	use Framework\FormBuilder;
-	use App\Models\UsersModelRepository;
-	use Framework\Db;
+	use App\Controllers\UserControllerHelper;
 	
 	class UserController extends Controller{
-
-		private function save(){	
-			$request=$this->getRequest();
-			$data=$request->getParams();
-			$user=new UsersModelRepository;
-			$db=new DB($user->getTable());
-			if(!empty($data['login']) && !empty($data['email']) && !empty($data['password'])){
-				$userIsset=$db->getByParam('login',$data['login']);
-				$emailIsset=$db->getByParam('email',$data['email']);
-				if(empty($userIsset) && empty($emailIsset)){
-					$data['password']=password_hash($data['password'], PASSWORD_DEFAULT);
-					$db->save($user->set($data));
-					echo '<div><h3>Ви успішно зареєструвались!</h3></div>';
-				}
-				else{
-					echo '<div><h3>Вже існує юзер з таким логіном чи імейлом!</h3></div>';
-				}
-			}
-			else{
-				echo '<div><h3>Заповніть всі поля!</h3></div>';
-			} 
-		}
 
 		public function register(){
 			$form = new FormBuilder;
@@ -45,13 +22,18 @@
 			$data=$form->createForm();
 			
 			$this->render('app/views/ViewRegister.php',$data);
-			$this->save();
+			$user=new UserControllerHelper($this->getRequest());
+			$user->save();
+		}
+
+		public function confirm($login){
+			$user=new UserControllerHelper($this->getRequest());
+			return $user->confirmUser($login);
 		}
 
 		public function login(){
-			session_start();
 			$form = new FormBuilder;
-			$form->setId('Reg');
+			$form->setId('Login');
 			$form->setMethod('POST');
 			$form->setClass('form-control');
 			
@@ -61,26 +43,8 @@
 			$data=$form->createForm();
 			
 			$this->render('app/views/ViewLogin.php',$data);
-
-			$request=$this->getRequest();
-			$data=$request->getParams();
-			$user=new UsersModelRepository;
-			$db=new DB($user->getTable());
-			if(isset($data['login']) && isset($data['password'])){
-				$userIsset=$db->getByParam('login',$data['login']);
-				if(!empty($userIsset)){
-					if(password_verify ( $data['password'] , $userIsset[0]['password'] ) ) {
-						$_SESSION['login']=$data['login'];
-						echo '<div><h3>Вітаємо '.$userIsset[0]['name'].' ! Ви увійшли як '.$data['login'].'.</h3></div>';
-					}
-					else{
-						echo '<div><h3>Невірний пароль!</h3></div>';
-					}
-				}
-				else{
-					echo '<div><h3>Користувача з таким логіном не існує</h3></div>';
-				}
-			}
+			$user=new UserControllerHelper($this->getRequest());
+			$user->setSessionVar();
 		}
 	}
 ?>

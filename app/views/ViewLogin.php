@@ -5,7 +5,6 @@
 		<link rel="stylesheet" href="css/bootstrap.min.css">
 		<style type="text/css">
 		   div { 
-		   
 		    width: 600px; /* Ширина */
 			margin-left: auto;
 			margin-right: auto;
