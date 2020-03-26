@@ -46,5 +46,8 @@
 			$user=new UserControllerHelper($this->getRequest());
 			$user->setSessionVar();
 		}
+		public function logout(){
+			unset($_SESSION['login']);
+		}
 	}
 ?>

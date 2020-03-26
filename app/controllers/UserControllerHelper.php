@@ -43,7 +43,7 @@
 				echo 'Ура , ви завершили реєстрацію!<br>';
 				echo '<a href="http://localhost/cabinet">Перейти</a> у кабінет<br>';
 				echo '<a href="http://localhost/index.php">Перейти</a> на головну<br>';
-				echo '<a href="http://localhost/logout/go">Вийти</a>';
+				echo '<a href="http://localhost/user/logout">Вийти</a>';
 			}
 		}
 

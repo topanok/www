@@ -5,7 +5,6 @@
 	require_once __DIR__ .'/vendor/autoload.php';
 	$router = new Framework\Router;
 	$router->go();
-	var_dump($_SESSION['login']);
 ?>
 
 
