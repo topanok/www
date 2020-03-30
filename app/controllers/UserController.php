@@ -3,7 +3,6 @@
 	use Framework\Controller;
 	use Framework\Mailer;
 	use Framework\FormBuilder;
-	use Framework\Session;
 	
 	class UserController extends Controller{
 		private $values=["name"=>"" ,"surname"=>"", "email"=> "" ,"login"=>"" ,"password"=> "" ];
@@ -26,7 +25,7 @@
 			$form->addField('submit',['value'=>'Відправити','class'=>'btn btn-primary btn-lg btn-block']);
 			$data=$form->createForm();
 			
-			$session=new Session;
+			$session=$this->getSession();
 			$data.=$session->save();
 			if(isset($_SESSION['errors'])){
 				$data.=implode($_SESSION['errors']);
@@ -48,7 +47,7 @@
 			$form->addField('password',['maxlength'=>'25', 'name'=>'password', 'class'=>'form-control', 'placeholder'=>'Пароль']);
 			$form->addField('submit',['value'=>'Увійти','class'=>'btn btn-primary btn-lg btn-block']);
 			$data=$form->createForm();
-			$session=new Session;
+			$session=$this->getSession();
 			$data.=$session->confirmLogin();
 			if(isset($_SESSION['errors'])){
 				$data.=implode($_SESSION['errors']);
@@ -57,13 +56,13 @@
 		}
 
 		public function confirmEmail($login){
-			$session=new Session;
+			$session=$this->getSession();
 			$data=$session->confirmEmail($login);
 			$this->render('app/views/ViewConfirmEmail.php',$data);
 		}
 
 		public function logout(){
-			$session=new Session;
+			$session=$this->getSession();
 			$session->logout();
 		}
 	}

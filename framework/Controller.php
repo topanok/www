@@ -1,6 +1,6 @@
 <?php
 	namespace Framework;
-	
+	use Framework\Session;
 	use Framework\Request;
 	
 	abstract class Controller {
@@ -10,6 +10,9 @@
 		}
 		public function getRequest(){
 			return new Request;
+		}
+		public function getSession(){
+			return new Session;
 		}
 	}
 ?>
