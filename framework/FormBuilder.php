@@ -2,6 +2,7 @@
 	namespace Framework;
 	
 	class FormBuilder{
+		private $action;
 		private $form;
 		private $input='';
 		private $class;
@@ -9,7 +10,10 @@
 		private $id;
 		private $type;
 		private $options;
-		
+
+		public function setAction($action){
+			$this->action = $action;
+		}
 		public function setId($id){
 			$this->id = $id;
 		}
@@ -106,7 +110,7 @@
 			//file_put_contents('Test.txt',$this->form);
 		}*/
 		public function startForm(){
-			return '<form id="'.$this->id.'" class="'.$this->class.'" method="'.$this->method.'">';
+			return '<form action="'.$this->action.'" id="'.$this->id.'" class="'.$this->class.'" method="'.$this->method.'">';
 		}
 		public function endForm(){
 			return '</form>';

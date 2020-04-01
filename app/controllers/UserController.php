@@ -10,6 +10,7 @@
 
 		public function register(){
 			$form = new FormBuilder;
+			$form->setAction('http://localhost/user/save');
 			$form->setId('Reg');
 			$form->setMethod('POST');
 			$form->setClass('');
@@ -43,15 +44,11 @@
 			$data.=$form->endForm();
 			if(isset($_SESSION['errors']['form'])){
 				unset($_SESSION['errors']['form']);
-				$data.=$this->save();
-			}
-			else{
-				$data.=$this->save();
 			}
 			$this->render('app/views/ViewRegister.php',$data);
 		}
 
-		private function save(){
+		public function save(){
 			$request=$this->getRequest();
 			$data=$request->getParams();
 			$_SESSION['values']['form']=$data;
@@ -79,7 +76,7 @@
 				$db->save($user->set($data));
 				$mail=new Mailer;
 				$mail->sendMail($data['email'], 'Завершення реєстрації', 'Для завершення реєстрації перейдіть по <a href="http://localhost/user/confirmemail/'.$data['login'].'">посиланню</a>');
-				return '<h3>Вітаємо! Щоб завершити реєстрацію-перейдіть по посиланню, яке відправлено Вам на email .</h3>';
+				echo '<h3>Вітаємо! Щоб завершити реєстрацію-перейдіть по посиланню, яке відправлено Вам на email .</h3>';
 			}
 			if (!empty($_SESSION['errors']['form'])) {
 				header("refresh: 0.1; url = http://localhost/user/register");
@@ -88,6 +85,7 @@
 
 		public function login(){
 			$form = new FormBuilder;
+			$form->setAction('http://localhost/user/confirmLogin');
 			$form->setId('Login');
 			$form->setMethod('POST');
 			$form->setClass('');
@@ -112,15 +110,11 @@
 			$data.=$form->endForm();
 			if(isset($_SESSION['errors']['form'])){
 				unset($_SESSION['errors']['form']);
-				$data.=$this->confirmLogin();
-			}
-			else{
-				$data.=$this->confirmLogin();
 			}
 			$this->render('app/views/ViewLogin.php',$data);
 		}
 
-		private function confirmLogin(){
+		public function confirmLogin(){
 			$request=$this->getRequest();
 			$data=$request->getParams();
 			$_SESSION['values']['form']=$data;
@@ -134,7 +128,7 @@
 							$_SESSION['login']=$data['login'];
 							unset($_SESSION['errors']['form']);
 							unset($_SESSION['values']['form']);
-							return '<h3>Вітаємо '.$userIsset[0]['name'].' ! Ви увійшли як '.$data['login'].'.</h3>';
+							echo '<h3>Вітаємо '.$userIsset[0]['name'].' ! Ви увійшли як '.$data['login'].'.</h3>';
 						}
 						else{
 							$_SESSION['errors']['form']['password']='<pre style="background-color: #F6CEEC">Невірний пароль!</pre>';
