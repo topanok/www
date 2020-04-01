@@ -1,1 +1,0 @@
-<p><button type="submit" form="Reg" class="btn btn-primary btn-lg btn-block" onclick="window.location.reload()">Відправити</button></p>

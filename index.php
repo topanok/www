@@ -26,7 +26,6 @@
 		<?php
 			$router = new Framework\Router;
 			$router->go();
-			var_dump($_SESSION);
 		?>
 	</body>
 </html>

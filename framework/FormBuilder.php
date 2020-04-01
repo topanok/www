@@ -41,6 +41,7 @@
 					$this->input.='<option value="'.$value.'">'.$value.'</option>';
 				}
 				$this->input.='</select></p>';
+				return $this->input;
 			}
 			else {
 				echo 'Error! Array not have option_values.';
@@ -52,6 +53,7 @@
 				$this->input.=' '.$key.'="'.$value.'"';
 			}
 			$this->input.='></textarea></p>';
+			return $this->input;
 		}
 		private function addRadioOrCheck(){
 			$this->input='<p><input type="'.$this->type.'"';
@@ -64,6 +66,7 @@
 			else{
 				$this->input.='></p>';
 			}
+			return $this->input;
 		}
 		private function addButton(){
 			$this->input='<p><button';
@@ -71,7 +74,6 @@
 				$this->input.=' '.$key.'="'.$value.'"';
 			}
 			$this->input.='>Відправити</button></p>';
-			file_put_contents('Test.txt',$this->input);
 			return $this->input;
 		}
 		public function addField(string $type, array $options){
@@ -79,16 +81,16 @@
 			$this->options=$options;
 			switch ($type) {
 				case 'textarea':
-					$this->addTextarea($options);
+					return $this->addTextarea($options);
 					break;
 				case 'select':
-					$this->addSelect($options);
+					return $this->addSelect($options);
 					break;
 				case 'radio':
-					$this->addRadioOrCheck($options);
+					return $this->addRadioOrCheck($options);
 					break;
 				case 'checkbox':
-					$this->addRadioOrCheck($options);
+					return $this->addRadioOrCheck($options);
 					break;
 				case 'button':
 					return $this->addButton();

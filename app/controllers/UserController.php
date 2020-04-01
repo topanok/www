@@ -7,65 +7,70 @@
 	use App\Models\UsersModelRepository;
 	
 	class UserController extends Controller{
-		private $values=["name"=>"" ,"surname"=>"", "email"=> "" ,"login"=>"" ,"password"=> "" ];
-		private $errors=[];
-		//private $reload=false;
 
 		public function register(){
-			$request=$this->getRequest();
-			if(!empty($request->getParams() )){
-				$_SESSION['values']['form']=$request->getParams();
-				$this->values=$_SESSION['values']['form'];
-			}
 			$form = new FormBuilder;
 			$form->setId('Reg');
 			$form->setMethod('POST');
 			$form->setClass('');
 			$data=$form->startForm();
-			$data.=$form->addField('text',['name'=>'name','class'=>'form-control','placeholder'=>'Ім\'я','value'=>$this->values['name']]);
-			$data.=$form->addField('text',['name'=>'surname','class'=>'form-control','placeholder'=>'Фамілія','value'=>$this->values['surname']]);
-			$data.=$form->addField('email',['name'=>'email','class'=>'form-control','placeholder'=>'Email', 'value'=>$this->values['email']]);
-			if (isset($_SESSION['errors']['form']['email'])){
-				$data.=$_SESSION['errors']['form']['email'];
+			if(!empty($_SESSION['values']['form'])){
+				$data.=$form->addField('text',['name'=>'name','class'=>'form-control','placeholder'=>'Ім\'я', 'value'=>$_SESSION['values']['form']['name']]);
+				$data.=$form->addField('text',['name'=>'surname','class'=>'form-control','placeholder'=>'Фамілія', 'value'=>$_SESSION['values']['form']['surname']]);
+				$data.=$form->addField('email',['name'=>'email','class'=>'form-control','placeholder'=>'Email', 'value'=>$_SESSION['values']['form']['email']]);
+				if (isset($_SESSION['errors']['form']['email'])){
+					$data.=$_SESSION['errors']['form']['email'];
+				}
+				$data.=$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Login', 'value'=>$_SESSION['values']['form']['login']]);
 			}
-			$data.=$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Login', 'value'=>$this->values['login']]);
+			else{
+				$data.=$form->addField('text',['name'=>'name','class'=>'form-control','placeholder'=>'Ім\'я']);
+				$data.=$form->addField('text',['name'=>'surname','class'=>'form-control','placeholder'=>'Фамілія']);
+				$data.=$form->addField('email',['name'=>'email','class'=>'form-control','placeholder'=>'Email']);
+				if (isset($_SESSION['errors']['form']['email'])){
+					$data.=$_SESSION['errors']['form']['email'];
+				}
+				$data.=$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Login']);
+			}
 			if (isset($_SESSION['errors']['form']['login'])){
 				$data.=$_SESSION['errors']['form']['login'];
 			}
 			$data.=$form->addField('password',['minlength'=>'8','maxlength'=>'25', 'name'=>'password','class'=>'form-control', 'placeholder'=>'Пароль']);
-			if (isset($_SESSION['errors']['form']['password'])){
-				$data.=$_SESSION['errors']['form']['password'];
+			if (isset($_SESSION['errors']['form']['empty_fields'])){
+				$data.=$_SESSION['errors']['form']['empty_fields'];
 			}
 			$data.=$form->addField('submit',['value' =>'Зареєструватись','class'=>'btn btn-primary btn-lg btn-block']);
 			$data.=$form->endForm();
-			/*if($this->reload){
+			if(isset($_SESSION['errors']['form'])){
 				unset($_SESSION['errors']['form']);
 				$data.=$this->save();
-			}*/
-			$data.=$this->save();
+			}
+			else{
+				$data.=$this->save();
+			}
 			$this->render('app/views/ViewRegister.php',$data);
 		}
 
 		private function save(){
 			$request=$this->getRequest();
 			$data=$request->getParams();
+			$_SESSION['values']['form']=$data;
 			$user=new UsersModelRepository;
 			$db=new DB($user->getTable());
 			if(!empty($data)){
-				if(!empty($data['login']) && !empty($data['email']) && !empty($data['password'])){
+				if(empty($data['login']) || empty($data['email']) || empty($data['password'])){
+					$_SESSION['errors']['form']['empty_fields']='<pre style="background-color: #F6CEEC">Заповніть всі поля!</pre>';
+				}
+				if(!empty($data['login']) && !empty($data['email'])){
 					$userIsset=$db->getByParam('login',$data['login']);
 					$emailIsset=$db->getByParam('email',$data['email']);
 				}
-				else{
-					$this->errors['empty_fields']='<h3>Заповніть всі поля!</h3>';
-				}
 				if(!empty($userIsset)){
-					$this->errors['login']='<pre style="background-color: #F6CEEC">Вже існує юзер з таким логіном!  ↑↑↑</pre>';
+					$_SESSION['errors']['form']['login']='<pre style="background-color: #F6CEEC">Вже існує юзер з таким логіном!  ↑↑↑</pre>';
 				}
 				if(!empty($emailIsset)){
-					$this->errors['email']='<pre style="background-color: #F6CEEC">Вже існує юзер з таким імейлом!  ↑↑↑</pre>';
+					$_SESSION['errors']['form']['email']='<pre style="background-color: #F6CEEC">Вже існує юзер з таким імейлом!  ↑↑↑</pre>';
 				}
-				$_SESSION['errors']['form']=$this->errors;
 			}
 			if (empty($_SESSION['errors']['form']) && !empty($data)){
 				unset($_SESSION['errors']['form']);
@@ -77,29 +82,40 @@
 				return '<h3>Вітаємо! Щоб завершити реєстрацію-перейдіть по посиланню, яке відправлено Вам на email .</h3>';
 			}
 			if (!empty($_SESSION['errors']['form'])) {
-				//$this->reload=true;
-				header('location : http://localhost/user/register');
+				header("refresh: 0.1; url = http://localhost/user/register");
 			}
 		}
 
 		public function login(){
-			$request=$this->getRequest();
-			if(!empty($request->getParams() )){
-				$_SESSION['values']['form']=$request->getParams();
-				$this->values=$_SESSION['values']['form'];
-			}
 			$form = new FormBuilder;
 			$form->setId('Login');
 			$form->setMethod('POST');
 			$form->setClass('');
 			$data=$form->startForm();
-			$data.=$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Логін', 'value'=>$this->values['login']]);
+			if(!empty($_SESSION['values']['form'])){
+				$data.=$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Логін', 'value'=>$_SESSION['values']['form']['login']]);
+			}
+			else{
+				$data.=$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Логін']);
+			}
+			if (isset($_SESSION['errors']['form']['login'])){
+				$data.=$_SESSION['errors']['form']['login'];
+			}
 			$data.=$form->addField('password',['maxlength'=>'25', 'name'=>'password', 'class'=>'form-control', 'placeholder'=>'Пароль']);
+			if (isset($_SESSION['errors']['form']['password'])){
+				$data.=$_SESSION['errors']['form']['password'];
+			}
+			if (isset($_SESSION['errors']['form']['empty_fields'])){
+				$data.=$_SESSION['errors']['form']['empty_fields'];
+			}
 			$data.=$form->addField('submit',['value'=>'Увійти','class'=>'btn btn-primary btn-lg btn-block']);
 			$data.=$form->endForm();
-			$data.=$this->confirmLogin();
 			if(isset($_SESSION['errors']['form'])){
-				$data.=implode($_SESSION['errors']['form']);
+				unset($_SESSION['errors']['form']);
+				$data.=$this->confirmLogin();
+			}
+			else{
+				$data.=$this->confirmLogin();
 			}
 			$this->render('app/views/ViewLogin.php',$data);
 		}
@@ -107,28 +123,34 @@
 		private function confirmLogin(){
 			$request=$this->getRequest();
 			$data=$request->getParams();
+			$_SESSION['values']['form']=$data;
 			$user=new UsersModelRepository;
 			$db=new DB($user->getTable());
-			if(isset($data['login']) && isset($data['password'])){
-				$userIsset=$db->getByParam('login',$data['login']);
-				if(!empty($userIsset)){
-					if(password_verify ( $data['password'] , $userIsset[0]['password'] ) ) {
-						$_SESSION['login']=$data['login'];
-						unset($_SESSION['errors']['form']);
-						return '<h3>Вітаємо '.$userIsset[0]['name'].' ! Ви увійшли як '.$data['login'].'.</h3>';
+			if(!empty($data)){
+				if(!empty($data['login']) && !empty($data['password'])){
+					$userIsset=$db->getByParam('login',$data['login']);
+					if(!empty($userIsset)){
+						if(password_verify ( $data['password'] , $userIsset[0]['password'] ) ) {
+							$_SESSION['login']=$data['login'];
+							unset($_SESSION['errors']['form']);
+							unset($_SESSION['values']['form']);
+							return '<h3>Вітаємо '.$userIsset[0]['name'].' ! Ви увійшли як '.$data['login'].'.</h3>';
+						}
+						else{
+							$_SESSION['errors']['form']['password']='<pre style="background-color: #F6CEEC">Невірний пароль!</pre>';
+						}
 					}
 					else{
-						$this->errors['password']='<pre style="background-color: #F6CEEC"><h4>Невірний пароль!</h4></pre>';
+						$_SESSION['errors']['form']['login']='<pre style="background-color: #F6CEEC">Користувача з таким логіном не існує!</pre>';
 					}
 				}
 				else{
-					$this->errors['login']='<pre style="background-color: #F6CEEC"><h4>Користувача з таким логіном не існує!</h4></pre>';
+					$_SESSION['errors']['form']['empty_fields']='<pre style="background-color: #F6CEEC">Заповніть всі поля!</pre>';
 				}
 			}
-			else{
-				$this->errors['empty_fields']='<h3>Заповніть всі поля!</h3>';
+			if (!empty($_SESSION['errors']['form'])) {
+				header("refresh: 0; url = http://localhost/user/login");
 			}
-			$_SESSION['errors']['form']=$this->errors;
 		}
 
 		public function confirmEmail($login){
