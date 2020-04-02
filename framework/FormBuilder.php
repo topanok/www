@@ -85,23 +85,27 @@
 			$this->options=$options;
 			switch ($type) {
 				case 'textarea':
-					return $this->addTextarea($options);
+					$this->input = $this->addTextarea($options);
 					break;
 				case 'select':
-					return $this->addSelect($options);
+					$this->input = $this->addSelect($options);
 					break;
 				case 'radio':
-					return $this->addRadioOrCheck($options);
+					$this->input = $this->addRadioOrCheck($options);
 					break;
 				case 'checkbox':
-					return $this->addRadioOrCheck($options);
+					$this->input = $this->addRadioOrCheck($options);
 					break;
 				case 'button':
-					return $this->addButton();
+					$this->input = $this->addButton();
 					break;
 				default:
-					return $this->addInput();
+					$this->input = $this->addInput();
 			}
+			if (isset($_SESSION['errors']['form'][$this->id][$options['name']])){
+				$this->input.=$_SESSION['errors']['form'][$this->id][$options['name']];
+			}
+			return $this->input;
 		}			
 		/*public function createForm(){
 			$this->form='<form id="'.$this->id.'" class="'.$this->class.'" method="'.$this->method.'">';
