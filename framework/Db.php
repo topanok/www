@@ -19,13 +19,17 @@
 				$columns=array_keys($data);
 				$columns=implode(',', $columns);
 				$values=array_values($data);
+				$stripValues=[];
+				foreach($values as $elem){
+					$stripValues[]=strip_tags($elem);
+				}
 				$str='';
-				for($i=0;$i<count($values);$i++){
+				for($i=0;$i<count($stripValues);$i++){
 					$str.='?,';
 				}
 				$str = substr($str, 0, -1);
 				$stmt = $this->connect()->prepare("INSERT INTO $this->table ($columns) VALUES ($str)");
-				$stmt->execute($values);
+				$stmt->execute($stripValues);
 			}
 		}
 		

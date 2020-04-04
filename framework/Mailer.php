@@ -27,7 +27,7 @@
 					if (move_uploaded_file($_FILES['myfile']['tmp_name'][$ct], $uploadfile)) {
 						$mail->addAttachment($uploadfile, $filename);
 					} else {
-						$msg .= 'Неудалось прикрепить файл ' . $uploadfile;
+						$err .= 'Неудалось прикрепить файл ' . $uploadfile;
 					}
 				}   
 			}
@@ -39,7 +39,7 @@
 				}
 			}
 			if ($mail->send()) {
-				echo "Сообщение отправлено<br>";
+				//echo "Сообщение отправлено<br>";
 				if(isset($err)){
 					echo $err;
 				}
