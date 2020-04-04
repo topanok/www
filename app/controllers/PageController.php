@@ -1,8 +1,12 @@
 <?php
 	namespace App\Controllers ;
-	class Page{
+	
+	use Framework\Controller;
+	
+	class PageController extends Controller{
+		private $content='Page content';
 		public function returnPage(){
-			echo 'Page content';
+			return $this->content;
 		}
 	}
 ?>

@@ -1,0 +1,14 @@
+{
+    "autoload": {
+        "psr-4": {
+            "App\\Controllers\\": "app/controllers/",
+            "Framework\\": "framework",
+			"App\\Views\\": "app/views",
+			"App\\Config\\": "app//config",
+			"App\\Models\\": "app//models",
+			"App\\Layouts\\": "app//layouts",
+			"App\\Template\\": "app//template",
+			"Librarys\\PHPMailer\\": "librarys//PHPMailer"
+        }
+    }
+}
