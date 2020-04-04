@@ -24,7 +24,7 @@
 			$this->class=$class;
 		}
 		private function addInput(){
-			$this->input='<p><input type="'.$this->type.'"';
+			$this->input.='<p><input type="'.$this->type.'"';
 			foreach ($this->options as $key=>$value){
 				$this->input.=' '.$key.'="'.$value.'"';
 			}
@@ -33,7 +33,7 @@
 		}
 		private function addSelect(){
 			if(isset($this->options['option_values'])){
-				$this->input='<p><select';
+				$this->input.='<p><select';
 				foreach ($this->options as $key=>$value){
 					if(is_string($value)){
 					$this->input.=' '.$key.'="'.$value.'"';
@@ -52,7 +52,7 @@
 			}
 		}
 		private function addTextarea(){
-			$this->input='<p><textarea';
+			$this->input.='<p><textarea';
 			foreach ($this->options as $key=>$value){
 				$this->input.=' '.$key.'="'.$value.'"';
 			}
@@ -60,7 +60,7 @@
 			return $this->input;
 		}
 		private function addRadioOrCheck(){
-			$this->input='<p><input type="'.$this->type.'"';
+			$this->input.='<p><input type="'.$this->type.'"';
 			foreach ($this->options as $key=>$value){
 				$this->input.=' '.$key.'="'.$value.'"';
 			}
@@ -73,7 +73,7 @@
 			return $this->input;
 		}
 		private function addButton(){
-			$this->input='<p><button';
+			$this->input.='<p><button';
 			foreach ($this->options as $key=>$value){
 				$this->input.=' '.$key.'="'.$value.'"';
 			}
@@ -102,22 +102,20 @@
 				default:
 					$this->input = $this->addInput();
 			}
-			if (isset($_SESSION['errors']['form'][$this->id][$options['name']])){
-				$this->input.=$_SESSION['errors']['form'][$this->id][$options['name']];
+			if (isset($_SESSION['errors']['form'][$this->id][$options['name']]['empty_fields'])){
+				$this->input.=$_SESSION['errors']['form'][$this->id][$options['name']]['empty_fields'];
+			}
+			else{
+				if (isset($_SESSION['errors']['form'][$this->id][$options['name']])){
+					$this->input.=$_SESSION['errors']['form'][$this->id][$options['name']];
+				}
 			}
 			return $this->input;
 		}			
-		/*public function createForm(){
-			$this->form='<form id="'.$this->id.'" class="'.$this->class.'" method="'.$this->method.'">';
+		public function createForm(){
+			$this->form='<form action="'.$this->action.'" id="'.$this->id.'" class="'.$this->class.'" method="'.$this->method.'">';
 			$this->form.=$this->input.'</form>';
 			return $this->form;
-			//file_put_contents('Test.txt',$this->form);
-		}*/
-		public function startForm(){
-			return '<form action="'.$this->action.'" id="'.$this->id.'" class="'.$this->class.'" method="'.$this->method.'">';
-		}
-		public function endForm(){
-			return '</form>';
 		}
 	}
 ?>
