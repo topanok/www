@@ -2,6 +2,7 @@
 	namespace Framework;
 	
 	class FormBuilder{
+		private $action;
 		private $form;
 		private $input='';
 		private $class;
@@ -9,7 +10,10 @@
 		private $id;
 		private $type;
 		private $options;
-		
+
+		public function setAction($action){
+			$this->action = $action;
+		}
 		public function setId($id){
 			$this->id = $id;
 		}
@@ -20,15 +24,16 @@
 			$this->class=$class;
 		}
 		private function addInput(){
-			$this->input.='<p><input type="'.$this->type.'"';
+			$this->input='<p><input type="'.$this->type.'"';
 			foreach ($this->options as $key=>$value){
 				$this->input.=' '.$key.'="'.$value.'"';
 			}
 			$this->input.='></p>';
+			return $this->input;
 		}
 		private function addSelect(){
 			if(isset($this->options['option_values'])){
-				$this->input.='<p><select';
+				$this->input='<p><select';
 				foreach ($this->options as $key=>$value){
 					if(is_string($value)){
 					$this->input.=' '.$key.'="'.$value.'"';
@@ -40,20 +45,22 @@
 					$this->input.='<option value="'.$value.'">'.$value.'</option>';
 				}
 				$this->input.='</select></p>';
+				return $this->input;
 			}
 			else {
 				echo 'Error! Array not have option_values.';
 			}
 		}
 		private function addTextarea(){
-			$this->input.='<p><textarea';
+			$this->input='<p><textarea';
 			foreach ($this->options as $key=>$value){
 				$this->input.=' '.$key.'="'.$value.'"';
 			}
 			$this->input.='></textarea></p>';
+			return $this->input;
 		}
 		private function addRadioOrCheck(){
-			$this->input.='<p><input type="'.$this->type.'"';
+			$this->input='<p><input type="'.$this->type.'"';
 			foreach ($this->options as $key=>$value){
 				$this->input.=' '.$key.'="'.$value.'"';
 			}
@@ -63,32 +70,54 @@
 			else{
 				$this->input.='></p>';
 			}
+			return $this->input;
+		}
+		private function addButton(){
+			$this->input='<p><button';
+			foreach ($this->options as $key=>$value){
+				$this->input.=' '.$key.'="'.$value.'"';
+			}
+			$this->input.='>Відправити</button></p>';
+			return $this->input;
 		}
 		public function addField(string $type, array $options){
 			$this->type=$type;
 			$this->options=$options;
 			switch ($type) {
 				case 'textarea':
-					$this->addTextarea($options);
+					$this->input = $this->addTextarea($options);
 					break;
 				case 'select':
-					$this->addSelect($options);
+					$this->input = $this->addSelect($options);
 					break;
 				case 'radio':
-					$this->addRadioOrCheck($options);
+					$this->input = $this->addRadioOrCheck($options);
 					break;
 				case 'checkbox':
-					$this->addRadioOrCheck($options);
+					$this->input = $this->addRadioOrCheck($options);
+					break;
+				case 'button':
+					$this->input = $this->addButton();
 					break;
 				default:
-					$this->addInput();
+					$this->input = $this->addInput();
 			}
+			if (isset($_SESSION['errors']['form'][$this->id][$options['name']])){
+				$this->input.=$_SESSION['errors']['form'][$this->id][$options['name']];
+			}
+			return $this->input;
 		}			
-		public function createForm(){
+		/*public function createForm(){
 			$this->form='<form id="'.$this->id.'" class="'.$this->class.'" method="'.$this->method.'">';
 			$this->form.=$this->input.'</form>';
 			return $this->form;
 			//file_put_contents('Test.txt',$this->form);
+		}*/
+		public function startForm(){
+			return '<form action="'.$this->action.'" id="'.$this->id.'" class="'.$this->class.'" method="'.$this->method.'">';
+		}
+		public function endForm(){
+			return '</form>';
 		}
 	}
 ?>

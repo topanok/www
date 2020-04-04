@@ -3,9 +3,32 @@
 	ini_set('display_errors',1);
 	error_reporting(E_ALL);
 	require_once __DIR__ .'/vendor/autoload.php';
-	$router = new Framework\Router;
-	$router->go();
 ?>
+<!DOCTYPE html>
+<html>	
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<style type="text/css">
+		   div { 
+		    width: 600px; /* Ширина */
+			margin-left: auto;
+			margin-right: auto;
+		    padding: 20px; /* Поля */
+			background-color: #EFFBFB;
+		    -moz-box-sizing: border-box; /* Для Firefox */
+		    -webkit-box-sizing: border-box; /* Для Safari и Chrome */
+		    box-sizing: border-box; /* Для IE и Opera */
+		   }
+		</style>
+	</head>
+	<body>
+		<?php
+			$router = new Framework\Router;
+			$router->go();
+		?>
+	</body>
+</html>
 
 
 
