@@ -83,6 +83,11 @@
 		public function addField(string $type, array $options){
 			$this->type=$type;
 			$this->options=$options;
+			if ($type!='submit' && $type!='button'){
+				if(!empty($_SESSION['values']['form'][$this->id])){
+					$this->options['value']=$_SESSION['values']['form'][$this->id][$options['name']];
+				}
+			}
 			switch ($type) {
 				case 'textarea':
 					$this->input = $this->addTextarea($options);

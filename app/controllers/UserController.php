@@ -14,20 +14,14 @@
 			$form->setId('reg');
 			$form->setMethod('POST');
 			$form->setClass('');
-			if(!empty($_SESSION['values']['form']['reg'])){
-				$form->addField('text',['name'=>'name','class'=>'form-control','placeholder'=>'Ім\'я', 'value'=>$_SESSION['values']['form']['reg']['name']]);
-				$form->addField('text',['name'=>'surname','class'=>'form-control','placeholder'=>'Фамілія', 'value'=>$_SESSION['values']['form']['reg']['surname']]);
-				$form->addField('email',['name'=>'email','class'=>'form-control','placeholder'=>'Email', 'value'=>$_SESSION['values']['form']['reg']['email']]);
-				$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Login', 'value'=>$_SESSION['values']['form']['reg']['login']]);
-			}
-			else{
-				$form->addField('text',['name'=>'name','class'=>'form-control','placeholder'=>'Ім\'я']);
-				$form->addField('text',['name'=>'surname','class'=>'form-control','placeholder'=>'Фамілія']);
-				$form->addField('email',['name'=>'email','class'=>'form-control','placeholder'=>'Email']);
-				$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Login']);
-			}
+			
+			$form->addField('text',['name'=>'name','class'=>'form-control','placeholder'=>'Ім\'я']);
+			$form->addField('text',['name'=>'surname','class'=>'form-control','placeholder'=>'Фамілія']);
+			$form->addField('email',['name'=>'email','class'=>'form-control','placeholder'=>'Email']);
+			$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Login']);
 			$form->addField('password',['minlength'=>'8','maxlength'=>'25', 'name'=>'password','class'=>'form-control', 'placeholder'=>'Пароль']);
 			$form->addField('submit',['name'=>'submit', 'value' =>'Зареєструватись','class'=>'btn btn-primary btn-lg btn-block']);
+
 			$data=$form->createForm();
 			if(isset($_SESSION['errors']['form']['reg'])){
 				unset($_SESSION['errors']['form']['reg']);
@@ -83,14 +77,11 @@
 			$form->setId('login');
 			$form->setMethod('POST');
 			$form->setClass('');
-			if(!empty($_SESSION['values']['form']['login'])){
-				$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Логін', 'value'=>$_SESSION['values']['form']['login']['login'] ]);
-			}
-			else{
-				$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Логін']);
-			}
+			
+			$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Логін']);
 			$form->addField('password',['maxlength'=>'25', 'name'=>'password', 'class'=>'form-control', 'placeholder'=>'Пароль']);
 			$form->addField('submit',['name'=>'submit', 'value'=>'Увійти', 'class'=>'btn btn-primary btn-lg btn-block']);
+			
 			$data=$form->createForm();
 			if(isset($_SESSION['errors']['form']['login'])){
 				unset($_SESSION['errors']['form']['login']);
