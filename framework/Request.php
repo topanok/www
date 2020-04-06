@@ -24,5 +24,8 @@
 				return false;
 			}
 		}
+		public function getFile(){
+			return $_FILES;
+		}
 	}
 ?>

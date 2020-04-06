@@ -20,7 +20,7 @@ interface FileUploaderInterface
     function setMaxSize(int $size): void;
 
     /** Return file mime type, for example image/jpeg */
-    function getMimeType(int $size): string;
+    function getMimeType(): string;
 
     /** Upload file to the filesystem */
     function uploadFile(): bool;
