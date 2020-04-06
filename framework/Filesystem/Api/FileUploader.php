@@ -4,15 +4,21 @@
 
 	class FileUploader implements FileUploaderInterface{
 		public $file;
-		public $uploadDir = '';
+		public $origName;
+		public $uploadDir;
 		public $allowedFormats;
 		public $maxSize;
 		/** Set file from request */
 	    public function setFile($file): void{
-	    	if (is_uploaded_file($file['myfile']['tmp_name'])){
+	    	if (is_uploaded_file($file)){
 	    	$this->file = $file;
 	   		}
 	    }
+
+	    public function setOrigName(string $name): void{
+	    	$this->origName = $name;
+	    }
+
 	    /** Path where upload file */
 	    public function setDir(string $path): void{
 	    	$this->uploadDir = $path;
@@ -25,7 +31,7 @@
 
 		/** Get size for uploading files in MB */
 	    public function getSize(): int{
-	    	$size=ceil($this->file['myfile']['size'] / 1000000);
+	    	$size=ceil(filesize($this->file) / 1000000);
 	    	return $size;
 	    }
 
@@ -36,15 +42,20 @@
 
 		/** Return file mime type, for example image/jpeg */
 		public function getMimeType(): string{
-			return mime_content_type( $this->file['myfile']['tmp_name'] );
+			if (!empty($this->file)){
+				return mime_content_type($this->file);
+			}
+			else{
+				return 'Спочатку скористайтесь ->setFile(string $file)!';
+			}
 		}
 
 		/** Upload file to the filesystem */
 		public function uploadFile(): bool{
 			if($this->getSize()<=$this->maxSize){
 				if(in_array($this->getMimeType(), $this->allowedFormats)){
-					if (move_uploaded_file($this->file['myfile']['tmp_name'], $this->uploadDir.'/'.basename($this->file['myfile']['name']))) {
-    					return 'Файл корректен и был успешно загружен.';
+					if (move_uploaded_file($this->file, $this->uploadDir.'/'.$this->origName)) {
+    					return 'Файл успішно завантажений.';
 					}
 				}
 				else{
