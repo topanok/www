@@ -7,6 +7,8 @@ interface FileUploaderInterface
     /** Set file from request */
     public function setFile($file): void;
 
+    public function setOrigName(string $name): void;
+
     /** Path where upload file */
     public function setDir(string $path): void;
 
