@@ -13,12 +13,13 @@
 			$data='';
 			for($i=0; $i<$this->onPage; $i++) {
 				if(isset($arr[$num-1][$i])){
-					$data.= 'Імя - '.$arr[$num-1][$i]->getName().' Фамілія - '.$arr[$num-1][$i]->getSurname().' Логін - '.$arr[$num-1][$i]->getLogin().'<br>';
+					$data.= 'Імя - <b>'.$arr[$num-1][$i]->getName().'</b> Фамілія - <b>'.$arr[$num-1][$i]->getSurname().'</b> Логін - <b>'.$arr[$num-1][$i]->getLogin().'</b> Email - <b>'.$arr[$num-1][$i]->getEmail().'</b><br><br>';
 				}
 			}
 			$pagin=new Paginator;
 			$pagin->setOnPage($this->onPage);
 			$pagin->setItems($objItems);
+			$pagin->setMaxLi(3);
 			$data.=$pagin->getPagination();
 			$this->render('app/views/ViewUsers.php',$data);
 		}
