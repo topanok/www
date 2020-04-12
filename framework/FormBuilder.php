@@ -5,12 +5,16 @@
 		private $action;
 		private $form;
 		private $input='';
-		private $class;
+		private $class='';
 		private $method;
-		private $id;
+		private $encode='';
+		private $id='';
 		private $type;
 		private $options;
 
+		public function setEncode($encode){
+			$this->encode=$encode;
+		}
 		public function setAction($action){
 			$this->action = $action;
 		}
@@ -83,7 +87,7 @@
 		public function addField(string $type, array $options){
 			$this->type=$type;
 			$this->options=$options;
-			if ($type!='submit' && $type!='button'){
+			if ($type!='submit' && $type!='button' && $type!='file'){
 				if(!empty($_SESSION['values']['form'][$this->id])){
 					$this->options['value']=$_SESSION['values']['form'][$this->id][$options['name']];
 				}
@@ -118,7 +122,7 @@
 			return $this->input;
 		}			
 		public function createForm(){
-			$this->form='<form action="'.$this->action.'" id="'.$this->id.'" class="'.$this->class.'" method="'.$this->method.'">';
+			$this->form='<form enctype="'.$this->encode.'" action="'.$this->action.'" id="'.$this->id.'" class="'.$this->class.'" method="'.$this->method.'">';
 			$this->form.=$this->input.'</form>';
 			return $this->form;
 		}

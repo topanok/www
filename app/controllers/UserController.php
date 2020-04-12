@@ -4,12 +4,14 @@
 	use Framework\Db;
 	use Framework\Mailer;
 	use Framework\FormBuilder;
+	use Framework\Filesystem\Api\FileUploader;
 	use App\Models\UsersModelRepository;
 	
 	class UserController extends Controller{
 
 		public function register(){
 			$form = new FormBuilder;
+			//$form->setEncode('multipart/form-data');
 			$form->setAction('http://localhost/user/save');
 			$form->setId('reg');
 			$form->setMethod('POST');
@@ -20,6 +22,7 @@
 			$form->addField('email',['name'=>'email','class'=>'form-control','placeholder'=>'Email']);
 			$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Login']);
 			$form->addField('password',['minlength'=>'8','maxlength'=>'25', 'name'=>'password','class'=>'form-control', 'placeholder'=>'Пароль']);
+			//$form->addField('file',['name'=>'myFile','class'=>'form-control']);
 			$form->addField('submit',['name'=>'submit', 'value' =>'Зареєструватись','class'=>'btn btn-primary btn-lg btn-block']);
 
 			$data=$form->createForm();
@@ -67,8 +70,23 @@
 				echo '<h3>Вітаємо! Щоб завершити реєстрацію-перейдіть по посиланню, яке відправлено Вам на email .</h3>';
 			}
 			if (!empty($_SESSION['errors']['form']['reg'])) {
-				header("refresh: 0.1; url = http://localhost/user/register");
+				header("refresh: 0.01; url = http://localhost/user/register");
 			}
+
+			/*$files=$request->getFile();
+			if(!empty($files)){
+				$arr=['image/jpeg'];
+				$fileUp=new FileUploader;
+				$fileUp->setFile($files['myFile']['tmp_name']);
+				$fileUp->setOrigName($files['myFile']['name']);
+				$fileUp->setDir('D:\Programs\htdocs\framework\Filesystem\Files');
+				$fileUp->addAllowedFormats($arr);
+				$size=$fileUp->getSize();
+				$fileUp->setMaxSize(24);
+				$mime=$fileUp->getMimeType();
+				$fileUp->uploadFile();
+			}*/
+
 		}
 
 		public function login(){
@@ -142,6 +160,7 @@
 		public function logout(){
 			unset($_SESSION['login']);
 			unset($_SESSION['errors']['form']['reg']);
+			unset($_SESSION['errors']['form']['login']);
 			unset($_SESSION['values']['form']['reg']);
 			unset($_SESSION['values']['form']['login']);
 			header('Location: http://localhost/index.php');
