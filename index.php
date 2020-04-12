@@ -26,6 +26,8 @@
 		<?php
 			$router = new Framework\Router;
 			$router->go();
+			//$file=new Framework\FileManager('D:\Programs\htdocs\framework\Session.php');
+			//echo $file->getSize().' байт';
 		?>
 	</body>
 </html>
