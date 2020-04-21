@@ -8,7 +8,6 @@
 
 	class AddCategoryController extends Controller{
 		private $idForm='addCat';
-		private $catsName=[];
 		public function add(){
 			$form = new FormBuilder;
 			$form->setAction('http://localhost/addcategory/save');
