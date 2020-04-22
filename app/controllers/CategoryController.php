@@ -22,7 +22,7 @@
 			
 			$form->addField('text',['name'=>'newCat','class'=>'form-control','placeholder'=>'Нова категорія']);
 			$form->addField('select',['name'=>'parentCat','class'=>'form-control', 'title'=>'Виберіть до якої категорії належить нова категорія', 'option_values'=>$this->getCategories()]);
-			$form->addField('submit',['name'=>'submit', 'value' =>'Додати','class'=>'btn btn-primary btn-lg btn-block']);
+			$form->addField('submit',['name'=>'submit', 'value' =>'Надіслати','class'=>'btn btn-primary btn-lg btn-block']);
 
 			$data=$form->createForm();
 			if(isset($_SESSION['errors']['form'][$this->idForm])){
@@ -71,7 +71,7 @@
 				}
 				$arr['name']=$post['newCat'];
 				$objDb->save($catModel->set($arr));
-				$data.= '<h1>Катерорія успішно створена!</h1>';
+				echo '<h1>Катерорія успішно створена!</h1>';
 				header("refresh: 3; url = http://localhost/category/add");
 			}
 		}
@@ -141,8 +141,8 @@
 			}
 			$arr['name']=$post['newCat'];
 			$objDb->save($catModel->set($arr));
-			unset($_SESSION['categories']['id']);
-			unset($_SESSION['values']['form'][$this->idForm]['newCat']);
+			unset($_SESSION['categories']);
+			unset($_SESSION['values']['form'][$this->idForm]);
 			echo '<h1>Катерорія успішно відредагована!</h1>';
 			header("refresh: 3; url = http://localhost/category/seecategory");
 		}
