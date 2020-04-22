@@ -74,4 +74,9 @@
 			$stmt=$this->connect()->query(" SELECT * FROM $this->table ");
 			return $results = $stmt->fetchall(PDO::FETCH_ASSOC);
 		}
+
+		public function getColumns(){
+			$stmt=$this->connect()->query(" DESCRIBE $this->table ");
+			return $results = $stmt->fetchall(PDO::FETCH_ASSOC);
+		}
 	}

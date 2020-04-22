@@ -88,7 +88,7 @@
 			$this->type=$type;
 			$this->options=$options;
 			if ($type!='submit' && $type!='button' && $type!='file'){
-				if(!empty($_SESSION['values']['form'][$this->id])){
+				if(isset($_SESSION['values']['form'][$this->id][$options['name']])){
 					$this->options['value']=$_SESSION['values']['form'][$this->id][$options['name']];
 				}
 			}
