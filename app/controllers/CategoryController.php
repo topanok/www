@@ -4,6 +4,7 @@
 	use Framework\Db;
 	use Framework\Request;
 	use Framework\FormBuilder;
+	use Framework\Paginator;
 	use App\Models\CategoryModelRepository;
 
 	class CategoryController extends Controller{
@@ -76,7 +77,8 @@
 			}
 		}
 
-		public function seeCategory(){
+		public function seeCategory($page){
+			$onPage=5;
 			$catModel=new CategoryModelRepository;
 			$categories=$catModel->getItems();
 			$objDb=$catModel->getObjDb($catModel->getTable());
@@ -85,7 +87,7 @@
 			foreach($result as $value) {
 				$columns[] = $value['Field'];
 			}
-			$data='';
+			$data='<table class="table">';
 			$data.= '<tr>';
 			foreach ($columns as $elem){
 				$data.= '<th>'. $elem .'</th>';
@@ -93,17 +95,26 @@
 			$data.= "<th>видалити</th>";
 			$data.= "<th>редагувати</th>";
 			$data.= '</tr>';
-			for ($tr=0; $tr<count($categories); $tr++){ 
-				$data.= '<tr>';
-				for ($td=0; $td<count($columns); $td++){ 
-					$function='get'.ucfirst($columns[$td]);
-					$data.= '<td>'. $categories[$tr]->$function() .'</td>';
+			$arr=array_chunk($categories, $onPage);
+			for($tr=0; $tr<$onPage; $tr++) {
+				if(isset($arr[$page-1][$tr])){
+					$data.= '<tr>';
+					for ($td=0; $td<count($columns); $td++){ 
+						$function='get'.ucfirst($columns[$td]);
+						$data.= '<td>'. $arr[$page-1][$tr]->$function() .'</td>';
+					}
+					$id=$arr[$page-1][$tr]->getId() * 1;
+					$data.= '<td>'.'<a href="http://localhost/category/delete/'.$id.'">'.'видалити'.'</a>'.'</td>';
+					$data.= '<td>'.'<a href="http://localhost/category/edit/'.$id.'">'.'редагувати'.'</a>'.'</td>';
+					$data.= '</tr>';
 				}
-				$id=$categories[$tr]->getId() * 1;
-				$data.= '<td>'.'<a href="http://localhost/category/delete/'.$id.'">'.'видалити'.'</a>'.'</td>';
-				$data.= '<td>'.'<a href="http://localhost/category/edit/'.$id.'">'.'редагувати'.'</a>'.'</td>';
-				$data.= '</tr>';
 			}
+			$data.='</table>';
+			$pagin=new Paginator;
+			$pagin->setOnPage($onPage);
+			$pagin->setItems($categories);
+			$pagin->setMaxLi(5);
+			$data.=$pagin->getPagination();
 			$this->render('app/views/ViewSeeCategory.php',$data);
 		}
 
