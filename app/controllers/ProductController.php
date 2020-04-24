@@ -108,7 +108,7 @@
 					for ($td=0; $td<count($columns); $td++){ 
 						$function='get'.ucfirst($columns[$td]);
 						if($function=='getImages'){
-							$data.= '<td><a href="http://localhost/app/images/'.$arr[$page-1][$tr]->$function().'"><img src="http://localhost/app/images/'.$arr[$page-1][$tr]->$function().'" height="70px"></a></td>';
+							$data.= '<td>'.$arr[$page-1][$tr]->$function().'<br><a href="http://localhost/app/images/'.$arr[$page-1][$tr]->$function().'"><img src="http://localhost/app/images/'.$arr[$page-1][$tr]->$function().'" height="60px"></a></td>';
 						}
 						else{
 							$data.= '<td>'. $arr[$page-1][$tr]->$function() .'</td>';
