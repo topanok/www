@@ -9,14 +9,10 @@
 
 	class CategoryController extends Controller{
 		private $idForm='addCat';
+		private $page;
 		public function add(){
 			$form = new FormBuilder;
-			if(isset($_SESSION['values']['form'][$this->idForm])){
-				$form->setAction('http://localhost/category/update');
-			}
-			else{
-				$form->setAction('http://localhost/category/save');
-			}
+			$form->setAction('http://localhost/category/save');
 			$form->setId($this->idForm);
 			$form->setMethod('POST');
 			$form->setClass('');
@@ -52,7 +48,7 @@
 				$_SESSION['errors']['form'][$this->idForm]['newCat']['empty_fields']='<pre style="background-color: #F6CEEC">Заповніть це поле!  ↑↑↑</pre>';
 			}
 			foreach($catsName as $value){
-				if($value==$post['newCat']){
+				if($value==$post['newCat'] && isset($_SESSION['categories']['id']) != false){
 					$_SESSION['errors']['form'][$this->idForm]['newCat']='<pre style="background-color: #F6CEEC">Вже існує така категорія!  ↑↑↑</pre>';
 				}
 			}
@@ -64,6 +60,9 @@
 				$objDb=$catModel->getObjDb($catModel->getTable());
 				$data=$objDb->getByParam('name',$post['parentCat']);
 				$arr=[];
+				if(isset($_SESSION['category']['id'])){
+					$arr['id']=$_SESSION['category']['id'];
+				}
 				if($post['parentCat']=='Головна'){
 					$arr['parent_id']=0;
 				}
@@ -72,12 +71,14 @@
 				}
 				$arr['name']=$post['newCat'];
 				$objDb->save($catModel->set($arr));
-				echo '<h1>Катерорія успішно створена!</h1>';
-				header("refresh: 3; url = http://localhost/category/add");
+				unset($_SESSION['category']);
+				unset($_SESSION['values']['form'][$this->idForm]);
+				header('refresh: 0; url = http://localhost/category/see/'.$_SESSION['page']);
 			}
 		}
 
-		public function seeCategory($page){
+		public function see($page){
+			$_SESSION['page']=$page;
 			$onPage=5;
 			$catModel=new CategoryModelRepository;
 			$categories=$catModel->getItems();
@@ -110,6 +111,7 @@
 				}
 			}
 			$data.='</table>';
+			$data.='<a href="http://localhost/category/add"><h2>Додати категорію</h2></a>';
 			$pagin=new Paginator;
 			$pagin->setOnPage($onPage);
 			$pagin->setItems($categories);
@@ -122,40 +124,23 @@
 			$catModel=new CategoryModelRepository;
 			$objDb=$catModel->getObjDb($catModel->getTable());
 			$objDb->delById($id);
-			echo 'Успіх!';
-			header("refresh: 3; url = http://localhost/category/seecategory");
+			header('refresh: 0; url = http://localhost/category/see/'.$_SESSION['page']);
 		}
 
 		public function edit($id){
 			$catModel=new CategoryModelRepository;
 			$objDb=$catModel->getObjDb($catModel->getTable());
 			$data=$objDb->getByParam('id',$id);
-			$_SESSION['categories']['id']=$id;
-			$_SESSION['values']['form'][$this->idForm]['newCat']=$data[0]['name'];
+			$catName=$data[0]['name'];
+			$parentId=$data[0]['parent_id'];
+			$data=$objDb->getByParam('id',$parentId);
+			if(isset($data[0]['name'])){
+				$parentCatName=$data[0]['name'];
+				$_SESSION['values']['form'][$this->idForm]['parentCat']=$parentCatName;
+			}
+			$_SESSION['category']['id']=$id;
+			$_SESSION['values']['form'][$this->idForm]['newCat']=$catName;
 			return $this->add();
-		}
-
-		public function update(){
-			$request = new Request;
-			$post = $request->getParams();
-			unset($post['submit']);
-			$catModel=new CategoryModelRepository;
-			$objDb=$catModel->getObjDb($catModel->getTable());
-			$data=$objDb->getByParam('name',$post['parentCat']);
-			$arr=[];
-			$arr['id']=$_SESSION['categories']['id'];
-			if($post['parentCat']=='Головна'){
-				$arr['parent_id']=0;
-			}
-			else{
-				$arr['parent_id']=$data[0]['id'];
-			}
-			$arr['name']=$post['newCat'];
-			$objDb->save($catModel->set($arr));
-			unset($_SESSION['categories']);
-			unset($_SESSION['values']['form'][$this->idForm]);
-			echo '<h1>Катерорія успішно відредагована!</h1>';
-			header("refresh: 3; url = http://localhost/category/seecategory");
 		}
 
 	}
