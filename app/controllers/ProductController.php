@@ -107,7 +107,12 @@
 					$data.= '<tr>';
 					for ($td=0; $td<count($columns); $td++){ 
 						$function='get'.ucfirst($columns[$td]);
-						$data.= '<td>'. $arr[$page-1][$tr]->$function() .'</td>';
+						if($function=='getImages'){
+							$data.= '<td><a href="http://localhost/app/images/'.$arr[$page-1][$tr]->$function().'"><img src="http://localhost/app/images/'.$arr[$page-1][$tr]->$function().'" height="70px"></a></td>';
+						}
+						else{
+							$data.= '<td>'. $arr[$page-1][$tr]->$function() .'</td>';
+						}
 					}
 					$id=$arr[$page-1][$tr]->getId() * 1;
 					$data.= '<td>'.'<a href="http://localhost/product/delete/'.$id.'">'.'видалити'.'</a>'.'</td>';
