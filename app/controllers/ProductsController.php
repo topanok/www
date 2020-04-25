@@ -20,7 +20,6 @@
 
 			$this->getProducts($allProducts);
 
-			$data.='<center><h1>Продукти</h1></center>';
 			if(!empty($this->products)){
 				for($i=0; $i<count($this->products); $i++){
 					$data.='<h3>'.$this->products[$i]->getName().'</h3><br><img src="http://localhost/app/images/'.$this->products[$i]->getImages().'" height="300px"><br><b>Опис: </b>'.$this->products[$i]->getDescription().'<br><b>Характеристики: </b>'.$this->products[$i]->getProperties().'<br><b>Ціна: </b>'.$this->products[$i]->getPrice().'<br><b>Залишок: </b>'.$this->products[$i]->getCount().'<br><br><br>';
