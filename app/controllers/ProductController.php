@@ -84,49 +84,23 @@
 		public function see(int $page){
 
 			$_SESSION['page']=$page;
-			$onPage=5;
+			$data=[];
+			$data['page']=$page;
+			$data['onPage']=5;
 			$prodModel=new ProductModelRepository;
 			$products=$prodModel->getItems();
+			$data['arr']=array_chunk($products, $data['onPage']);
 			$objDb=$prodModel->getObjDb($prodModel->getTable());
 			$result=$objDb->getColumns();
-			$columns = array();
+			$data['columns'] = array();
 			foreach($result as $value) {
-				$columns[] = $value['Field'];
+				$data['columns'][] = $value['Field'];
 			}
-			$data='<table class="table">';
-			$data.= '<tr>';
-			foreach ($columns as $elem){
-				$data.= '<th>'. $elem .'</th>';
-			}
-			$data.= "<th>видалити</th>";
-			$data.= "<th>редагувати</th>";
-			$data.= '</tr>';
-			$arr=array_chunk($products, $onPage);
-			for($tr=0; $tr<$onPage; $tr++) {
-				if(isset($arr[$page-1][$tr])){
-					$data.= '<tr>';
-					for ($td=0; $td<count($columns); $td++){ 
-						$function='get'.ucfirst($columns[$td]);
-						if($function=='getImages'){
-							$data.= '<td>'.$arr[$page-1][$tr]->$function().'<br><a href="http://localhost/app/images/'.$arr[$page-1][$tr]->$function().'"><img src="http://localhost/app/images/'.$arr[$page-1][$tr]->$function().'" height="60px"></a></td>';
-						}
-						else{
-							$data.= '<td>'. $arr[$page-1][$tr]->$function() .'</td>';
-						}
-					}
-					$id=$arr[$page-1][$tr]->getId() * 1;
-					$data.= '<td>'.'<a href="http://localhost/product/delete/'.$id.'">'.'видалити'.'</a>'.'</td>';
-					$data.= '<td>'.'<a href="http://localhost/product/edit/'.$id.'">'.'редагувати'.'</a>'.'</td>';
-					$data.= '</tr>';
-				}
-			}
-			$data.='</table>';
-			$data.='<a href="http://localhost/product/add"><h2>Додати продукт</h2></a>';
 			$pagin=new Paginator;
-			$pagin->setOnPage($onPage);
+			$pagin->setOnPage($data['onPage']);
 			$pagin->setItems($products);
 			$pagin->setMaxLi(5);
-			$data.=$pagin->getPagination();
+			$data['pagin']=$pagin->getPagination();
 			$this->render('app/views/ViewTableProducts.php',$data);
 		}
 

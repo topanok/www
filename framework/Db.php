@@ -42,9 +42,13 @@
 				$columns .= '=?';
 				$values=array_slice(array_values($data), 1);
 				$values[]=$id;
+				$stripValues=[];
+				foreach($values as $elem){
+					$stripValues[]=strip_tags($elem);
+				}
 				$sql="UPDATE $this->table SET $columns WHERE id=?";
 				$stmt = $this->connect()->prepare($sql);
-				$stmt->execute($values);
+				$stmt->execute($stripValues);
 			}
 		}
 		

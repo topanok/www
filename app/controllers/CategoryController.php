@@ -79,45 +79,24 @@
 
 		public function see($page){
 			$_SESSION['page']=$page;
-			$onPage=5;
+			$data=[];
+			$data['page']=$page;
+			$data['onPage']=5;
 			$catModel=new CategoryModelRepository;
 			$categories=$catModel->getItems();
+			$data['arr']=array_chunk($categories, $data['onPage']);
 			$objDb=$catModel->getObjDb($catModel->getTable());
 			$result=$objDb->getColumns();
-			$columns = array();
+			$data['columns'] = array();
 			foreach($result as $value) {
-				$columns[] = $value['Field'];
+				$data['columns'][] = $value['Field'];
 			}
-			$data='<table class="table">';
-			$data.= '<tr>';
-			foreach ($columns as $elem){
-				$data.= '<th>'. $elem .'</th>';
-			}
-			$data.= "<th>видалити</th>";
-			$data.= "<th>редагувати</th>";
-			$data.= '</tr>';
-			$arr=array_chunk($categories, $onPage);
-			for($tr=0; $tr<$onPage; $tr++) {
-				if(isset($arr[$page-1][$tr])){
-					$data.= '<tr>';
-					for ($td=0; $td<count($columns); $td++){ 
-						$function='get'.ucfirst($columns[$td]);
-						$data.= '<td>'. $arr[$page-1][$tr]->$function() .'</td>';
-					}
-					$id=$arr[$page-1][$tr]->getId() * 1;
-					$data.= '<td>'.'<a href="http://localhost/category/delete/'.$id.'">'.'видалити'.'</a>'.'</td>';
-					$data.= '<td>'.'<a href="http://localhost/category/edit/'.$id.'">'.'редагувати'.'</a>'.'</td>';
-					$data.= '</tr>';
-				}
-			}
-			$data.='</table>';
-			$data.='<a href="http://localhost/category/add"><h2>Додати категорію</h2></a>';
 			$pagin=new Paginator;
-			$pagin->setOnPage($onPage);
+			$pagin->setOnPage($data['onPage']);
 			$pagin->setItems($categories);
 			$pagin->setMaxLi(5);
-			$data.=$pagin->getPagination();
-			$this->render('app/views/ViewSeeCategory.php',$data);
+			$data['pagin']=$pagin->getPagination();
+			$this->render('app/views/ViewTableCategory.php',$data);
 		}
 
 		public function delete($id){
