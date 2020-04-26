@@ -83,9 +83,10 @@
 			$data['page']=$page;
 			$data['onPage']=5;
 			$catModel=new CategoryModelRepository;
-			$categories=$catModel->getItems();
-			$data['arr']=array_chunk($categories, $data['onPage']);
 			$objDb=$catModel->getObjDb($catModel->getTable());
+			$from=($page-1) * $data['onPage'];
+			$countCat=$objDb->getCount();
+			$data['categories']=$catModel->getLimitItems($from, $data['onPage']);
 			$result=$objDb->getColumns();
 			$data['columns'] = array();
 			foreach($result as $value) {
@@ -93,7 +94,7 @@
 			}
 			$pagin=new Paginator;
 			$pagin->setOnPage($data['onPage']);
-			$pagin->setItems($categories);
+			$pagin->setCountItems($countCat['count']);
 			$pagin->setMaxLi(5);
 			$data['pagin']=$pagin->getPagination();
 			$this->render('app/views/ViewTableCategory.php',$data);

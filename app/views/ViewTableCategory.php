@@ -9,7 +9,7 @@
 		</tr>
 			<?php
 				for($tr=0; $tr<$data['onPage']; $tr++) {
-				if(isset($data['arr'][$data['page']-1][$tr])){ 
+				if(isset($data['categories'][$tr])){ 
 			?>
 		<tr>
 			<?php 
@@ -17,9 +17,9 @@
 				$function='get'.ucfirst($data['columns'][$td]); 
 			?>
 			<td> 
-				<?php echo $data['arr'][$data['page']-1][$tr]->$function(); } ?> 
+				<?php echo $data['categories'][$tr]->$function(); } ?> 
 			</td>
-				<?php $id=$data['arr'][$data['page']-1][$tr]->getId() * 1; ?>
+				<?php $id=$data['categories'][$tr]->getId() * 1; ?>
 			<td>
 				<a href="http://localhost/category/delete/<?php echo $id ?>" >видалити</a>
 			</td>

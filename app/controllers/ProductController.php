@@ -88,9 +88,10 @@
 			$data['page']=$page;
 			$data['onPage']=5;
 			$prodModel=new ProductModelRepository;
-			$products=$prodModel->getItems();
-			$data['arr']=array_chunk($products, $data['onPage']);
 			$objDb=$prodModel->getObjDb($prodModel->getTable());
+			$from=($page-1) * $data['onPage'];
+			$countProd=$objDb->getCount();
+			$data['products']=$prodModel->getLimitItems($from, $data['onPage']);
 			$result=$objDb->getColumns();
 			$data['columns'] = array();
 			foreach($result as $value) {
@@ -98,7 +99,7 @@
 			}
 			$pagin=new Paginator;
 			$pagin->setOnPage($data['onPage']);
-			$pagin->setItems($products);
+			$pagin->setCountItems($countProd['count']);
 			$pagin->setMaxLi(5);
 			$data['pagin']=$pagin->getPagination();
 			$this->render('app/views/ViewTableProducts.php',$data);

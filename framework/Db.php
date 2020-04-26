@@ -79,6 +79,16 @@
 			return $results = $stmt->fetchall(PDO::FETCH_ASSOC);
 		}
 
+		public function getLimitList($from, $many){
+			$stmt=$this->connect()->query(" SELECT * FROM $this->table LIMIT $from, $many");
+			return $results = $stmt->fetchall(PDO::FETCH_ASSOC);
+		}
+
+		public function getCount(){
+			$stmt=$this->connect()->query(" SELECT COUNT(*) as count FROM $this->table ");
+			return $results = $stmt->fetch(PDO::FETCH_ASSOC);
+		}
+
 		public function getColumns(){
 			$stmt=$this->connect()->query(" DESCRIBE $this->table ");
 			return $results = $stmt->fetchall(PDO::FETCH_ASSOC);
