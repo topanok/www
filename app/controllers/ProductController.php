@@ -86,7 +86,7 @@
 			$_SESSION['page']=$page;
 			$data=[];
 			$data['page']=$page;
-			$data['onPage']=5;
+			$data['onPage']=2;
 			$prodModel=new ProductModelRepository;
 			$objDb=$prodModel->getObjDb($prodModel->getTable());
 			$from=($page-1) * $data['onPage'];

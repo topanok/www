@@ -89,6 +89,11 @@
 			return $results = $stmt->fetch(PDO::FETCH_ASSOC);
 		}
 
+		public function getByIn(string $column, string $in){
+			$stmt=$this->connect()->query(" SELECT * FROM $this->table WHERE $column IN( $in ) ");
+			return $results = $stmt->fetchall(PDO::FETCH_ASSOC);
+		}
+
 		public function getColumns(){
 			$stmt=$this->connect()->query(" DESCRIBE $this->table ");
 			return $results = $stmt->fetchall(PDO::FETCH_ASSOC);

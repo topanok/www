@@ -2,43 +2,42 @@
 	namespace App\Controllers;
 	use Framework\Controller;
 	use Framework\Db;
+	use Framework\Paginator;
 	use App\Models\CategoryModelRepository;
 	use App\Models\ProductModelRepository;
 
 	class ProductsController extends Controller{
 		private $catId=[];
-		private $products=[];
+		private $countProd;
 
-		public function see(int $id){
-			$catModel=new CategoryModelRepository;
-			$categories=$catModel->getItems();
-			$prodModel=new ProductModelRepository;
-			$allProducts=$prodModel->getItems();
+		public function see($id, $page){
+			$data=[];
+			$onPage=2;
+			$data['tree']= $this->getTree($id);
+			$data['products']=$this->getProducts($page , $onPage);
 
-			$data='';
-			$data.= $this->getCategories($categories, $id);
-
-			$this->getProducts($allProducts);
-
-			if(!empty($this->products)){
-				for($i=0; $i<count($this->products); $i++){
-					$data.='<h3>'.$this->products[$i]->getName().'</h3><br><img src="http://localhost/app/images/'.$this->products[$i]->getImages().'" height="300px"><br><b>Опис: </b>'.$this->products[$i]->getDescription().'<br><b>Характеристики: </b>'.$this->products[$i]->getProperties().'<br><b>Ціна: </b>'.$this->products[$i]->getPrice().'<br><b>Залишок: </b>'.$this->products[$i]->getCount().'<br><br><br>';
-				}
-			}
+			$pagin=new Paginator;
+			$pagin->setOnPage($onPage);
+			$pagin->setCountItems($this->countProd);
+			$pagin->setMaxLi(5);
+			$data['pagin']=$pagin->getPagination();
 			$this->render('app/views/ViewProducts.php',$data);
 		}
 
-		private function getCategories(array $categories, $id){
+		private function getTree( $id){
+			$catModel=new CategoryModelRepository;
+			$objDb=$catModel->getObjDb($catModel->getTable());
+			$categories=$catModel->getItems();
 			$tree = '<ul>';
 			    for($i=0; $i<count($categories); $i++){
 		        	if($categories[$i]->getParent_id()==$id){
 		        		$this->catId[]=$categories[$i]->getId();
 		           		$tree .= '<ul>';
-		                $tree .= '<li><a href="'.$categories[$i]->getId().'">'.$categories[$i]->getName().'</a><br>';
+		                $tree .= '<li><a href="http://localhost/products/see/'.$categories[$i]->getId().'/1">'.$categories[$i]->getName().'</a><br>';
 		                $tree .= '</li>';
 		                for($j=1; $j<count($categories); $j++){
 		                	if($categories[$j]->getParent_id() == $categories[$i]->getId()){
-					            $tree.= $this->getCategories($categories, $categories[$i]->getId());
+					            $tree.= $this->getTree($categories[$i]->getId());
 				                break;
 			               	}
 		            	}
@@ -50,12 +49,24 @@
    			return $tree;
 		}
 
-		private function getProducts(array $products){
-			for($i=0; $i<count($products); $i++){
-				if(in_array($products[$i]->getCategory_id(), $this->catId)){
-					$this->products[]=$products[$i];
-				}
+		private function getProducts($page , $onPage){
+			$in='';
+			foreach ($this->catId as $id) {
+				$in.=$id.',';
+			}
+			$in=substr($in, 0, -1);
+			$prodModel=new ProductModelRepository;
+			$objDb=$prodModel->getObjDb($prodModel->getTable());
+			$products=$objDb->getByIn('category_id', $in);
+			if(!empty($products)){
+				$arrProd=array_chunk($products, $onPage);
+				$this->countProd=count($products);
+				return $arrProd[$page-1];
+			}
+			else{
+				return $products;
 			}
 		}
+
 	}
 ?>

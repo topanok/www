@@ -2,32 +2,25 @@
 	<center><h2>Категорії</h2></center>
 	<table class="table">
 		<tr>
-			<?php foreach ($data['columns'] as $elem){?>
-			<th> <?php echo $elem; }?>  </th>
+			<th>Id</th>
+			<th>Назва</th>
+			<th>Parent Id</th>
 			<th>видалити</th>
 			<th>редагувати</th>
 		</tr>
-			<?php
-				for($tr=0; $tr<$data['onPage']; $tr++) {
-				if(isset($data['categories'][$tr])){ 
-			?>
+	<?php foreach ( $data['categories'] as $category): ?>
 		<tr>
-			<?php 
-				for ($td=0; $td<count($data['columns']); $td++){ 
-				$function='get'.ucfirst($data['columns'][$td]); 
-			?>
-			<td> 
-				<?php echo $data['categories'][$tr]->$function(); } ?> 
-			</td>
-				<?php $id=$data['categories'][$tr]->getId() * 1; ?>
+			<td><?=$category->getId()?></td>
+			<td><?=$category->getName()?></td>
+			<td><?=$category->getParent_id()?></td>
 			<td>
-				<a href="http://localhost/category/delete/<?php echo $id ?>" >видалити</a>
+				<a href="http://localhost/category/delete/<?=$category->getId()?>" >видалити</a>
 			</td>
 			<td>
-				<a href="http://localhost/category/edit/<?php echo $id ?>" >редагувати</a>
+				<a href="http://localhost/category/edit/<?=$category->getId()?>" >редагувати</a>
 			</td>
 		</tr>
-			<?php } } ?>
+	<?php endforeach; ?>
 	</table>
 	<a href="http://localhost/category/add"><h2>Додати категорію</h2></a>
 	<?php
