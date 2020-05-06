@@ -86,7 +86,7 @@
 			$_SESSION['page']=$page;
 			$data=[];
 			$data['page']=$page;
-			$data['onPage']=2;
+			$data['onPage']=10;
 			$prodModel=new ProductModelRepository;
 			$objDb=$prodModel->getObjDb($prodModel->getTable());
 			$from=($page-1) * $data['onPage'];
@@ -103,6 +103,13 @@
 			$pagin->setMaxLi(5);
 			$data['pagin']=$pagin->getPagination();
 			$this->render('app/views/ViewTableProducts.php',$data);
+		}
+
+		public function details($id){
+			$prodModel=new ProductModelRepository;
+			$objDb=$prodModel->getObjDb($prodModel->getTable());
+			$data['product']=$objDb->getById($id);
+			$this->render('app/views/ViewProductDetails.php',$data);
 		}
 
 		public function edit($idForEdit){

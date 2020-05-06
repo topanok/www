@@ -7,7 +7,6 @@
 	use Framework\Paginator;
 	use Framework\Filesystem\Api\FileUploader;
 	use App\Models\UsersModelRepository;
-	
 	class UserController extends Controller{
 
 
@@ -24,7 +23,7 @@
 			}
 			$pagin=new Paginator;
 			$pagin->setOnPage($onPage);
-			$pagin->setItems($objItems);
+			$pagin->setCountItems(count($objItems));
 			$pagin->setMaxLi(5);
 			$data.=$pagin->getPagination();
 			$this->render('app/views/ViewUsers.php',$data);
@@ -50,7 +49,7 @@
 			if(isset($_SESSION['errors']['form']['reg'])){
 				unset($_SESSION['errors']['form']['reg']);
 			}
-			$this->render('app/views/ViewRegister.php',$data);
+			$this->render('app/views/ViewAccount.php',$data);
 		}
 
 		public function save(){
@@ -89,6 +88,7 @@
 				$mail=new Mailer;
 				$mail->sendMail($data['email'], 'Завершення реєстрації', 'Для завершення реєстрації перейдіть по <a href="http://localhost/user/confirmemail/'.$data['login'].'">посиланню</a>');
 				echo '<h3>Вітаємо! Щоб завершити реєстрацію-перейдіть по посиланню, яке відправлено Вам на email .</h3>';
+				//header("refresh: 3; url = http://localhost/user/page/1");
 			}
 			if (!empty($_SESSION['errors']['form']['reg'])) {
 				header("refresh: 0.01; url = http://localhost/user/register");

@@ -12,12 +12,16 @@
 
 		public function see($id, $page){
 			$data=[];
-			$onPage=2;
-			$data['tree']= $this->getTree($id);
-			$data['products']=$this->getProducts($page , $onPage);
+			$data['onPage']=8;
+			$catModel=new CategoryModelRepository;
+			$objDb=$catModel->getObjDb($catModel->getTable());
+			$data['categories']= $catModel->getItems();
+			$data['id']=$id;
+			$this->getTree($id);
+			$data['products']=$this->getProducts($page , $data['onPage']);
 
 			$pagin=new Paginator;
-			$pagin->setOnPage($onPage);
+			$pagin->setOnPage($data['onPage']);
 			$pagin->setCountItems($this->countProd);
 			$pagin->setMaxLi(5);
 			$data['pagin']=$pagin->getPagination();
@@ -28,25 +32,25 @@
 			$catModel=new CategoryModelRepository;
 			$objDb=$catModel->getObjDb($catModel->getTable());
 			$categories=$catModel->getItems();
-			$tree = '<ul>';
+			//$tree = '<ul>';
 			    for($i=0; $i<count($categories); $i++){
 		        	if($categories[$i]->getParent_id()==$id){
 		        		$this->catId[]=$categories[$i]->getId();
-		           		$tree .= '<ul>';
-		                $tree .= '<li><a href="http://localhost/products/see/'.$categories[$i]->getId().'/1">'.$categories[$i]->getName().'</a><br>';
-		                $tree .= '</li>';
+		           		//$tree .= '<ul>';
+		                //$tree .= '<li><a href="http://localhost/products/see/'.$categories[$i]->getId().'/1">'.$categories[$i]->getName().'</a><br>';
+		                //$tree .= '</li>';
 		                for($j=1; $j<count($categories); $j++){
 		                	if($categories[$j]->getParent_id() == $categories[$i]->getId()){
-					            $tree.= $this->getTree($categories[$i]->getId());
+					            $this->getTree($categories[$i]->getId());
 				                break;
 			               	}
 		            	}
-		                $tree .= '</ul>';
+		                //$tree .= '</ul>';
 	            	}
 	  			}
 	  		$this->catId[]=$id;
-		    $tree .= '</ul>';
-   			return $tree;
+		    //$tree .= '</ul>';
+   			//return $tree;
 		}
 
 		private function getProducts($page , $onPage){

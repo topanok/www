@@ -340,17 +340,9 @@
 			<div class="account-create-area">
 				<div class="container">
 					<div class="row">
-						<div class="col-md-12">
-							<ul class="page-menu">
-								<li><a href="index.html">Home</a></li>
-								<li class="active"><a href="account.html">Account</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
+						<div class="col-md-12"><br>
 							<div class="area-title">
-								<h3 class="title-group gfont-1">Create an Account</h3>
+								<h2 class="title-group gfont-1">Create an Account</h2><br>
 							</div>
 						</div>
 					</div>
@@ -530,7 +522,7 @@
 							<div class="copyright">
 								<p>Copyright &copy; Взято с <a href="http://bayguzin.ru" target="_blank"> bayguzin.ru</a> All rights reserved.</p>
 								<div class="payment">
-									<a href="#"><img src="img/payment.png" alt="Payment"></a>
+									<a href="#"><img src="../../img/payment.png" alt="Payment"></a>
 								</div>
 							</div>
 						</div>
