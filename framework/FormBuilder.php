@@ -11,6 +11,7 @@
 		private $id='';
 		private $type;
 		private $options;
+		private $valueTextarea='';
 
 		public function setEncode($encode){
 			$this->encode=$encode;
@@ -46,7 +47,17 @@
 				$this->input.='>';
 				$this->input.='<option disabled>Виберіть</option>';
 				foreach ($this->options['option_values'] as $value){
-					$this->input.='<option value="'.$value.'">'.$value.'</option>';
+					if(isset($_SESSION['values']['form'][$this->id][$this->options['name']])){
+						if($value==$_SESSION['values']['form'][$this->id][$this->options['name']]){
+							$this->input.='<option selected>'.$value.'</option>';
+						}
+						else{
+						$this->input.='<option>'.$value.'</option>';
+						}
+					}
+					else{
+						$this->input.='<option>'.$value.'</option>';
+					}
 				}
 				$this->input.='</select></p>';
 				return $this->input;
@@ -60,7 +71,7 @@
 			foreach ($this->options as $key=>$value){
 				$this->input.=' '.$key.'="'.$value.'"';
 			}
-			$this->input.='></textarea></p>';
+			$this->input.='>'.$this->valueTextarea.'</textarea></p>';
 			return $this->input;
 		}
 		private function addRadioOrCheck(){
@@ -88,8 +99,11 @@
 			$this->type=$type;
 			$this->options=$options;
 			if ($type!='submit' && $type!='button' && $type!='file'){
-				if(!empty($_SESSION['values']['form'][$this->id])){
+				if(isset($_SESSION['values']['form'][$this->id][$options['name']])){
 					$this->options['value']=$_SESSION['values']['form'][$this->id][$options['name']];
+					if($type=='textarea'){
+						$this->valueTextarea=$_SESSION['values']['form'][$this->id][$options['name']];
+					}
 				}
 			}
 			switch ($type) {

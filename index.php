@@ -11,7 +11,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		<style type="text/css">
 		   div { 
-		    width: 600px; /* Ширина */
+		    width: 800px; /* Ширина */
 			margin-left: auto;
 			margin-right: auto;
 		    padding: 20px; /* Поля */
@@ -26,8 +26,6 @@
 		<?php
 			$router = new Framework\Router;
 			$router->go();
-			//$file=new Framework\FileManager('D:\Programs\htdocs\framework\Session.php');
-			//echo $file->getSize().' байт';
 		?>
 	</body>
 </html>

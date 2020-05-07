@@ -3,7 +3,7 @@
 
 	class Paginator{
 		private $onPage;
-		private $items;
+		private $count;
 		private $pages;
 		private $pagin='';
 		private $maxLi;
@@ -11,15 +11,15 @@
 		public function setOnPage(int $num){
 			$this->onPage = $num;
 		}
-		public function setItems(array $items){
-			$this->items = $items;
+		public function setCountItems($count){
+			$this->count = $count;
 		}
 		public function setMaxLi(int $num){
 			$this->maxLi = $num;
 		}
 		public function getPagination(){
-			if($this->items && $this->onPage){
-				$this->pages=ceil(count($this->items) / $this->onPage);
+			if($this->count && $this->onPage){
+				$this->pages=ceil($this->count / $this->onPage);
 			}
 			if($this->maxLi>=$this->pages){
 				$this->maxLi = $this->pages;

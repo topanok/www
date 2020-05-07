@@ -42,9 +42,13 @@
 				$columns .= '=?';
 				$values=array_slice(array_values($data), 1);
 				$values[]=$id;
+				$stripValues=[];
+				foreach($values as $elem){
+					$stripValues[]=strip_tags($elem);
+				}
 				$sql="UPDATE $this->table SET $columns WHERE id=?";
 				$stmt = $this->connect()->prepare($sql);
-				$stmt->execute($values);
+				$stmt->execute($stripValues);
 			}
 		}
 		
@@ -72,6 +76,26 @@
 		
 		public function getList(){
 			$stmt=$this->connect()->query(" SELECT * FROM $this->table ");
+			return $results = $stmt->fetchall(PDO::FETCH_ASSOC);
+		}
+
+		public function getLimitList($from, $many){
+			$stmt=$this->connect()->query(" SELECT * FROM $this->table LIMIT $from, $many");
+			return $results = $stmt->fetchall(PDO::FETCH_ASSOC);
+		}
+
+		public function getCount(){
+			$stmt=$this->connect()->query(" SELECT COUNT(*) as count FROM $this->table ");
+			return $results = $stmt->fetch(PDO::FETCH_ASSOC);
+		}
+
+		public function getByIn(string $column, string $in){
+			$stmt=$this->connect()->query(" SELECT * FROM $this->table WHERE $column IN( $in ) ");
+			return $results = $stmt->fetchall(PDO::FETCH_ASSOC);
+		}
+
+		public function getColumns(){
+			$stmt=$this->connect()->query(" DESCRIBE $this->table ");
 			return $results = $stmt->fetchall(PDO::FETCH_ASSOC);
 		}
 	}
