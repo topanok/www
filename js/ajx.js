@@ -5,16 +5,16 @@ jQuery(document).ready(function(){
 	    $.ajax({
 	        type: "POST",
 	        url: "http://localhost/cart/add",
-	        dаta: {
-	        	"url": url,
-	        	"countToCart": countToCart
+	        data: {
+	        	"countToCart": countToCart,
+	        	"url": url
 	        },
-	        success: function(data){
-	            //$(".cart-item").html(data); // при успешном получении ответа от сервера, заносим полученные данные в элемент с классом answer
+	        /*success: function(data){
+	            $(".cart-item").html(data); //Те , що повернув сервер, розміщуєм в елемент з класом cart-item
 	            console.log(data);
-            },
+            },*/
 	        error: function(data){
-	            console.log(data); // выводим ошибку в консоль
+	            console.log(data);
             }
 	    });
     };

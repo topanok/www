@@ -39,6 +39,7 @@
 			
 			$form->addField('text',['name'=>'name','class'=>'form-control','placeholder'=>'Ім\'я']);
 			$form->addField('text',['name'=>'surname','class'=>'form-control','placeholder'=>'Фамілія']);
+			$form->addField('tel',['name'=>'phone','class'=>'form-control','placeholder'=>'Телефон', 'pattern'=>'[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}']);
 			$form->addField('email',['name'=>'email','class'=>'form-control','placeholder'=>'Email']);
 			$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Login']);
 			$form->addField('password',['minlength'=>'8','maxlength'=>'25', 'name'=>'password','class'=>'form-control', 'placeholder'=>'Пароль']);
@@ -149,7 +150,8 @@
 			if(empty($userIsset) && !empty($data['password'])){
 				$_SESSION['errors']['form']['login']['login']='<pre style="background-color: #F6CEEC">Користувача з таким логіном не існує!</pre>';
 			}
-			elseif(password_verify ( $data['password'] , $userIsset[0]['password'] ) ) {					$_SESSION['login']=$data['login'];
+			elseif(password_verify ( $data['password'] , $userIsset[0]['password'] ) ) {
+				$_SESSION['login']=$data['login'];
 				unset($_SESSION['errors']['form']['login']);
 				unset($_SESSION['values']['form']['login']);
 				echo '<h3>Вітаємо '.$userIsset[0]['name'].' ! Ви увійшли як '.$data['login'].'.</h3>';
@@ -184,7 +186,7 @@
 			unset($_SESSION['errors']['form']['login']);
 			unset($_SESSION['values']['form']['reg']);
 			unset($_SESSION['values']['form']['login']);
-			header('Location: http://localhost/index.php');
+			header('Location: http://localhost/products/see/0/1');
 		}
 	}
 ?>
