@@ -4,10 +4,31 @@
 	use Framework\Db;
 	use Framework\Mailer;
 	use Framework\FormBuilder;
+	use Framework\Paginator;
 	use Framework\Filesystem\Api\FileUploader;
 	use App\Models\UsersModelRepository;
 	
 	class UserController extends Controller{
+
+
+		public function page(int $num){
+			$onPage=2;
+			$user=new UsersModelRepository;
+			$objItems=$user->getItems();
+			$arr=array_chunk($objItems, $onPage);
+			$data='';
+			for($i=0; $i<$onPage; $i++) {
+				if(isset($arr[$num-1][$i])){
+					$data.= 'Імя - <b>'.$arr[$num-1][$i]->getName().'</b> Фамілія - <b>'.$arr[$num-1][$i]->getSurname().'</b> Логін - <b>'.$arr[$num-1][$i]->getLogin().'</b> Email - <b>'.$arr[$num-1][$i]->getEmail().'</b><br><br>';
+				}
+			}
+			$pagin=new Paginator;
+			$pagin->setOnPage($onPage);
+			$pagin->setItems($objItems);
+			$pagin->setMaxLi(5);
+			$data.=$pagin->getPagination();
+			$this->render('app/views/ViewUsers.php',$data);
+		}
 
 		public function register(){
 			$form = new FormBuilder;
