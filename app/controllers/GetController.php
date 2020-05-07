@@ -3,7 +3,7 @@
 	
 	use Framework\Controller;
 	
-	class GetController extends Controller{
+	class GetController extends FrontController{
 		public function yes(){
 		echo 'class Get';
 		}

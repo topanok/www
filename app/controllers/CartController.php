@@ -3,7 +3,7 @@
 	use Framework\Controller;
 	use Framework\Db;
 
-	class CartController extends Controller{
+	class CartController extends FrontController{
 		private $count;
 		public function add(){
 			$data='';

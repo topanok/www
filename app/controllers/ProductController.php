@@ -9,7 +9,7 @@
 	use App\Models\CategoryModelRepository;
 	use Framework\Filesystem\Api\FileUploader;
 
-	class ProductController extends Controller{
+	class ProductController extends FrontController {
 		private $idForm='addProd';
 
 		public function add(){
@@ -19,7 +19,7 @@
 			$form->setId($this->idForm);
 			$form->setMethod('POST');
 			$form->setClass('');
-			
+
 			$form->addField('text',['name'=>'name','class'=>'form-control','placeholder'=>'Назва продукту']);
 			$form->addField('textarea',['name'=>'description','class'=>'form-control','placeholder'=>'Опис']);
 			$form->addField('textarea',['name'=>'properties','class'=>'form-control','placeholder'=>'Характеристики']);
@@ -102,14 +102,14 @@
 			$pagin->setCountItems($countProd['count']);
 			$pagin->setMaxLi(5);
 			$data['pagin']=$pagin->getPagination();
-			$this->render('app/views/ViewTableProducts.php',$data);
+			$this->render('app/views/product/list.php',$data);
 		}
 
 		public function details($id){
 			$prodModel=new ProductModelRepository;
 			$objDb=$prodModel->getObjDb($prodModel->getTable());
 			$data['product']=$objDb->getById($id);
-			$this->render('app/views/ViewProductDetails.php',$data);
+			$this->render('app/views/product/view.php',$data);
 		}
 
 		public function edit($idForEdit){
@@ -119,7 +119,7 @@
 
 			$catModel=new CategoryModelRepository;
 			$objDb=$catModel->getObjDb($catModel->getTable());
-	
+
 			for($i=0; $i<count($products); $i++){
 				$id=$products[$i]->getId();
 				if ($id == $idForEdit){

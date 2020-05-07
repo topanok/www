@@ -4,7 +4,7 @@
 	abstract class DBConfig{
 	
 		private $userName='root';
-		private $pass='123456';
+		private $pass='root';
 
 		public function getName(){
 			return $this->userName;

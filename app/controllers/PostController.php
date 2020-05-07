@@ -3,7 +3,7 @@
 	
 	use Framework\Controller;
 	
-	class PostController extends Controller{
+	class PostController extends FrontController{
 		public function create($text,$text2){
 			$content=$text.$text2;
 			file_put_contents('Test.txt',$content);

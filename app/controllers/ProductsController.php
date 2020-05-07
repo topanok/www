@@ -6,7 +6,7 @@
 	use App\Models\CategoryModelRepository;
 	use App\Models\ProductModelRepository;
 
-	class ProductsController extends Controller{
+	class ProductsController extends FrontController{
 		private $catId=[];
 		private $countProd;
 

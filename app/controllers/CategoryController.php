@@ -7,7 +7,7 @@
 	use Framework\Paginator;
 	use App\Models\CategoryModelRepository;
 
-	class CategoryController extends Controller{
+	class CategoryController extends FrontController{
 		private $idForm='addCat';
 		private $page;
 		public function add(){
