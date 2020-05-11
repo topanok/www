@@ -7,26 +7,24 @@
 	use Framework\Paginator;
 	use Framework\Filesystem\Api\FileUploader;
 	use App\Models\UsersModelRepository;
-	class UserController extends Controller{
+	class UserController extends FrontController{
+		private $page;
 
-
-		public function page(int $num){
-			$onPage=2;
-			$user=new UsersModelRepository;
-			$objItems=$user->getItems();
-			$arr=array_chunk($objItems, $onPage);
-			$data='';
-			for($i=0; $i<$onPage; $i++) {
-				if(isset($arr[$num-1][$i])){
-					$data.= 'Імя - <b>'.$arr[$num-1][$i]->getName().'</b> Фамілія - <b>'.$arr[$num-1][$i]->getSurname().'</b> Логін - <b>'.$arr[$num-1][$i]->getLogin().'</b> Email - <b>'.$arr[$num-1][$i]->getEmail().'</b><br><br>';
-				}
-			}
+		public function see(int $page){
+			$_SESSION['page']=$page;
+			$data=[];
+			$data['onPage']=10;
+			$userModel=new UsersModelRepository;
+			$objDb=$userModel->getObjDb($userModel->getTable());
+			$countUsers=$objDb->getCount();
+			$from=($page-1) * $data['onPage'];
+			$data['users']=$userModel->getLimitItems($from, $data['onPage']);
 			$pagin=new Paginator;
-			$pagin->setOnPage($onPage);
-			$pagin->setCountItems(count($objItems));
+			$pagin->setOnPage($data['onPage']);
+			$pagin->setCountItems($countUsers['count']);
 			$pagin->setMaxLi(5);
-			$data.=$pagin->getPagination();
-			$this->render('app/views/ViewUsers.php',$data);
+			$data['pagin']=$pagin->getPagination();
+			$this->render('app/views/admin/users.php',$data);
 		}
 
 		public function register(){
@@ -50,7 +48,8 @@
 			if(isset($_SESSION['errors']['form']['reg'])){
 				unset($_SESSION['errors']['form']['reg']);
 			}
-			$this->render('app/views/ViewAccount.php',$data);
+			$_SESSION['refferer']=$_SERVER['HTTP_REFERER'];
+			$this->render('app/views/user/register.php',$data);
 		}
 
 		public function save(){
@@ -89,7 +88,7 @@
 				$mail=new Mailer;
 				$mail->sendMail($data['email'], 'Завершення реєстрації', 'Для завершення реєстрації перейдіть по <a href="http://localhost/user/confirmemail/'.$data['login'].'">посиланню</a>');
 				echo '<h3>Вітаємо! Щоб завершити реєстрацію-перейдіть по посиланню, яке відправлено Вам на email .</h3>';
-				//header("refresh: 3; url = http://localhost/user/page/1");
+				header('refresh: 3; url = '.$_SESSION['refferer']);
 			}
 			if (!empty($_SESSION['errors']['form']['reg'])) {
 				header("refresh: 0.01; url = http://localhost/user/register");
@@ -126,7 +125,8 @@
 			if(isset($_SESSION['errors']['form']['login'])){
 				unset($_SESSION['errors']['form']['login']);
 			}
-			$this->render('app/views/ViewLogin.php',$data);
+			$_SESSION['refferer']=$_SERVER['HTTP_REFERER'];
+			$this->render('app/views/user/login.php',$data);
 		}
 
 		public function confirmLogin(){
@@ -154,7 +154,8 @@
 				$_SESSION['login']=$data['login'];
 				unset($_SESSION['errors']['form']['login']);
 				unset($_SESSION['values']['form']['login']);
-				echo '<h3>Вітаємо '.$userIsset[0]['name'].' ! Ви увійшли як '.$data['login'].'.</h3>';
+				echo '<h2>Вітаємо '.$_SESSION['login'].'!';
+				header('refresh: 2; url = '.$_SESSION['refferer']);
 			}
 			else{
 				$_SESSION['errors']['form']['login']['password']='<pre style="background-color: #F6CEEC">Невірний пароль!</pre>';
@@ -177,16 +178,35 @@
 				<p><a href="http://localhost/index.php">Перейти</a> на головну</p>
 				<p><a href="http://localhost/user/logout">Вийти</a></p>';
 			}
-			$this->render('app/views/ViewConfirmEmail.php',$data);
+			$this->render('app/views/user/confirmEmail.php',$data);
 		}
 
 		public function logout(){
 			unset($_SESSION['login']);
+			unset($_SESSION['refferer']);
 			unset($_SESSION['errors']['form']['reg']);
 			unset($_SESSION['errors']['form']['login']);
 			unset($_SESSION['values']['form']['reg']);
 			unset($_SESSION['values']['form']['login']);
 			header('Location: http://localhost/products/see/0/1');
+		}
+
+		public function block($id){
+			$data=[];
+			$data['id']=$id;
+			$data['block']=1;
+			$userModel=new UsersModelRepository;
+			$userObj=$userModel->set($data);
+			$objDb=$userModel->getObjDb($userModel->getTable());
+			$objDb->save($userObj);
+			header('refresh: 0; url = http://localhost/user/see/'.$_SESSION['page']);
+		}
+
+		public function delete($id){
+			$usrModel=new UsersModelRepository;
+			$objDb=$usrModel->getObjDb($usrModel->getTable());
+			$objDb->delById($id);
+			header('refresh: 0; url = http://localhost/user/see/'.$_SESSION['page']);
 		}
 	}
 ?>

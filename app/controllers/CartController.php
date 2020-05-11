@@ -3,46 +3,71 @@
 	use Framework\Controller;
 	use Framework\Db;
 	use Framework\Request;
-	use Framework\Paginator;
 	use App\Models\CartModelRepository;
 	use App\Models\UsersModelRepository;
+	use App\Models\ProductModelRepository;
 
-	class CartController extends Controller{
+	class CartController extends FrontController{
 		
 		public function add(){
 			$objRst=new Request;
 			$data=$objRst->getParams();
-			$arrOfUrl=explode('/',$data['url']);
-			$prodId=$arrOfUrl[count($arrOfUrl) - 1];
+			$prodId=$data['id'];
 			$countToCart=$data['countToCart'];
 			$data=[];
-			if (isset($_SESSION['login'])){
-				$data['login']=$_SESSION['login'];
+			if (!isset($_SESSION['login'])){
+				$_SESSION['login']=$_SERVER['REMOTE_ADDR'];
 			}
-			else{
-				$data['login']=$_SERVER['REMOTE_ADDR'];
-			}
+			$data['login']=$_SESSION['login'];
 			$objUsr=new UsersModelRepository;
-			$objDb=new Db($objUsr->getTable());
-			$user=$objDb->getByParam('login',$data['login']);
 			$objCart=new CartModelRepository;
-			$objDb=new Db($objCart->getTable());
-			$inCart=$objDb->getByParam('login',$data['login']);
-			if($inCart){
-				for($i=0; $i<count($inCart); $i++){
-					if($inCart[$i]['productId']==$prodId){
-						$data['id']=$inCart[$i]['id'];
+			$inCart=$objCart->getItemsByParam('login',$data['login']);
+			if(!empty($inCart)){
+				foreach ($inCart as $product) {
+					if($product->getProduct_id()==$prodId){
+						$data['id']=$product->getId();
 					}
 				}
 			}
-			if($user){
-				$data['userId']=$user[0]['id'];
-			}
-			$data['productId']=$prodId;
+			$data['product_id']=$prodId;
+			$objProd=new ProductModelRepository;
+			$objDb=new Db($objProd->getTable());
+			$product=$objDb->getByParam('id', $prodId);
 			$data['count']=$countToCart;
 			$objDb=new Db($objCart->getTable());
 			$objDb->save($objCart->set($data));
-			$data=json_encode($data);
+		}
+
+		public function remove(){
+			$objRst=new Request;
+			$data=$objRst->getParams();
+			$prodId=$data['id'];
+			$objCart=new CartModelRepository;
+			$objDb=new Db($objCart->getTable());
+			$objDb->delByParam('product_id', $prodId);
+		}
+		public function see(){
+			if (!isset($_SESSION['login'])){
+				$_SESSION['login']=$_SERVER['REMOTE_ADDR'];
+			}
+			$objCart=new CartModelRepository;
+			$items=$objCart->getItemsByParam('login',$_SESSION['login']);
+			if($items){
+				$objProd=new ProductModelRepository;
+				$strIds='';
+				$arrCounts=[];
+				foreach ($items as $item) {
+					$strIds.=$item->getProduct_id().',';
+					$arrCounts[$item->getProduct_id()]=$item->getCount();
+				}
+				$strIds=substr($strIds,0,-1);
+				$products['products']=$objProd->getItemsByIn('id',$strIds);;
+				$products['counts']=$arrCounts;
+				$this->render('app/views/app/cart.php', $products);
+			}
+			else{
+				$this->render('app/views/app/cart.php', null);
+			}
 		}
 	}
 ?>

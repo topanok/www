@@ -2,11 +2,11 @@
 	namespace Framework;
 	
 	class FormBuilder{
-		private $action;
-		private $form;
+		private $action='';
+		private $form='';
 		private $input='';
 		private $class='';
-		private $method;
+		private $method='';
 		private $encode='';
 		private $id='';
 		private $type;

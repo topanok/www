@@ -6,16 +6,16 @@
 	use App\Models\CategoryModelRepository;
 	use App\Models\ProductModelRepository;
 
-	class ProductsController extends Controller{
+	class ProductsController extends FrontController{
 		private $catId=[];
 		private $countProd;
 
 		public function see($id, $page){
+			if (!isset($_SESSION['login'])){
+				$_SESSION['login']=$_SERVER['REMOTE_ADDR'];
+			}
 			$data=[];
 			$data['onPage']=8;
-			$catModel=new CategoryModelRepository;
-			$objDb=$catModel->getObjDb($catModel->getTable());
-			$data['categories']= $catModel->getItems();
 			$data['id']=$id;
 			$this->getTree($id);
 			$data['products']=$this->getProducts($page , $data['onPage']);
@@ -25,7 +25,7 @@
 			$pagin->setCountItems($this->countProd);
 			$pagin->setMaxLi(5);
 			$data['pagin']=$pagin->getPagination();
-			$this->render('app/views/ViewProducts.php',$data);
+			$this->render('app/views/app/products.php',$data);
 		}
 
 		private function getTree( $id){

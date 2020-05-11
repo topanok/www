@@ -9,7 +9,7 @@
 	use App\Models\CategoryModelRepository;
 	use Framework\Filesystem\Api\FileUploader;
 
-	class ProductController extends Controller{
+	class ProductController extends FrontController{
 		private $idForm='addProd';
 
 		public function add(){
@@ -33,7 +33,7 @@
 			if(isset($_SESSION['errors']['form'][$this->idForm])){
 				unset($_SESSION['errors']['form'][$this->idForm]);
 			}
-			$this->render('app/views/ViewAddProduct.php',$data);
+			$this->render('app/views/admin/addProduct.php',$data);
 		}
 		public function save(){
 			$request = new Request;
@@ -82,7 +82,9 @@
 		}
 
 		public function see(int $page){
-
+			if (!isset($_SESSION['login'])){
+				$_SESSION['login']=$_SERVER['REMOTE_ADDR'];
+			}
 			$_SESSION['page']=$page;
 			$data=[];
 			$data['page']=$page;
@@ -102,14 +104,14 @@
 			$pagin->setCountItems($countProd['count']);
 			$pagin->setMaxLi(5);
 			$data['pagin']=$pagin->getPagination();
-			$this->render('app/views/ViewTableProducts.php',$data);
+			$this->render('app/views/admin/tableProducts.php',$data);
 		}
 
 		public function details($id){
 			$prodModel=new ProductModelRepository;
 			$objDb=$prodModel->getObjDb($prodModel->getTable());
 			$data['product']=$objDb->getById($id);
-			$this->render('app/views/ViewProductDetails.php',$data);
+			$this->render('app/views/app/productDetails.php',$data);
 		}
 
 		public function edit($idForEdit){

@@ -32,5 +32,14 @@
 			}
 			return $itemsObj;
 		}
+		public function getItemsByParam($column , $value){
+			$objDb=$this->getObjDb($this->table);
+			$items=$objDb->getByParam($column , $value);
+			$itemsObj=[];
+			foreach ($items as $value) {
+				$itemsObj[]=$this->set($value);
+			}
+			return $itemsObj;
+		}
 	}
 ?>

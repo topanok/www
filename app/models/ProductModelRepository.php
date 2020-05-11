@@ -32,5 +32,14 @@
 			}
 			return $itemsObj;
 		}
+		public function getItemsByIn(string $column, string $in){
+			$objDb=$this->getObjDb($this->table);
+			$items=$objDb->getByIn($column, $in);
+			$itemsObj=[];
+			foreach ($items as $value) {
+				$itemsObj[]=$this->set($value);
+			}
+			return $itemsObj;
+		}
 	}
 ?>

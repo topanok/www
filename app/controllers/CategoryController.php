@@ -7,7 +7,7 @@
 	use Framework\Paginator;
 	use App\Models\CategoryModelRepository;
 
-	class CategoryController extends Controller{
+	class CategoryController extends FrontController{
 		private $idForm='addCat';
 		private $page;
 		public function add(){
@@ -25,7 +25,7 @@
 			if(isset($_SESSION['errors']['form'][$this->idForm])){
 				unset($_SESSION['errors']['form'][$this->idForm]);
 			}
-			$this->render('app/views/ViewAddCategory.php',$data);
+			$this->render('app/views/admin/addCategory.php',$data);
 		}
 
 		private function getCategories(){
@@ -97,7 +97,7 @@
 			$pagin->setCountItems($countCat['count']);
 			$pagin->setMaxLi(5);
 			$data['pagin']=$pagin->getPagination();
-			$this->render('app/views/ViewTableCategory.php',$data);
+			$this->render('app/views/admin/tableCategory.php',$data);
 		}
 
 		public function delete($id){

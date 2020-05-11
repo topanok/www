@@ -23,5 +23,14 @@
 			}
 			return $itemsObj;
 		}
+		public function getLimitItems($from, $many){
+			$objDb=$this->getObjDb($this->table);
+			$items=$objDb->getLimitList($from, $many);
+			$itemsObj=[];
+			foreach ($items as $value) {
+				$itemsObj[]=$this->set($value);
+			}
+			return $itemsObj;
+		}
 	}
 ?>
