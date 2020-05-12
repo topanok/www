@@ -1,4 +1,4 @@
-//jQuery(document).ready(function(){
+//$(document).ready(function(){
 	function inCart(prodId) {
 		if(document.getElementById('countToCart')){ 
 			var countToCart=document.getElementById('countToCart').value;
@@ -15,7 +15,7 @@
 	        },
 	        success: function(data){
 	            //$(".cart-item").html(data);
-	            //console.log(data);
+	            console.log(data);
             },
 	        error: function(data){
 	            console.log(data);
@@ -29,7 +29,8 @@
 	        url: "http://localhost/cart/add",
 	        data: {
 	        	"countToCart": countToCart,
-	        	"id": prodId
+	        	"id": prodId,
+	        	"update": 1
 	        },
 	        success: function(data){
 	        	window.location.reload();

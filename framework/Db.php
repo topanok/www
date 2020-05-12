@@ -12,7 +12,7 @@
 		
 		public function save(object $model){
 			$data=$model->getData();
-			If (array_key_exists('id',$data)){
+			if (array_key_exists('id',$data)){
 				return $this->update($data);
 			}
 			else{
@@ -68,6 +68,19 @@
 		
 		public function delByParam(string $column,$value){
 			$this->connect()->exec(" DELETE FROM $this->table WHERE $column = '$value' ");
+		}
+
+		public function delByParams(array $columns, array $values){
+			if(count($columns) == count($values)){
+				$where='';
+				for($i=0; $i<count($columns); $i++){
+					$where.=$columns[$i].' = "'.$values[$i].'" AND ';
+				}
+				$where=substr($where,0,-5);
+				$sql=' DELETE FROM '.$this->table.' WHERE '.$where;
+				var_dump($sql);
+				$this->connect()->exec($sql);
+			}
 		}
 		
 		public function insertByParam(string $column,$value){

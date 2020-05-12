@@ -1,50 +1,56 @@
 <?php
 	namespace App\Controllers;
-	use Framework\Controller;
+	use App\Controllers\FrontController;
 	use Framework\Db;
 	use Framework\Request;
 	use App\Models\CartModelRepository;
-	use App\Models\UsersModelRepository;
 	use App\Models\ProductModelRepository;
 
 	class CartController extends FrontController{
 		
 		public function add(){
 			$objRst=new Request;
-			$data=$objRst->getParams();
-			$prodId=$data['id'];
-			$countToCart=$data['countToCart'];
+			$post=$objRst->getParams();
+			$prodId=$post['id'];
+			$countToCart=$post['countToCart'];
 			$data=[];
 			if (!isset($_SESSION['login'])){
 				$_SESSION['login']=$_SERVER['REMOTE_ADDR'];
 			}
 			$data['login']=$_SESSION['login'];
-			$objUsr=new UsersModelRepository;
 			$objCart=new CartModelRepository;
 			$inCart=$objCart->getItemsByParam('login',$data['login']);
 			if(!empty($inCart)){
 				foreach ($inCart as $product) {
 					if($product->getProduct_id()==$prodId){
+						if(isset($post['update'])){
+							$data['id']=$product->getId();
+							$data['count']=$countToCart;
+						}
+						else{
 						$data['id']=$product->getId();
+						$data['count']=$countToCart+$product->getCount();
+						}
+					}
+					else{
+						$data['count']=$countToCart;
 					}
 				}
 			}
 			$data['product_id']=$prodId;
-			$objProd=new ProductModelRepository;
-			$objDb=new Db($objProd->getTable());
-			$product=$objDb->getByParam('id', $prodId);
-			$data['count']=$countToCart;
 			$objDb=new Db($objCart->getTable());
 			$objDb->save($objCart->set($data));
+			var_dump($data);
 		}
-
 		public function remove(){
 			$objRst=new Request;
 			$data=$objRst->getParams();
 			$prodId=$data['id'];
+			$arrClolumns=[0=>'product_id', 'login'];
+			$arrValues=[0=>$prodId, $_SESSION['login']];
 			$objCart=new CartModelRepository;
 			$objDb=new Db($objCart->getTable());
-			$objDb->delByParam('product_id', $prodId);
+			$objDb->delByParams($arrClolumns, $arrValues);
 		}
 		public function see(){
 			if (!isset($_SESSION['login'])){
@@ -61,9 +67,9 @@
 					$arrCounts[$item->getProduct_id()]=$item->getCount();
 				}
 				$strIds=substr($strIds,0,-1);
-				$products['products']=$objProd->getItemsByIn('id',$strIds);;
-				$products['counts']=$arrCounts;
-				$this->render('app/views/app/cart.php', $products);
+				$data['products']=$objProd->getItemsByIn('id',$strIds);;
+				$data['counts']=$arrCounts;
+				$this->render('app/views/app/cart.php', $data);
 			}
 			else{
 				$this->render('app/views/app/cart.php', null);
