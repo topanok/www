@@ -24,7 +24,7 @@
 	                                <ul>
 	                                    <!-- Single menu start -->
 	                                    			<?php foreach ($categories as $cat1):
-	                                    				if ($cat1->getParent_id() == 0): ?>
+	                                    				if ($cat1->getParent_id() == $currentCategoryId): ?>
 	                                    <li class="arrow-plus">
 	                                    	<a href="http://localhost/products/see/<?=$cat1->getId();?>/1"><?=$cat1->getName();?></a>
 	                                       	<div class="cat-left-drop-menu">

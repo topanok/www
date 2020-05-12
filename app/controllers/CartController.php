@@ -14,9 +14,6 @@
 			$prodId=$post['id'];
 			$countToCart=$post['countToCart'];
 			$data=[];
-			if (!isset($_SESSION['login'])){
-				$_SESSION['login']=$_SERVER['REMOTE_ADDR'];
-			}
 			$data['login']=$_SESSION['login'];
 			$objCart=new CartModelRepository;
 			$inCart=$objCart->getItemsByParam('login',$data['login']);
@@ -42,10 +39,9 @@
 			$objDb->save($objCart->set($data));
 			var_dump($data);
 		}
-		public function remove(){
+		public function remove($prodId){
 			$objRst=new Request;
-			$data=$objRst->getParams();
-			$prodId=$data['id'];
+			$data=$objRst->getParams();;
 			$arrClolumns=[0=>'product_id', 'login'];
 			$arrValues=[0=>$prodId, $_SESSION['login']];
 			$objCart=new CartModelRepository;
@@ -74,6 +70,47 @@
 			else{
 				$this->render('app/views/app/cart.php', null);
 			}
+		}
+		public function seeMini(){
+			$objCart=new CartModelRepository;
+			$items=$objCart->getItemsByParam('login',$_SESSION['login']);
+			if($items){
+				$objProd=new ProductModelRepository;
+				$strIds='';
+				$arrCounts=[];
+				foreach ($items as $item) {
+					$strIds.=$item->getProduct_id().',';
+					$arrCounts[$item->getProduct_id()]=$item->getCount();
+				}
+				$strIds=substr($strIds,0,-1);
+				$data['products']=$objProd->getItemsByIn('id',$strIds);;
+				$data['counts']=$arrCounts;
+				$totalSum=0;
+				$html='';
+				foreach ($data['products'] as $prod){ 
+					$totalSum+=$data['counts'][$prod->getId()]*$prod->getPrice();
+					$html.='<div class="cart-img-details"><div class="cart-img-photo">';
+					$html.='<a href="http://localhost/product/details/'.$prod->getId().'"><img src="http://localhost/app/images/'.$prod->getImages().'" alt="#"></a>';
+					$html.='</div><div class="cart-img-content">';
+					$html.='<a href="http://localhost/product/details/'.$prod->getId().'"><h4>'.$prod->getName().'</h4></a>';
+					$html.='<span><strong class="text-right">'.$data['counts'][$prod->getId()].' x</strong>';
+					$html.='<strong class="cart-price text-right">₴'.$prod->getPrice().'</strong></span></div>';
+					$html.='<div class="pro-del"><a href="" onclick="removeFromCart('.$prod->getId().')"><i class="fa fa-times"></i></a></div></div>';
+				}
+				$html.='<div class="clear"></div>';
+				$html.='<div class="cart-inner-bottom">';
+				$html.='<span class="total">Total:<span class="amount">₴'.$totalSum.'</span></span>';
+				$html.='<span class="cart-button-top">';
+				$html.='<a href="http://localhost/cart/see">Кошик</a>';
+				$html.='<a href="checkout.html">Замовити</a></span></div>';
+			}
+			else{
+				$html='<div class="cart-inner-bottom">';
+				$html.='<h4>Порожньо</h4>';
+				$html.='<span class="cart-button-top">';
+				$html.='<a href="/products/see/0/1">За покупками</a></span></div>';
+			}
+			echo $html;
 		}
 	}
 ?>

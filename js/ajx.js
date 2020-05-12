@@ -43,12 +43,22 @@
     function removeFromCart(prodId){
 	    $.ajax({
 	        type: "POST",
-	        url: "http://localhost/cart/remove",
-	        data: {
-	        	"id": prodId
-	        },
+	        url: "http://localhost/cart/remove/" + prodId,
 	        success: function(data){
 	            window.location.reload();
+	        },
+	        error: function(data){
+	            console.log(data);
+            }
+	    });
+    }
+    function seeMiniCart(){
+    	$.ajax({
+	        type: "POST",
+	        url: "http://localhost/cart/seemini",
+	        success: function(data){
+	            $(".mini-cart-content").html(data);
+	            console.log(data);
 	        },
 	        error: function(data){
 	            console.log(data);

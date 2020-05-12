@@ -162,27 +162,21 @@
 							</div>
 						</div>
 						<div class="col-md-9 col-sm-12">
+							<?php //var_dump($data); ?>
 		                    <div class="quick-access">
 		                    	<div class="search-by-category">
 		                    		<div class="search-container">
 			                    		<select>
-			                    			<option class="all-cate">All Categories</option>
-											<optgroup  class="cate-item-head" label="Cameras & Photography">
-												<option class="cate-item-title">Handbags</option>
-												<option class="c-item">Blouses And Shirts</option>
-												<option class="c-item">Clouthes</option>
+			                    			<option class="all-cate">Всі категорії</option>
+			                    			<?php foreach ($data['categories'] as $cat): 
+			                    				if($cat->getParent_id()==0): ?>
+											<optgroup  class="cate-item-head" label="<?=$cat->getName();?>">
+												<?php foreach ($data['categories'] as $subCat): 
+													if($subCat->getParent_id()==$cat->getId()): ?>
+												<option class="c-item"><?=$subCat->getName();?></option>
+												<?php endif; endforeach; ?>
 											</optgroup>
-											<optgroup  class="cate-item-head" label="Laptop & Computer">
-												<option class="cate-item-title">Apple</option>
-												<option class="c-item">Dell</option>
-												<option class="c-item">Hp</option>
-												<option class="c-item">Sony</option>
-											</optgroup>
-											<optgroup  class="cate-item-head" label="Electronic">
-												<option class="c-item">Mobile</option>
-												<option class="c-item">Speaker</option>
-												<option class="c-item">Headphone</option>
-											</optgroup>
+											<?php endif; endforeach; ?>
 			                    		</select>
 		                    		</div>
 		                    		<div class="header-search">
@@ -195,7 +189,7 @@
 		                    	<div class="top-cart">
 		                    		<ul>
 		                    			<li>
-			                    			<a href="http://localhost/cart/see">
+			                    			<a href="http://localhost/cart/see" onmousemove="seeMiniCart()">
 			                    				<span class="cart-icon"><i class="fa fa-shopping-cart"></i></span>
 			                    				<span class="cart-total">
 			                    					<span class="cart-title">Кошик</span>
@@ -204,47 +198,7 @@
 			                    				</span>
 			                    			</a>
 											<div class="mini-cart-content">
-												<div class="cart-img-details">
-													<div class="cart-img-photo">
-														<a href="#"><img src="http://localhost/img/product/total-cart.jpg" alt="#"></a>
-													</div>
-													<div class="cart-img-content">
-														<a href="#"><h4>Prod Aldults</h4></a>
-														<span>
-															<strong class="text-right">1 x</strong>
-															<strong class="cart-price text-right">$180.00</strong>
-														</span>
-													</div>
-													<div class="pro-del">
-														<a href="#"><i class="fa fa-times"></i></a>
-													</div>
-												</div>
-												<div class="clear"></div>
-												<div class="cart-img-details">
-													<div class="cart-img-photo">
-														<a href="#"><img src="http://localhost/img/product/total-cart2.jpg" alt="#"></a>
-													</div>
-													<div class="cart-img-content">
-														<a href="#"><h4>Fact Prone</h4></a>
-														<span>
-															<strong class="text-right">1 x</strong>
-															<strong class="cart-price text-right">$185.00</strong>
-														</span>
-													</div>
-													<div class="pro-del">
-														<a href="#"><i class="fa fa-times"></i></a>
-													</div>
-												</div>
-												<div class="cart-inner-bottom">
-													<span class="total">
-														Total:
-														<span class="amount">$550.00</span>
-													</span>
-													<span class="cart-button-top">
-														<a href="http://localhost/cart/see">Переглянути кошик</a>
-														<a href="checkout.html">Оформити замовлення</a>
-													</span>
-												</div>
+												
 											</div>
 		                    			</li>
 		                    		</ul>

@@ -78,7 +78,6 @@
 				}
 				$where=substr($where,0,-5);
 				$sql=' DELETE FROM '.$this->table.' WHERE '.$where;
-				var_dump($sql);
 				$this->connect()->exec($sql);
 			}
 		}

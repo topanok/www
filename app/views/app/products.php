@@ -80,14 +80,15 @@
 										<div class="tab-content">
 											<div role="tabpanel" class="tab-pane fade in  active" id="display-1-2">
 												<?php 
-													for($row = 0; $row < ceil($data['onPage']/4); $row++){
+													if(!empty($data['products'])){
+														for($row = 0; $row < ceil($data['onPage']/4); $row++){
 												?>
 												<div class="row">
 													<!-- Start Single-Product -->
 													<?php
-														$products=array_chunk($data['products'], 4);
-														for($i=0; $i<count($products[$row]); $i++){
-															$prod=$products[$row][$i];
+															$products=array_chunk($data['products'], 4);
+															for($i=0; $i<count($products[$row]); $i++){
+																$prod=$products[$row][$i];
 													?>
 													<div class="col-md-3 col-sm-4 col-xs-12">
 														<div class="single-product">
@@ -120,7 +121,7 @@
 													<?php } ?>
 													<!-- End Single-Product -->
 												</div>
-												<?php } ?>
+												<?php } }else echo '<h3>В даній категорії немає продуктів ((</h3>'; ?>
 												<!-- Start Pagination Area -->
 												<div class="pagination-area">
 													<div class="row">
