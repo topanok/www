@@ -1,3 +1,4 @@
+		<!-- FOOTER-AREA START -->
 		<footer class="footer-area">
 			<!-- Footer Start -->
 			<div class="footer">

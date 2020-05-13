@@ -10,8 +10,9 @@
 					</div>
 				</div>
 				<div class="row">
-					<?php require_once 'sidebar.php'; ?>
+<?php require_once 'sidebar.php'; ?>
 					<div class="col-md-9 col-xs-12">
+<?php require_once 'banner.php'; ?>
 						<!-- Start Shopping-Cart -->
 						<div class="shopping-cart">
 							<div class="row">
@@ -33,9 +34,8 @@
 												</tr>
 											</thead>
 											<tbody>
-												<?php $total=0; foreach ($data['products'] as $product):
+												<?php foreach ($data['products'] as $product):
 													$sum=$product->getPrice() * $data['counts'][(int) $product->getId()];
-													$total+=$sum;
 												?>
 												<tr class="prodIn<?=$product->getId(); ?>">
 													<td class="text-center">
@@ -65,8 +65,8 @@
 										</table>
 									</div>
 									<!-- End Table -->
-									<h3 class="title-group-3 gfont-1">What would you like to do next?</h3>
-									<p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
+									<h3 class="title-group-3 gfont-1">Що б ви хотіли зробити далі?</h3>
+									<p>Виберіть, чи у вас є купон на знижку або подарунковий сертифікат, які ви хочете використати.</p>
 									<!-- Accordion start -->
 									<div class="accordion-cart">
 										<div class="panel-group" id="accordion">
@@ -74,17 +74,17 @@
 											<div class="panel panel_default">
 												<div class="panel-heading">
 													<h4 class="panel-title">
-														<a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#coupon">Use Coupon Code<i class="fa fa-caret-down"></i> </a>
+														<a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#coupon">Використати купон<i class="fa fa-caret-down"></i> </a>
 													</h4>
 												</div>
 												<div id="coupon" class="collapse in">
 													<div class="panel-body">
 														<div class="col-sm-2">
-															<p>Enter your coupon here</p>
+															<p>Введіть номер купону сюди</p>
 														</div>
 														<div class="input-group">
-															<input class="form-control" type="text" placeholder="Enter your coupon here" />
-															<button type="submit" class="btn btn-primary">Apply Coupon</button>
+															<input class="form-control" type="text" placeholder="Введіть номер купону сюди" />
+															<button type="submit" class="btn btn-primary">Використати купон</button>
 														</div>
 													</div>
 												</div>
@@ -94,74 +94,22 @@
 											<div class="panel panel_default">
 												<div class="panel-heading">
 													<h4 class="panel-title">
-														<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#voucher">Use Gift Voucher <i class="fa fa-caret-down"></i> </a>
+														<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#voucher">Використати сертифікат <i class="fa fa-caret-down"></i> </a>
 													</h4>
 												</div>
 												<div id="voucher" class="collapse">
 													<div class="panel-body">
 														<div class="col-sm-2">
-															<p>Enter your gift voucher code here</p>
+															<p>Введіть номер сертифікату сюди</p>
 														</div>
 														<div class="input-group">
-															<input class="form-control" type="text" placeholder="Enter your gift voucher code here" />
-															<button type="submit" class="btn btn-primary">Apply Voucher</button>
+															<input class="form-control" type="text" placeholder="Введіть номер сертифікату сюди" />
+															<button type="submit" class="btn btn-primary">Використати сертифікат</button>
 														</div>
 													</div>
 												</div>
 											</div>
-											<!-- Start Voucher -->
-											<!-- Start Shipping -->
-											<div class="panel panel_default">
-												<div class="panel-heading">
-													<h4 class="panel-title">
-														<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#shipping">Estimate Shipping & Taxes <i class="fa fa-caret-down"></i> </a>
-													</h4>
-												</div>
-												<div id="shipping" class="collapse">
-													<div class="panel-body">
-														<div class="col-sm-12">
-															<p>Enter your destination to get a shipping estimate.</p>
-														</div>
-														<div class="form-horizontal">
-															<div class="form-group">
-																<label class="col-sm-2 control-label"><sup>*</sup>Country</label>
-																<div class="col-sm-10">
-																	<select class="form-control">
-																		<option> --- Please Select --- </option>
-																		<option> Bangladesh </option>
-																		<option> United States </option>
-																		<option> United Kingdom </option>
-																		<option> Canada </option>
-																		<option> Malaysia </option>
-																		<option> United Arab Emirates </option>
-																	</select>
-																</div>
-															</div>
-															<div class="form-group">
-																<label class="col-sm-2 control-label"><sup>*</sup>Region / State</label>
-																<div class="col-sm-10">
-																	<select class="form-control">
-																		<option> --- Please Select --- </option>
-																		<option> Aberdeen </option>
-																		<option> Bedfordshire </option>
-																		<option> Caerphilly </option>
-																		<option> Denbighshire </option>
-																		<option> East Ayrshire </option>
-																		<option> Falkirk </option>
-																	</select>
-																</div>
-															</div>
-															<div class="form-group">
-																<label class="col-sm-2 control-label"><sup>*</sup>Post Code</label>
-																<div class="col-sm-10">
-																	<input type="text" class="form-control" placeholder="Post Code" />
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-											<!-- Start Shipping -->
+											<!-- And Voucher -->
 										</div>
 									</div>
 									<!-- Accordion end -->
@@ -173,21 +121,21 @@
 														<td class="text-right">
 															<strong>Sub-Total:</strong>
 														</td>
-														<td class="text-right">₴ <?=$total; ?></td>
+														<td class="text-right">₴ <?=$data['totalSum']; ?></td>
 													</tr>
 													<tr>
 														<td class="text-right">
 															<strong>Total:</strong>
 														</td>
-														<td class="text-right">₴ <?=$total; ?></td>
+														<td class="text-right">₴ <?=$data['totalSum']; ?></td>
 													</tr>
 												</tbody>
 											</table>
 										</div>
 									</div>
 									<div class="shopping-checkout">
-										<a href="http://localhost/products/see/0/1" class="btn btn-default pull-left">За покупками</a>
-										<a href="#" class="btn btn-primary pull-right">Оформити замовлення</a>
+										<a href="/products/see/0/1" class="btn btn-default pull-left">За покупками</a>
+										<a href="/checkout/see" id="checkout" class="btn btn-primary pull-right">Оформити замовлення</a>
 									</div>
 									<?php } else echo '<h2>Ваш кошик порожній</h2>'; ?>
 								</div>
@@ -197,35 +145,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- START BRAND-LOGO-AREA -->
-			<?php require_once 'brandLogo.php'; ?>
-			<!-- END BRAND-LOGO-AREA -->
-			<!-- START SUBSCRIBE-AREA -->
-			<div class="subscribe-area">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-8 col-sm-7 col-xs-12">
-							<label class="hidden-sm hidden-xs">Sign Up for Our Newsletter:</label>
-							<div class="subscribe">
-								<form action="#">
-									<input type="text" placeholder="Enter Your E-mail">
-									<button type="submit">Subscribe</button>
-								</form>
-							</div>
-						</div>
-						<div class="col-md-4 col-sm-5 col-xs-12">
-							<div class="social-media">
-								<a href="#"><i class="fa fa-facebook fb"></i></a>
-								<a href="#"><i class="fa fa-google-plus gp"></i></a>
-								<a href="#"><i class="fa fa-twitter tt"></i></a>
-								<a href="#"><i class="fa fa-youtube yt"></i></a>
-								<a href="#"><i class="fa fa-linkedin li"></i></a>
-								<a href="#"><i class="fa fa-rss rs"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>	
-			<!-- END SUBSCRIBE-AREA -->
+<?php require_once 'brandLogo.php'; ?>
+<?php require_once 'subscribeArea.php'; ?>
 		</section>
 		<!-- END PAGE-CONTENT -->

@@ -4,25 +4,15 @@
 	            <div class="row">
 					<div class="col-md-12">
 						<ul class="page-menu">
-							<li><a href="http://localhost/index.html">Home</a></li>
-							<li class="active"><a href="http://localhost/#">Bestseller Product</a></li>
+							<li><a href="/index.html">Home</a></li>
+							<li class="active"><a href="/#">Bestseller Product</a></li>
 						</ul>
 					</div>
 				</div>
 				<div class="row">
 					<?php require_once 'sidebar.php'; ?>
 					<div class="col-md-9 col-xs-12">
-						<!-- START PRODUCT-BANNER -->
-						<div class="product-banner">
-							<div class="row">
-								<div class="col-xs-12">
-									<div class="banner">
-										<a href="http://localhost/#"><img src="http://localhost/img/banner/12.jpg" alt="Product Banner"></a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- END PRODUCT-BANNER -->
+<?php require_once 'banner.php'; ?>
 						<!-- START PRODUCT-AREA -->
 						<div class="product-area">
 							<div class="row">
@@ -36,10 +26,10 @@
 									<div class="product-filter">
 										<ul role="tablist">
 											<li role="presentation" class="list">
-												<a href="http://localhost/#display-1-1" role="tab" data-toggle="tab"></a>
+												<a href="/#display-1-1" role="tab" data-toggle="tab"></a>
 											</li>
 											<li role="presentation"  class="grid active">
-												<a href="http://localhost/#display-1-2" role="tab" data-toggle="tab"></a>
+												<a href="/#display-1-2" role="tab" data-toggle="tab"></a>
 											</li>
 										</ul>
 										<div class="sort">
@@ -93,12 +83,12 @@
 													<div class="col-md-3 col-sm-4 col-xs-12">
 														<div class="single-product">
 															<div class="product-img">
-																<a href="http://localhost/product/details/<?= $prod['id']; ?>">
-																	<img class="primary-img" src="http://localhost/app/images/<?= $prod['images']; ?>" height="250px" alt="Product">
+																<a href="/product/details/<?= $prod['id']; ?>">
+																	<img class="primary-img" src="/app/images/<?= $prod['images']; ?>" height="250px" alt="Product">
 																</a>
 															</div>
 															<div class="product-description">
-																<h5><a href="http://localhost/product/details/<?= $prod[$i]['id']; ?>"><?= $prod['name']; ?></a></h5>
+																<h5><a href="/product/details/<?= $prod[$i]['id']; ?>"><?= $prod['name']; ?></a></h5>
 																<div class="price-box">
 																	<span class="price"><?= $prod['price'].' ГРН'; ?></span>
 																	<span class="old-price">110.00 ГРН</span>
@@ -150,35 +140,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- START BRAND-LOGO-AREA -->
-			<?php require_once 'brandLogo.php'; ?>
-			<!-- END BRAND-LOGO-AREA -->
-			<!-- START SUBSCRIBE-AREA -->
-			<div class="subscribe-area">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-8 col-sm-7 col-xs-12">
-							<label class="hidden-sm hidden-xs">Sign Up for Our Newsletter:</label>
-							<div class="subscribe">
-								<form action="#">
-									<input type="text" placeholder="Enter Your E-mail">
-									<button type="submit">Subscribe</button>
-								</form>
-							</div>
-						</div>
-						<div class="col-md-4 col-sm-5 col-xs-12">
-							<div class="social-media">
-								<a href="http://localhost/#"><i class="fa fa-facebook fb"></i></a>
-								<a href="http://localhost/#"><i class="fa fa-google-plus gp"></i></a>
-								<a href="http://localhost/#"><i class="fa fa-twitter tt"></i></a>
-								<a href="http://localhost/#"><i class="fa fa-youtube yt"></i></a>
-								<a href="http://localhost/#"><i class="fa fa-linkedin li"></i></a>
-								<a href="http://localhost/#"><i class="fa fa-rss rs"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>	
-			<!-- END SUBSCRIBE-AREA -->
+<?php require_once 'brandLogo.php'; ?>
+<?php require_once 'subscribeArea.php'; ?>
 		</section>
 		<!-- END PAGE-CONTENT -->

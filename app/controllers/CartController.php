@@ -20,13 +20,11 @@
 			if(!empty($inCart)){
 				foreach ($inCart as $product) {
 					if($product->getProduct_id()==$prodId){
+						$data['id']=$product->getId();
+						$data['count']=$countToCart+$product->getCount();
 						if(isset($post['update'])){
 							$data['id']=$product->getId();
 							$data['count']=$countToCart;
-						}
-						else{
-						$data['id']=$product->getId();
-						$data['count']=$countToCart+$product->getCount();
 						}
 					}
 					else{
@@ -34,10 +32,21 @@
 					}
 				}
 			}
+			else{
+				$data['count']=$countToCart;
+			}
 			$data['product_id']=$prodId;
 			$objDb=new Db($objCart->getTable());
 			$objDb->save($objCart->set($data));
-			var_dump($data);
+			/////////////get total sum//////////////
+			$data=$this->getData();
+			if($data['totalSum']){
+				$totalSum=$data['totalSum'];
+			}
+			else{
+				$totalSum=0;
+			}
+			echo '₴'.$totalSum;
 		}
 		public function remove($prodId){
 			$objRst=new Request;
@@ -52,32 +61,23 @@
 			if (!isset($_SESSION['login'])){
 				$_SESSION['login']=$_SERVER['REMOTE_ADDR'];
 			}
-			$objCart=new CartModelRepository;
-			$items=$objCart->getItemsByParam('login',$_SESSION['login']);
-			if($items){
-				$objProd=new ProductModelRepository;
-				$strIds='';
-				$arrCounts=[];
-				foreach ($items as $item) {
-					$strIds.=$item->getProduct_id().',';
-					$arrCounts[$item->getProduct_id()]=$item->getCount();
-				}
-				$strIds=substr($strIds,0,-1);
-				$data['products']=$objProd->getItemsByIn('id',$strIds);;
-				$data['counts']=$arrCounts;
+			$data=$this->getData();
+			if($data['products']){
 				$this->render('app/views/app/cart.php', $data);
 			}
 			else{
 				$this->render('app/views/app/cart.php', null);
 			}
 		}
-		public function seeMini(){
+
+		public function getData(){
 			$objCart=new CartModelRepository;
 			$items=$objCart->getItemsByParam('login',$_SESSION['login']);
 			if($items){
 				$objProd=new ProductModelRepository;
 				$strIds='';
 				$arrCounts=[];
+				$arrSums=[];
 				foreach ($items as $item) {
 					$strIds.=$item->getProduct_id().',';
 					$arrCounts[$item->getProduct_id()]=$item->getCount();
@@ -86,9 +86,20 @@
 				$data['products']=$objProd->getItemsByIn('id',$strIds);;
 				$data['counts']=$arrCounts;
 				$totalSum=0;
-				$html='';
 				foreach ($data['products'] as $prod){ 
 					$totalSum+=$data['counts'][$prod->getId()]*$prod->getPrice();
+					$arrSums[$prod->getId()]=$data['counts'][$prod->getId()] * $prod->getPrice();
+				}
+				$data['arrSums']=$arrSums;
+				$data['totalSum']=$totalSum;
+			}
+			return $data;
+		}
+		public function seeMini(){
+			$data=$this->getData();
+			if($data['products']){
+				$html='';
+				foreach ($data['products'] as $prod){
 					$html.='<div class="cart-img-details"><div class="cart-img-photo">';
 					$html.='<a href="http://localhost/product/details/'.$prod->getId().'"><img src="http://localhost/app/images/'.$prod->getImages().'" alt="#"></a>';
 					$html.='</div><div class="cart-img-content">';
@@ -99,10 +110,10 @@
 				}
 				$html.='<div class="clear"></div>';
 				$html.='<div class="cart-inner-bottom">';
-				$html.='<span class="total">Total:<span class="amount">₴'.$totalSum.'</span></span>';
+				$html.='<span class="total">Total:<span class="amount">₴'.$data['totalSum'].'</span></span>';
 				$html.='<span class="cart-button-top">';
-				$html.='<a href="http://localhost/cart/see">Кошик</a>';
-				$html.='<a href="checkout.html">Замовити</a></span></div>';
+				$html.='<a href="/cart/see">Кошик</a>';
+				$html.='<a href="/checkout/see">Замовити</a></span></div>';
 			}
 			else{
 				$html='<div class="cart-inner-bottom">';

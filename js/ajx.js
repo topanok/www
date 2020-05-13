@@ -14,7 +14,7 @@
 	        	"id": prodId
 	        },
 	        success: function(data){
-	            //$(".cart-item").html(data);
+	            $(".top-cart-price").html(data);
 	            console.log(data);
             },
 	        error: function(data){

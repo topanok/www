@@ -24,7 +24,7 @@
 											<div class="row">
 												<div class="col-xs-12">
 													<div class="toch-photo">
-														<a href="#"><img src="http://localhost/app/images/<?=$data['product']['images']; ?>" data-imagezoom="true" alt="#" /></a>
+														<a href="#"><img src="/app/images/<?=$data['product']['images']; ?>" data-imagezoom="true" alt="#" /></a>
 													</div>
 												</div>
 											</div>
@@ -35,7 +35,7 @@
 											<div class="row">
 												<div class="col-xs-12">
 													<div class="toch-photo">
-														<a href="#"><img src="http://localhost/img/toch/2.jpg" data-imagezoom="true" alt="#" /></a>
+														<a href="#"><img src="/img/toch/2.jpg" data-imagezoom="true" alt="#" /></a>
 													</div>
 												</div>
 											</div>
@@ -46,7 +46,7 @@
 											<div class="row">
 												<div class="col-xs-12">
 													<div class="toch-photo">
-														<a href="#"><img src="http://localhost/img/toch/3.jpg" data-imagezoom="true" alt="#" /></a>
+														<a href="#"><img src="/img/toch/3.jpg" data-imagezoom="true" alt="#" /></a>
 													</div>
 												</div>
 											</div>
@@ -57,7 +57,7 @@
 											<div class="row">
 												<div class="col-xs-12">
 													<div class="toch-photo">
-														<a href="#"><img src="http://localhost/img/toch/4.jpg" data-imagezoom="true" alt="#" /></a>
+														<a href="#"><img src="/img/toch/4.jpg" data-imagezoom="true" alt="#" /></a>
 													</div>
 												</div>
 											</div>
@@ -67,10 +67,10 @@
 									<!-- Start Toch-prond-Menu -->
 									<div class="toch-prond-menu">
 										<ul role="tablist">
-											<li role="presentation" class=" active"><a href="#display-1" role="tab" data-toggle="tab"><img src="http://localhost/app/images/<?=$data['product']['images']; ?>" alt="#" /></a></li>
-											<li role="presentation"><a href="#display-2" role="tab" data-toggle="tab"><img src="http://localhost/img/toch/2.jpg" alt="#" /></a></li>
-											<li role="presentation"><a href="#display-3"  role="tab" data-toggle="tab"><img src="http://localhost/img/toch/3.jpg" alt="#" /></a></li>
-											<li role="presentation"><a href="#display-4"  role="tab" data-toggle="tab"><img src="http://localhost/img/toch/4.jpg" alt="#" /></a></li>
+											<li role="presentation" class=" active"><a href="#display-1" role="tab" data-toggle="tab"><img src="/app/images/<?=$data['product']['images']; ?>" alt="#" /></a></li>
+											<li role="presentation"><a href="#display-2" role="tab" data-toggle="tab"><img src="/img/toch/2.jpg" alt="#" /></a></li>
+											<li role="presentation"><a href="#display-3"  role="tab" data-toggle="tab"><img src="/img/toch/3.jpg" alt="#" /></a></li>
+											<li role="presentation"><a href="#display-4"  role="tab" data-toggle="tab"><img src="/img/toch/4.jpg" alt="#" /></a></li>
 										</ul>
 									</div>
 									<!-- End Toch-prond-Menu -->
@@ -220,7 +220,7 @@
 												<div class="single-product">
 													<div class="product-img">
 														<a href="#">
-															<img class="primary-img" src="http://localhost/img/product/mediam/3bg.jpg" alt="Product">
+															<img class="primary-img" src="/img/product/mediam/3bg.jpg" alt="Product">
 														</a>
 													</div>
 													<div class="product-description">
@@ -237,7 +237,7 @@
 												<div class="single-product">
 													<div class="product-img">
 														<a href="#">
-															<img class="primary-img" src="http://localhost/img/product/mediam/11.jpg" alt="Product">
+															<img class="primary-img" src="/img/product/mediam/11.jpg" alt="Product">
 														</a>
 													</div>
 													<div class="product-description">
@@ -254,7 +254,7 @@
 												<div class="single-product">
 													<div class="product-img">
 														<a href="#">
-															<img class="primary-img" src="http://localhost/img/product/mediam/1.jpg" alt="Product">
+															<img class="primary-img" src="/img/product/mediam/1.jpg" alt="Product">
 														</a>
 													</div>
 													<div class="product-description">
@@ -271,7 +271,7 @@
 												<div class="single-product">
 													<div class="product-img">
 														<a href="#">
-															<img class="primary-img" src="http://localhost/img/product/mediam/2.jpg" alt="Product">
+															<img class="primary-img" src="/img/product/mediam/2.jpg" alt="Product">
 														</a>
 													</div>
 													<div class="product-description">
@@ -288,7 +288,7 @@
 												<div class="single-product">
 													<div class="product-img">
 														<a href="#">
-															<img class="primary-img" src="http://localhost/img/product/mediam/13.jpg" alt="Product">
+															<img class="primary-img" src="/img/product/mediam/13.jpg" alt="Product">
 														</a>
 													</div>
 													<div class="product-description">
@@ -305,7 +305,7 @@
 												<div class="single-product">
 													<div class="product-img">
 														<a href="#">
-															<img class="primary-img" src="http://localhost/img/product/mediam/10.jpg" alt="Product">
+															<img class="primary-img" src="/img/product/mediam/10.jpg" alt="Product">
 														</a>
 													</div>
 													<div class="product-description">
@@ -322,7 +322,7 @@
 												<div class="single-product">
 													<div class="product-img">
 														<a href="#">
-															<img class="primary-img" src="http://localhost/img/product/mediam/10bg.jpg" alt="Product">
+															<img class="primary-img" src="/img/product/mediam/10bg.jpg" alt="Product">
 														</a>
 													</div>
 													<div class="product-description">
@@ -349,5 +349,8 @@
 			<!-- START BRAND-LOGO-AREA -->
 			<?php require_once 'BrandLogo.php'; ?>
 			<!-- END BRAND-LOGO-AREA -->
+			<!-- START SUBSCRIBE-AREA -->
+			<?php require_once 'subscribeArea.php'; ?>
+			<!-- END SUBSCRIBE-AREA -->
 		</section>
 		<!-- END PAGE-CONTENT -->

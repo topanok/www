@@ -1,3 +1,4 @@
+			<!-- START BRAND-LOGO-AREA -->
 			<div class="brand-logo-area carosel-navigation">
 				<div class="container">
 					<div class="row">
@@ -58,3 +59,4 @@
 					</div>
 				</div>
 			</div>
+			<!-- END BRAND-LOGO-AREA -->
