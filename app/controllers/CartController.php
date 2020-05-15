@@ -4,6 +4,7 @@
 	use Framework\Db;
 	use Framework\Request;
 	use App\Models\CartModelRepository;
+	use App\Models\CartItemsModelRepository;
 	use App\Models\ProductModelRepository;
 
 	class CartController extends FrontController{
@@ -13,49 +14,87 @@
 			$post=$objRst->getParams();
 			$prodId=$post['id'];
 			$countToCart=$post['countToCart'];
-			$data=[];
-			$data['login']=$_SESSION['login'];
+			$objProd=new ProductModelRepository;
 			$objCart=new CartModelRepository;
-			$inCart=$objCart->getItemsByParam('login',$data['login']);
-			if(!empty($inCart)){
-				foreach ($inCart as $product) {
-					if($product->getProduct_id()==$prodId){
-						$data['id']=$product->getId();
-						$data['count']=$countToCart+$product->getCount();
-						if(isset($post['update'])){
-							$data['id']=$product->getId();
-							$data['count']=$countToCart;
+			$objCartItems=new CartItemsModelRepository;
+			$product=$objProd->getItemsByParam('id' , $prodId);
+			$productSum=$product[0]->getPrice() * $countToCart;
+			$cart=$objCart->getItemsByParam('user_login' , $_SESSION['login']);
+			if(!empty($cart)){
+				$cartItems=$objCartItems->getItemsByParam('cart_id', $cart[0]->getId());
+				$dataСart['id']=$cart[0]->getId();
+				if(!empty($cartItems)){
+					//Апдейтим або пишем в cartitems
+					$dataItems['count']=$countToCart;
+					$dataItems['sum']=$productSum;
+					foreach ($cartItems as $item) {
+						if($item->getProduct_id()==$prodId){
+							$dataItems['id']=(int)$item->getId();
+							$dataItems['count']=$countToCart + $item->getCount();
+							$dataItems['sum']=$productSum + $item->getSum();
+							if(isset($post['update'])){
+								$dataItems['id']=$item->getId();
+								$dataItems['count']=$countToCart;
+							}
 						}
 					}
-					else{
-						$data['count']=$countToCart;
-					}
+					$dataItems['cart_id']=$cart[0]->getId();
+					$dataItems['product_id']=$prodId;
+					//var_dump($dataItems['count']);             <-------В $dataItems['count'] значення те, що тре
+					$objDb=new Db($objCartItems->getTable());
+					//var_dump($objCartItems->set($dataItems));  <-------В об'єкті CartModel тоже то шо тре , а в базу не пише , а $dataItems['sum'] пише... 
+					$objDb->save($objCartItems->set($dataItems));
+					//Апдейтим cart
+					$dataСart['user_login']=$_SESSION['login'];
+					$dataСart['count_all']=$objCartItems->getTotalCount('count', 'cart_id');
+					$dataСart['total_sum']=$objCartItems->getTotalSum('sum', 'cart_id');
+					$objDb=new Db($objCart->getTable());
+					$objDb->save($objCart->set($dataСart));
+					//Вертаємо для Ajax загальну сумму
+					echo '₴'.$dataСart['total_sum'];
 				}
 			}
 			else{
-				$data['count']=$countToCart;
+				//пишемо нові записи в cart і cartitems
+				$dataСart['user_login']=$_SESSION['login'];
+				$dataСart['count_all']=$countToCart;
+				$dataСart['total_sum']=$productSum;
+				$objDb=new Db($objCart->getTable());
+				$objDb->save($objCart->set($dataСart));
+				$cart=$objCart->getItemsByParam('user_login' , $_SESSION['login']);
+				$dataItems['cart_id']=$cart[0]->getId();
+				$dataItems['product_id']=$prodId;
+				$dataItems['count']=$countToCart;
+				$dataItems['sum']=$productSum;
+				$objDb=new Db($objCartItems->getTable());
+				$objDb->save($objCartItems->set($dataItems));
+				//Вертаємо для Ajax загальну сумму
+				echo '₴'.$dataСart['total_sum'];
 			}
-			$data['product_id']=$prodId;
-			$objDb=new Db($objCart->getTable());
-			$objDb->save($objCart->set($data));
-			/////////////get total sum//////////////
-			$data=$this->getData();
-			if($data['totalSum']){
-				$totalSum=$data['totalSum'];
-			}
-			else{
-				$totalSum=0;
-			}
-			echo '₴'.$totalSum;
 		}
 		public function remove($prodId){
-			$objRst=new Request;
-			$data=$objRst->getParams();;
-			$arrClolumns=[0=>'product_id', 'login'];
-			$arrValues=[0=>$prodId, $_SESSION['login']];
+			$objCartItems=new CartItemsModelRepository;
 			$objCart=new CartModelRepository;
-			$objDb=new Db($objCart->getTable());
+			$item=$objCart->getItemsByParam('user_login' , $_SESSION['login']);
+			$cartId=$item[0]->getId();
+			$arrClolumns=[0=>'cart_id', 'product_id'];
+			$arrValues=[0=>$cartId, $prodId];
+			$objDb=new Db($objCartItems->getTable());
 			$objDb->delByParams($arrClolumns, $arrValues);
+			//перезаписуєм або видаляєм cart
+			$cartItems=$objCartItems->getItemsByParam('cart_id', $cartId);
+			if(!empty($cartItems)){
+				$dataСart['id']=$cartId;
+				$dataСart['user_login']=$_SESSION['login'];
+				$dataСart['count_all']=$objCartItems->getTotalCount('count', 'cart_id');
+				$dataСart['total_sum']=$objCartItems->getTotalSum('sum', 'cart_id');
+				$objDb=new Db($objCart->getTable());
+				$objDb->save($objCart->set($dataСart));
+			}
+			else{
+				$objDb=new Db($objCart->getTable());
+				$objDb->delById((int) $cartId);
+			}
 		}
 		public function see(){
 			if (!isset($_SESSION['login'])){
@@ -70,31 +109,6 @@
 			}
 		}
 
-		public function getData(){
-			$objCart=new CartModelRepository;
-			$items=$objCart->getItemsByParam('login',$_SESSION['login']);
-			if($items){
-				$objProd=new ProductModelRepository;
-				$strIds='';
-				$arrCounts=[];
-				$arrSums=[];
-				foreach ($items as $item) {
-					$strIds.=$item->getProduct_id().',';
-					$arrCounts[$item->getProduct_id()]=$item->getCount();
-				}
-				$strIds=substr($strIds,0,-1);
-				$data['products']=$objProd->getItemsByIn('id',$strIds);;
-				$data['counts']=$arrCounts;
-				$totalSum=0;
-				foreach ($data['products'] as $prod){ 
-					$totalSum+=$data['counts'][$prod->getId()]*$prod->getPrice();
-					$arrSums[$prod->getId()]=$data['counts'][$prod->getId()] * $prod->getPrice();
-				}
-				$data['arrSums']=$arrSums;
-				$data['totalSum']=$totalSum;
-			}
-			return $data;
-		}
 		public function seeMini(){
 			$data=$this->getData();
 			if($data['products']){
@@ -122,6 +136,32 @@
 				$html.='<a href="/products/see/0/1">За покупками</a></span></div>';
 			}
 			echo $html;
+		}
+		private function getData(){
+			$objProd=new ProductModelRepository;
+			$objCart=new CartModelRepository;
+			$objCartItems=new CartItemsModelRepository;
+			$item=$objCart->getItemsByParam('user_login' , $_SESSION['login']);
+			if(!empty($item)){
+				$cartId=$item[0]->getId();
+				$inCart=$objCartItems->getItemsByParam('cart_id' , $cartId);
+			}
+			if(!empty($inCart)){
+				$objProd=new ProductModelRepository;
+				$strIds='';
+				$arrCounts=[];
+				$arrSums=[];
+				foreach ($inCart as $item) {
+					$strIds.=$item->getProduct_id().',';
+					$arrCounts[$item->getProduct_id()]=$item->getCount();
+				}
+				$strIds=substr($strIds,0,-1);
+				$data['products']=$objProd->getItemsByIn('id',$strIds);;
+				$data['counts']=$arrCounts;
+				$data['arrSums']=$arrSums;
+				$data['totalSum']=$objCartItems->getTotalSum('sum', 'cart_id');
+				return $data;
+			}
 		}
 	}
 ?>

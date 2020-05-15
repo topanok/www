@@ -71,7 +71,7 @@
 											<div role="tabpanel" class="tab-pane fade in  active" id="display-1-2">
 												<?php 
 													if(!empty($data['products'])){
-														for($row = 0; $row < ceil($data['onPage']/4); $row++){
+														for($row = 0; $row < ceil(count($data['products'])/4); $row++){
 												?>
 												<div class="row">
 													<!-- Start Single-Product -->

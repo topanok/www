@@ -81,7 +81,7 @@
 									</li>
 								</ul>
 								<!-- End Currency -->
-								<p class="welcome-msg">Раді Вам <?php if(isset($_SESSION['login'])) echo $_SESSION['login']; ?>!</p>
+								<p class="welcome-msg">Раді Вам <?php if($_SESSION['login']!=$_SERVER['REMOTE_ADDR']) echo $_SESSION['login']; ?>!</p>
 							</div>
 							<!-- Start Top-Link -->
 							<div class="top-link">

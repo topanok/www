@@ -70,6 +70,18 @@
 			$this->connect()->exec(" DELETE FROM $this->table WHERE $column = '$value' ");
 		}
 
+		public function getByParams(array $columns, array $values){
+			if(count($columns) == count($values)){
+				$where='';
+				for($i=0; $i<count($columns); $i++){
+					$where.=$columns[$i].' = "'.$values[$i].'" AND ';
+				}
+				$where=substr($where,0,-5);
+				$sql=' SELECT * FROM '.$this->table.' WHERE '.$where;
+				$this->connect()->exec($sql);
+			}
+		}
+
 		public function delByParams(array $columns, array $values){
 			if(count($columns) == count($values)){
 				$where='';
@@ -98,6 +110,11 @@
 
 		public function getCount(){
 			$stmt=$this->connect()->query(" SELECT COUNT(*) as count FROM $this->table ");
+			return $results = $stmt->fetch(PDO::FETCH_ASSOC);
+		}
+
+		public function getSumByParams(string $column, string $groupBy){
+			$stmt=$this->connect()->query(" SELECT $groupBy, sum($column) FROM $this->table GROUP BY $groupBy ");
 			return $results = $stmt->fetch(PDO::FETCH_ASSOC);
 		}
 

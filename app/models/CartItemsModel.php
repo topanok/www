@@ -1,7 +1,7 @@
 <?php
 	namespace App\Models;
 
-	class CartModel{
+	class CartItemsModel{
 		private $columns=[];
 
 		public function setData(array $columns){
