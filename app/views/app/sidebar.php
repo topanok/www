@@ -74,7 +74,7 @@
 						<!-- filter-by start -->
 						<div class="accordion_one">
 							<h4><a class="accordion-trigger" data-toggle="collapse" href="#divone">Color</a></h4>
-							<div id="divone" class="collapse in">
+							<div id="divone" class="collapse">
 								<div class="filter-menu">
 									<ul>
 										<li><a href="#">Black (2)</a></li>
@@ -89,7 +89,7 @@
 								</div>
 							</div>
 							<h4><a class="accordion-trigger" data-toggle="collapse" href="#div2">manufacture</a></h4>
-							<div id="div2" class="collapse in">
+							<div id="div2" class="collapse">
 								<div class="filter-menu">
 									<ul>
 										<li><a href="#">Chanel (2)</a></li>
@@ -103,7 +103,7 @@
 								</div>
 							</div>
 							<h4><a class="accordion-trigger" data-toggle="collapse" href="#div3">Size</a></h4>
-							<div id="div3" class="collapse in">
+							<div id="div3" class="collapse">
 								<div class="filter-menu">
 									<ul>
 										<li><a href="#">L (1)</a></li>

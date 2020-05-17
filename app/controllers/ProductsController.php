@@ -12,6 +12,7 @@
 
 		public function see($id, $page){
 			if (!isset($_SESSION['login'])){
+				$_SESSION['auth']=false;
 				$_SESSION['login']=$_SERVER['REMOTE_ADDR'];
 			}
 			$data=[];

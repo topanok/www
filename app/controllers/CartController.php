@@ -35,6 +35,7 @@
 							if(isset($post['update'])){
 								$dataItems['id']=$item->getId();
 								$dataItems['count']=$countToCart;
+								$dataItems['sum']=$productSum;
 							}
 						}
 					}

@@ -32,6 +32,7 @@
 															<th>Телефон</th>
 															<th>Email</th>
 															<th>Логін</th>
+															<th>Привілеї</th>
 															<th>Блок</th>
 															<th>Видалити</th>
 															<th>Заблокувати</th>
@@ -44,6 +45,7 @@
 															<td><?=$user->getPhone()?></td>
 															<td><?=$user->getEmail()?></td>
 															<td><?=$user->getLogin()?></td>
+															<td><?=$user->getPrivileges()?></td>
 															<td><?=$user->getBlock()?></td>
 															<td>
 																<a href="http://localhost/user/delete/<?=$user->getId()?>" >видалити</a>

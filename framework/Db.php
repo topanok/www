@@ -35,12 +35,13 @@
 		
 		private function update(array $data){
 			$id=(int) $data['id'];
+			unset($data['id']);
 			$dataDb=$this->getById($id);
 			if(!empty($dataDb)){
-				$columns=array_slice(array_keys($data), 1);
+				$columns=array_keys($data);
 				$columns=implode('=?,',$columns);
 				$columns .= '=?';
-				$values=array_slice(array_values($data), 1);
+				$values=array_values($data);
 				$values[]=$id;
 				$stripValues=[];
 				foreach($values as $elem){

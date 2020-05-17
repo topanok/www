@@ -27,6 +27,29 @@
 			$this->render('app/views/admin/users.php',$data);
 		}
 
+		public function account(){
+			if (!isset($_SESSION['login'])){
+				$_SESSION['auth']=false;
+				$_SESSION['login']=$_SERVER['REMOTE_ADDR'];
+			}
+			$objUser= new UsersModelRepository;
+			$user=$objUser->getItemByParam('login', $_SESSION['login']);
+			if(!empty($user)){
+				$privileges=$user[0]->getPrivileges();
+			}
+			if ($_SESSION['auth']){
+				if(isset($privileges)&&$privileges=='admin'){
+					$this->render('app/views/admin/adminRoom.php', null);
+				}
+				else{
+					$this->render('app/views/user/account.php', null);
+				}
+			}
+			else{
+				header("refresh: 0; url = http://localhost/user/register");
+			}
+		}
+
 		public function register(){
 			$form = new FormBuilder;
 			//$form->setEncode('multipart/form-data');
@@ -40,7 +63,7 @@
 			$form->addField('tel',['name'=>'phone','class'=>'form-control','placeholder'=>'Телефон', 'pattern'=>'[0-9]{3}-[0-9]{3}-[0-9]{2}-[0-9]{2}']);
 			$form->addField('email',['name'=>'email','class'=>'form-control','placeholder'=>'Email']);
 			$form->addField('text',['name'=>'login','class'=>'form-control','placeholder'=>'Login']);
-			$form->addField('password',['minlength'=>'8','maxlength'=>'25', 'name'=>'password','class'=>'form-control', 'placeholder'=>'Пароль']);
+			$form->addField('password',['minlength'=>'6','maxlength'=>'25', 'name'=>'password','class'=>'form-control', 'placeholder'=>'Пароль']);
 			//$form->addField('file',['name'=>'myFile','class'=>'form-control']);
 			$form->addField('submit',['name'=>'submit', 'value' =>'Зареєструватись','class'=>'btn btn-primary btn-lg btn-block']);
 
@@ -85,6 +108,7 @@
 				unset($_SESSION['values']['form']['reg']);
 				$data['password']=password_hash($data['password'], PASSWORD_DEFAULT);
 				$db->save($user->set($data));
+				$_SESSION['login']=$data['login'];
 				$mail=new Mailer;
 				$mail->sendMail($data['email'], 'Завершення реєстрації', 'Для завершення реєстрації перейдіть по <a href="http://localhost/user/confirmemail/'.$data['login'].'">посиланню</a>');
 				echo '<h3>Вітаємо! Щоб завершити реєстрацію-перейдіть по посиланню, яке відправлено Вам на email .</h3>';
@@ -152,6 +176,7 @@
 			}
 			elseif(password_verify ( $data['password'] , $userIsset[0]['password'] ) ) {
 				$_SESSION['login']=$data['login'];
+				$_SESSION['auth']=true;
 				unset($_SESSION['errors']['form']['login']);
 				unset($_SESSION['values']['form']['login']);
 				echo '<h2>Вітаємо '.$_SESSION['login'].'!';
@@ -182,6 +207,7 @@
 		}
 
 		public function logout(){
+			$_SESSION['auth']=false;
 			unset($_SESSION['login']);
 			unset($_SESSION['refferer']);
 			unset($_SESSION['errors']['form']['reg']);

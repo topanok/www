@@ -31,49 +31,50 @@
 										<div class="panel panel_default">
 											<div class="panel-heading">
 												<h4 class="panel-title">
-													<a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-options">Step 1: Варіанти оформлення замовлення  <i class="fa fa-caret-down"></i> </a>
+													<a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-options">Крок 1: Варіанти оформлення замовлення  <i class="fa fa-caret-down"></i> </a>
 												</h4>
 											</div>
 											<div id="checkout-options" class="collapse in">
 												<div class="panel-body">
+
+													<?php if(!$_SESSION['auth']){ ?>
 													<div class="row">
 														<div class="col-md-6 col-xs-12">
 															<div class="checkout-collapse">
-																<h3 class="title-group-3 gfont-1">New Customer</h3>
-																<p>Checkout Options</p>
+																<h3 class="title-group-3 gfont-1">Новий покупець</h3>
 																<div class="radio">
 																	<label>
 																		<input type="radio" value="register" name="account" checked/>
-																		Register Account
+																		Створити аккаунт
 																	</label>
 																</div>
 																<div class="radio">
 																	<label>
 																		<input type="radio" value="guest" name="account"/>
-																		Guest Checkout
+																		Продовжити як Гість
 																	</label>
 																</div>
-																<p>By creating an account you will be able to shop faster, be up to date on an order's status, and keep track of the orders you have previously made.</p>
-																<input type="submit" class="btn btn-primary" value="Continue"/>
+																<p>Створивши обліковий запис, ви зможете здійснювати покупки швидше, бути в курсі статусу замовлення та стежити за раніше зробленими замовленнями.</p>
+																<input type="submit" class="btn btn-primary" value="Продовжити"/>
 															</div>
 														</div>
 														<div class="col-md-6 col-xs-12">
 															<div class="checkout-collapse">
-																<h3 class="title-group-3 gfont-1">Returning Customer</h3>
-																<p>I am a returning customer</p>
+																<h3 class="title-group-3 gfont-1">Зареєстрований покупець</h3>
 																<div class="form-group">
 																	<label>E-mail</label>
 																	<input type="email" class="form-control" name="email" />
 																</div>
 																<div class="form-group">
-																	<label>Password</label>
+																	<label>Пароль</label>
 																	<input type="password" class="form-control" />
-																	<a href="#">Forgotten Password</a>
+																	<a href="#">Забули пароль?</a>
 																</div>
-																<input type="submit" class="btn btn-primary" value="Login"/>
+																<input type="submit" class="btn btn-primary" value="Ввійти"/>
 															</div>
 														</div>
 													</div>
+													<?php } else echo 'Перейдіть до кроку 2'; ?>
 												</div>
 											</div>
 										</div>
@@ -82,7 +83,7 @@
 										<div class="panel panel_default">
 											<div class="panel-heading">
 												<h4 class="panel-title">
-													<a class="accordion-trigger  collapsed" data-toggle="collapse" data-parent="#accordion" href="#payment-address">Step 2: Аккаунт і платіжні дані <i class="fa fa-caret-down"></i> </a>
+													<a class="accordion-trigger  collapsed" data-toggle="collapse" data-parent="#accordion" href="#payment-address">Крок 2: Аккаунт і дані для доставки <i class="fa fa-caret-down"></i> </a>
 												</h4>
 											</div>
 											<div id="payment-address" class="collapse">
@@ -90,85 +91,64 @@
 													<div class="row">
 														<div class="col-md-6 col-xs-12">
 															<fieldset id="account">
-																<legend>Your Personal Details</legend>
+																<legend>Персональні дані</legend>
 																<div class="form-group">
-																	<label><sup>*</sup>First Name</label>
-																	<input type="text" class="form-control" placeholder="First Name" name="firstname" />
+																	<label><sup>*</sup>Імя</label>
+																	<input type="text" class="form-control" placeholder="Імя" name="firstname" />
 																</div>
 																<div class="form-group">
-																	<label><sup>*</sup>Last Name</label>
-																	<input type="text" class="form-control" placeholder="Last Name" name="lastname" />
+																	<label><sup>*</sup>Фамілія</label>
+																	<input type="text" class="form-control" placeholder="Фамілія" name="lastname" />
 																</div>
 																<div class="form-group">
 																	<label><sup>*</sup>E-mail</label>
 																	<input type="email" class="form-control" placeholder="E-mail" name="email" />
 																</div>
 																<div class="form-group">
-																	<label><sup>*</sup>Telephone</label>
-																	<input type="text" class="form-control" placeholder="Telephone" name="telephone" />
-																</div>
-																<div class="form-group">
-																	<label>Fax</label>
-																	<input type="text" class="form-control" placeholder="Fax" name="fax" />
-																</div>
-															</fieldset>
-															<fieldset>
-																<legend>Your Password</legend>
-																<div class="form-group">
-																	<label><sup>*</sup>Password</label>
-																	<input type="password" class="form-control" placeholder="Password" name="password" />
-																</div>
-																<div class="form-group">
-																	<label><sup>*</sup>Password Confirm</label>
-																	<input type="password" class="form-control" placeholder="Password Confirm" name="confirm" />
-																</div>
+																	<label><sup>*</sup>Телефон</label>
+																	<input type="text" class="form-control" placeholder="Телефон" name="telephone" />
+																</di>
 															</fieldset>
 														</div>
 														<div class="col-md-6 col-xs-12">
 															<fieldset id="address">
-																<legend>Your Address</legend>
+																<legend>Адреса</legend>
 																<div class="form-group">
-																	<label>Company</label>
-																	<input type="text" class="form-control" placeholder="Company" name="company" />
+																	<label><sup>*</sup>Адреса</label>
+																	<input type="text" class="form-control" placeholder="Вулиця і номер будинку" name="Address_1" />
 																</div>
 																<div class="form-group">
-																	<label><sup>*</sup>Address 1</label>
-																	<input type="text" class="form-control" placeholder="Address 1" name="Address_1" />
+																	<label><sup>*</sup>Населений пункт</label>
+																	<input type="text" class="form-control" placeholder="Населений пункт" name="city" />
 																</div>
 																<div class="form-group">
-																	<label>Address 2</label>
-																	<input type="text" class="form-control" placeholder="Address 2" name="Address_2" />
-																</div>
-																<div class="form-group">
-																	<label><sup>*</sup>City</label>
-																	<input type="text" class="form-control" placeholder="City" name="city" />
-																</div>
-																<div class="form-group">
-																	<label><sup>*</sup>Post Code</label>
-																	<input type="text" class="form-control" placeholder="Post Code" name="postcode" />
-																</div>
-																<div class="form-group">
-																	<label><sup>*</sup>Country</label>
+																	<label><sup>*</sup>Область</label>
 																	<select class="form-control">
-																		<option> --- Please Select --- </option>
-																		<option> Bangladesh </option>
-																		<option> United States </option>
-																		<option> United Kingdom </option>
-																		<option> Canada </option>
-																		<option> Malaysia </option>
-																		<option> United Arab Emirates </option>
-																	</select>
-																</div>
-																<div class="form-group">
-																	<label><sup>*</sup>Region / State</label>
-																	<select class="form-control">
-																		<option> --- Please Select --- </option>
-																		<option> Aberdeen </option>
-																		<option> Bedfordshire </option>
-																		<option> Caerphilly </option>
-																		<option> Denbighshire </option>
-																		<option> East Ayrshire </option>
-																		<option> Falkirk </option>
+																		<option> Вінницька </option>
+																		<option> Волинська </option>
+																		<option> Дніпропетровська </option>
+																		<option> Донецька </option>
+																		<option> Житомирська </option>
+																		<option> Закарпатська </option>
+																		<option> Запорізька </option>
+																		<option> Івано-Франківська </option>
+																		<option> Київська </option>
+																		<option> Кіровоградська </option>
+																		<option> Луганська </option>
+																		<option> Львівська </option>
+																		<option> Миколаївська </option>
+																		<option> Одеська </option>
+																		<option> Полтавська </option>
+																		<option> Рівненська </option>
+																		<option> Сумська </option>
+																		<option> Тернопільська </option>
+																		<option> Харківська </option>
+																		<option> Херсонська </option>
+																		<option> Хмельницька </option>
+																		<option> Черкаська </option>
+																		<option> Чернівецька </option>
+																		<option> Чернігівська </option>
+																		<option> АР Крим </option>
 																	</select>
 																</div>
 															</fieldset>
@@ -179,19 +159,13 @@
 															<div class="checkbox">
 																<label>
 																	<input type="checkbox" name="newsletter" />
-																	 I wish to subscribe to the Malias1 newsletter.
-																</label>
-															</div>
-															<div class="checkbox">
-																<label>
-																	<input type="checkbox" name="shipping_address" checked/>
-																	 My delivery and billing addresses are the same.
+																	 Отримувати новини від Best Shop
 																</label>
 															</div>
 															<div class="buttons clearfix">
 																<div class="pull-right">
-																	I have read and agree to the 
-																	<a href="#"><b>Privacy Policy</b></a>
+																	Я прочитав і погоджуюсь з  
+																	<a href="#"><b>політикою конфіденційності</b></a>
 																	<input type="checkbox" name="agree" />
 																	<input type="button" class="btn btn-primary" value="Continue" />
 																</div>
@@ -202,154 +176,52 @@
 											</div>
 										</div>
 										<!-- End Payment-Address -->
-										<!-- Start 3 shipping-Address -->
+										<!-- Start 3 shipping-Method -->
 										<div class="panel panel_default">
 											<div class="panel-heading">
 												<h4 class="panel-title">
-													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#shipping-address">Step 3: Delivery Details <i class="fa fa-caret-down"></i> </a>
-												</h4>
-											</div>
-											<div id="shipping-address" class="collapse">
-												<div class="panel-body">
-													<div class="form-horizontal">
-														<div class="form-group">
-															<label class="col-sm-2 control-label"><sup>*</sup>First Name</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control" placeholder="First Name" name="firstname" />
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-2 control-label"><sup>*</sup>Last Name</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control" placeholder="Last Name" name="lastname" />
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-2 control-label">Company</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control" placeholder="Company" name="company" />
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-2 control-label"><sup>*</sup>Address 1</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control" placeholder="Address 1" name="address_1" />
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-2 control-label">Address 2</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control" placeholder="Address 2" name="address_2" />
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-2 control-label"><sup>*</sup>City</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control" placeholder="City" name="city" />
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-2 control-label"><sup>*</sup>Post Code</label>
-															<div class="col-sm-10">
-																<input type="text" class="form-control" placeholder="Post Code" name="postcode" />
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-2 control-label"><sup>*</sup>Country</label>
-															<div class="col-sm-10">
-																<select class="form-control">
-																	<option> --- Please Select --- </option>
-																	<option> Bangladesh </option>
-																	<option> United States </option>
-																	<option> United Kingdom </option>
-																	<option> Canada </option>
-																	<option> Malaysia </option>
-																	<option> United Arab Emirates </option>
-																</select>
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-2 control-label"><sup>*</sup>Region / State</label>
-															<div class="col-sm-10">
-																<select class="form-control">
-																	<option> --- Please Select --- </option>
-																	<option> Dhaka </option>
-																	<option> New York </option>
-																	<option> London </option>
-																	<option> Canada </option>
-																	<option> Malaysia </option>
-																	<option> United Arab Emirates </option>
-																</select>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- End shipping-Address -->
-										<!-- Start 4 shipping-Method -->
-										<div class="panel panel_default">
-											<div class="panel-heading">
-												<h4 class="panel-title">
-													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#shipping-method">Step 4: Delivery Method <i class="fa fa-caret-down"></i> </a>
+													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#shipping-method">Крок 3: Спосіб доставки та оплати <i class="fa fa-caret-down"></i> </a>
 												</h4>
 											</div>
 											<div id="shipping-method" class="collapse">
 												<div class="panel-body">
-													<p>Please select the preferred shipping method to use on this order.</p>
-													<p><strong>Flat Rate</strong></p>
-													<div class="radio">
-														<label>
-															<input type="radio" name="shipping_method" checked/>
-															Flat Shipping Rate - $5.00
-														</label>
-													</div>
-													<p><strong>Add Comments About Your Order</strong></p>
-													<p>
-														<textarea class="form-control" name="comment" rows="8"></textarea>
-													</p>
-													<div class="buttons pull-right">
-														<input type="button" class="btn btn-primary" value="Continue" />
+													<div class="row">
+														<div class="col-md-6 col-xs-12">
+															<fieldset id="shpping">
+																<legend>Компанія</legend>
+																<div class="form-group">
+																	<select class="form-control">
+																		<option> Нова Пошта </option>
+																		<option> Delivery </option>
+																		<option> InTime </option>
+																		<option> УкрПошта </option>
+																		<
+																	</select>
+																</div>
+															</fieldset>
+														</div>
+														<div class="col-md-6 col-xs-12">
+															<fieldset id="payment">
+																<legend>Спосіб оплати</legend>
+																<div class="form-group">
+																	<select class="form-control">
+																		<option> Privat24 </option>
+																		<option> Visa/MasterCard </option>
+																		<option> Накладений платіж </option>
+																	</select>
+																</div>
+															</fieldset>
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 										<!-- End shipping-Method -->
-										<!-- Start 5 Payment-Method -->
-										<div class="panel panel_default">
-											<div class="panel-heading">
-												<h4 class="panel-title">
-													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#payment-method">Step 5: Payment Method  <i class="fa fa-caret-down"></i> </a>
-												</h4>
-											</div>
-											<div id="payment-method" class="collapse">
-												<div class="panel-body">
-													<p>Please select the preferred payment method to use on this order.</p>
-													<div class="radio">
-														<label>
-															<input type="radio" name="payment_method" checked/>
-															Cash On Delivery      
-														</label>
-													</div>
-													<p><strong>Add Comments About Your Order</strong></p>
-													<p>
-														<textarea class="form-control" name="comment" rows="8"></textarea>
-													</p>
-													<div class="buttons pull-right">
-														I have read and agree to the 
-														<a href="#"><b>Terms & Conditions</b></a>
-														<input type="checkbox" name="agree" />
-														<input type="button" class="btn btn-primary" value="Continue" />
-													</div>
-												</div>
-											</div>
-										</div>
-										<!-- End Payment-Method -->
 										<!-- Start 6 Checkout-Confirm -->
 										<div class="panel panel_default">
 											<div class="panel-heading">
 												<h4 class="panel-title">
-													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#checkout-confirm">Step 6: Confirm Order <i class="fa fa-caret-down"></i> </a>
+													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#checkout-confirm">Крок 4: Підтвердити замовлення <i class="fa fa-caret-down"></i> </a>
 												</h4>
 											</div>
 											<div id="checkout-confirm" class="collapse">
@@ -359,7 +231,6 @@
 															<thead>
 																<tr>
 																	<td class="text-left">Product Name</td>
-																	<td class="text-left">Model</td>
 																	<td class="text-left">Quantity</td>
 																	<td class="text-left">Unit Price</td>
 																	<td class="text-left">Total</td>
@@ -370,7 +241,6 @@
 																	<td class="text-left">
 																		<a href="#">More-Or-Less</a>
 																	</td>
-																	<td class="text-left">Product 14</td>
 																	<td class="text-left">2</td>
 																	<td class="text-left">$100.00</td>
 																	<td class="text-left">$200.00</td>
@@ -379,7 +249,6 @@
 																	<td class="text-left">
 																		<a href="#">Aliquam Consequat</a>
 																	</td>
-																	<td class="text-left">Product 21</td>
 																	<td class="text-left">2</td>
 																	<td class="text-left">$45.00</td>
 																	<td class="text-left">$90.00</td>
@@ -387,19 +256,19 @@
 															</tbody>
 															<tfoot>
 																<tr>
-																	<td class="text-right" colspan="4">
+																	<td class="text-right" colspan="3">
 																		<strong>Sub-Total:</strong>
 																	</td>
 																	<td class="text-right">$290.00</td>
 																</tr>
 																<tr>
-																	<td class="text-right" colspan="4">
+																	<td class="text-right" colspan="3">
 																		<strong>Flat Shipping Rate:</strong>
 																	</td>
 																	<td class="text-right">$5.00</td>
 																</tr>
 																<tr>
-																	<td class="text-right" colspan="4">
+																	<td class="text-right" colspan="3">
 																		<strong>Flat Shipping Rate:</strong>
 																	</td>
 																	<td class="text-right">$5.00</td>

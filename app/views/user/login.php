@@ -18,6 +18,7 @@
 						</div>
 						<div class="login">
 						<?php echo $data; ?>
+						<a href="#">Забули пароль?</a>
 						</div>
 					</div>
 				</div>

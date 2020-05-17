@@ -7,8 +7,11 @@
 	use App\Models\ProductModelRepository;
 
 	class CheckoutController extends FrontController{
-		public function see(){
+		public function order(){
 			$this->render('app/views/app/checkout.php', null);
+		}
+		public function changeOrder(){
+
 		}
 	}
 ?>

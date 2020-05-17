@@ -86,11 +86,16 @@
 							<!-- Start Top-Link -->
 							<div class="top-link">
 								<ul class="link">
+									<?php if(isset($_SESSION['auth']) && $_SESSION['auth']==false): ?>
 									<li><a href="/user/login"><i class="fa fa-key fa-fw"></i>Вхід</a></li>
+									<li><a href="/user/register"><i class="fa fa-unlock-alt"></i>Реєстрація</a></li>
+									<?php endif; ?>
 									<li><a href="/user/account"><i class="fa fa-user"></i>Аккаунт</a></li>
 									<li><a href="wishlist.html"><i class="fa fa-heart"></i>Обране</a></li>
-									<li><a href="/checkout/see"><i class="fa fa-share"></i>Оформити замовлення</a></li>
-									<li><a href="/user/register"><i class="fa fa-unlock-alt"></i>Реєстрація</a></li>
+									<li><a href="/checkout/order"><i class="fa fa-share"></i>Оформити замовлення</a></li>
+									<?php if(isset($_SESSION['auth']) && $_SESSION['auth']==true): ?>
+									<li><a href="/user/logout"><i class="fa fa-sign-out"></i>Вихід</a></li>
+								<?php endif; ?>
 								</ul>
 							</div>
 							<!-- End Top-Link -->

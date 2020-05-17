@@ -41,6 +41,17 @@
 			}
 			return $itemsObj;
 		}
+		public function getItemsByParams(array $columns , array $values){
+			$objDb=$this->getObjDb($this->table);
+			$items=$objDb->getByParams($columns , $values);
+			$itemsObj=[];
+			if(!empty($items)){
+				foreach ($items as $value) {
+				$itemsObj[]=$this->set($value);
+				}
+			}
+			return $itemsObj;
+		}
 		
 	}
 ?>

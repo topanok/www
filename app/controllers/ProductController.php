@@ -82,9 +82,6 @@
 		}
 
 		public function see(int $page){
-			if (!isset($_SESSION['login'])){
-				$_SESSION['login']=$_SERVER['REMOTE_ADDR'];
-			}
 			$_SESSION['page']=$page;
 			$data=[];
 			$data['page']=$page;
@@ -108,6 +105,10 @@
 		}
 
 		public function details($id){
+			if (!isset($_SESSION['login'])){
+				$_SESSION['auth']=false;
+				$_SESSION['login']=$_SERVER['REMOTE_ADDR'];
+			}
 			$prodModel=new ProductModelRepository;
 			$objDb=$prodModel->getObjDb($prodModel->getTable());
 			$data['product']=$objDb->getById($id);
