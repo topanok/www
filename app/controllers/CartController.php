@@ -54,6 +54,20 @@
 					//Вертаємо для Ajax загальну сумму
 					echo '₴'.$dataСart['total_sum'];
 				}
+				else{
+					$dataСart['id']=$cart[0]->getId();
+					$dataСart['count_all']=$countToCart;
+					$dataСart['total_sum']=$productSum;
+					$objDb=new Db($objCart->getTable());
+					$objDb->save($objCart->set($dataСart));
+					$dataItems['cart_id']=$cart[0]->getId();
+					$dataItems['product_id']=$prodId;
+					$dataItems['count']=$countToCart;
+					$dataItems['sum']=$productSum;
+					$objDb=new Db($objCartItems->getTable());
+					$objDb->save($objCartItems->set($dataItems));
+					echo '₴'.$dataItems['sum'];
+				}
 			}
 			else{
 				//пишемо нові записи в cart і cartitems
@@ -82,20 +96,20 @@
 			$arrValues=[0=>$cartId, $prodId];
 			$objDb=new Db($objCartItems->getTable());
 			$objDb->delByParams($arrClolumns, $arrValues);
-			//перезаписуєм або видаляєм cart
+			//перезаписуєм cart
 			$cartItems=$objCartItems->getItemsByParam('cart_id', $cartId);
 			if(!empty($cartItems)){
-				$dataСart['id']=$cartId;
-				$dataСart['user_login']=$_SESSION['login'];
 				$dataСart['count_all']=$objCartItems->getTotalCount('count', 'cart_id');
 				$dataСart['total_sum']=$objCartItems->getTotalSum('sum', 'cart_id');
-				$objDb=new Db($objCart->getTable());
-				$objDb->save($objCart->set($dataСart));
 			}
 			else{
-				$objDb=new Db($objCart->getTable());
-				$objDb->delById((int) $cartId);
+				$dataСart['count_all']=0;
+				$dataСart['total_sum']=0;
 			}
+			$dataСart['id']=$cartId;
+			$dataСart['user_login']=$_SESSION['login'];
+			$objDb=new Db($objCart->getTable());
+			$objDb->save($objCart->set($dataСart));
 		}
 		public function see(){
 			if (!isset($_SESSION['login'])){

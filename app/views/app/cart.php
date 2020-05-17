@@ -137,7 +137,12 @@
 										<a href="/products/see/0/1" class="btn btn-default pull-left">За покупками</a>
 										<a href="/checkout/order" id="checkout" class="btn btn-primary pull-right">Оформити замовлення</a>
 									</div>
-									<?php } else echo '<h2>Ваш кошик порожній</h2>'; ?>
+									<?php } else echo 
+									'<h2>Ваш кошик порожній</h2>
+									<p><strong>Але це легко виправити!</strong></p>
+									<div class="shopping-checkout">
+										<a href="/products/see/0/1" class="btn btn-default pull-left">Виправити це!</a>
+									</div>'; ?>
 								</div>
 							</div>
 						</div>
