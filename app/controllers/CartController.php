@@ -41,12 +41,9 @@
 					}
 					$dataItems['cart_id']=$cart[0]->getId();
 					$dataItems['product_id']=$prodId;
-					//var_dump($dataItems['count']);             <-------В $dataItems['count'] значення те, що тре
 					$objDb=new Db($objCartItems->getTable());
-					//var_dump($objCartItems->set($dataItems));  <-------В об'єкті CartModel тоже то шо тре , а в базу не пише , а $dataItems['sum'] пише... 
 					$objDb->save($objCartItems->set($dataItems));
 					//Апдейтим cart
-					$dataСart['user_login']=$_SESSION['login'];
 					$dataСart['count_all']=$objCartItems->getTotalCount('count', 'cart_id');
 					$dataСart['total_sum']=$objCartItems->getTotalSum('sum', 'cart_id');
 					$objDb=new Db($objCart->getTable());
@@ -55,17 +52,20 @@
 					echo '₴'.$dataСart['total_sum'];
 				}
 				else{
+					//апдейтим cart 
 					$dataСart['id']=$cart[0]->getId();
 					$dataСart['count_all']=$countToCart;
 					$dataСart['total_sum']=$productSum;
 					$objDb=new Db($objCart->getTable());
 					$objDb->save($objCart->set($dataСart));
+					//пишемо новий запис в cartitems
 					$dataItems['cart_id']=$cart[0]->getId();
 					$dataItems['product_id']=$prodId;
 					$dataItems['count']=$countToCart;
 					$dataItems['sum']=$productSum;
 					$objDb=new Db($objCartItems->getTable());
 					$objDb->save($objCartItems->set($dataItems));
+					//Вертаємо для Ajax загальну сумму
 					echo '₴'.$dataItems['sum'];
 				}
 			}
