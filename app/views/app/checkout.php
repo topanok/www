@@ -37,7 +37,7 @@
 											<div id="checkout-options" class="collapse in">
 												<div class="panel-body">
 
-													<?php if(!$_SESSION['auth']){ ?>
+													<?php var_dump($data); if(!$_SESSION['auth']){ ?>
 													<div class="row">
 														<div class="col-md-6 col-xs-12">
 															<div class="checkout-collapse">

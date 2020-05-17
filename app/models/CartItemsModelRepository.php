@@ -32,17 +32,11 @@
 			}
 			return $itemsObj;
 		}
-		public function getTotalSum(string $column, string $groupBy){
+		public function getColumnSum(string $SumColumn, string $WhereColumn, $WhereColumnVal){
 			$objDb=$this->getObjDb($this->table);
-			$result=$objDb->getSumByParams($column, $groupBy);
-			$totalSum=$result["sum(sum)"];
+			$result=$objDb->getSumByParams($SumColumn, $WhereColumn, $WhereColumnVal);
+			$totalSum=$result['sum('.$SumColumn.')'];
 			return $totalSum;
-		}
-		public function getTotalCount(string $column, string $groupBy){
-			$objDb=$this->getObjDb($this->table);
-			$result=$objDb->getSumByParams($column, $groupBy);
-			$totalCount=$result["sum(count)"];
-			return $totalCount;
 		}
 	}
 ?>

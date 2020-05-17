@@ -79,7 +79,8 @@
 				}
 				$where=substr($where,0,-5);
 				$sql=' SELECT * FROM '.$this->table.' WHERE '.$where;
-				$this->connect()->exec($sql);
+				$result=$this->connect()->query($sql);
+				return $result->fetchall(PDO::FETCH_ASSOC);
 			}
 		}
 
@@ -114,8 +115,8 @@
 			return $results = $stmt->fetch(PDO::FETCH_ASSOC);
 		}
 
-		public function getSumByParams(string $column, string $groupBy){
-			$stmt=$this->connect()->query(" SELECT $groupBy, sum($column) FROM $this->table GROUP BY $groupBy ");
+		public function getSumByParams(string $sumColumn, string $WhereColumn, $WhereColumnVal){
+			$stmt=$this->connect()->query(" SELECT sum($sumColumn) FROM $this->table WHERE $WhereColumn=$WhereColumnVal ");
 			return $results = $stmt->fetch(PDO::FETCH_ASSOC);
 		}
 
