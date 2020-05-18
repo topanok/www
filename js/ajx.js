@@ -65,4 +65,10 @@
             }
 	    });
     }
+    function checkoutRadio(radio){
+    	var value = radio.value;
+    	if(value == 'register'){
+		    window.location.href='http://localhost/user/register';
+    	}
+    }
 //});

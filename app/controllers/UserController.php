@@ -7,6 +7,7 @@
 	use Framework\Paginator;
 	use Framework\Filesystem\Api\FileUploader;
 	use App\Models\UsersModelRepository;
+	use App\Models\CartModelRepository;
 	class UserController extends FrontController{
 		private $page;
 
@@ -109,9 +110,17 @@
 				$data['password']=password_hash($data['password'], PASSWORD_DEFAULT);
 				$db->save($user->set($data));
 				$_SESSION['login']=$data['login'];
+				$_SESSION['auth']=true;
 				$mail=new Mailer;
 				$mail->sendMail($data['email'], 'Завершення реєстрації', 'Для завершення реєстрації перейдіть по <a href="http://localhost/user/confirmemail/'.$data['login'].'">посиланню</a>');
 				echo '<h3>Вітаємо! Щоб завершити реєстрацію-перейдіть по посиланню, яке відправлено Вам на email .</h3>';
+				if(isset($_SESSION['cartId'])){
+					$objCart=new CartModelRepository;
+					$dataCart['id']=$_SESSION['cartId'];
+					$dataCart['user_login']=$_SESSION['login'];
+					$objDb=new Db($objCart->getTable());
+					$objDb->save($objCart->set($dataCart));
+				}
 				header('refresh: 3; url = '.$_SESSION['refferer']);
 			}
 			if (!empty($_SESSION['errors']['form']['reg'])) {
@@ -210,6 +219,7 @@
 			$_SESSION['auth']=false;
 			unset($_SESSION['login']);
 			unset($_SESSION['refferer']);
+			unset($_SESSION['СartId']);
 			unset($_SESSION['errors']['form']['reg']);
 			unset($_SESSION['errors']['form']['login']);
 			unset($_SESSION['values']['form']['reg']);

@@ -61,27 +61,7 @@
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							<div class="top-menu">
-								<!-- Start Language -->
-								<ul class="language">
-									<li><a href="#"><img class="right-5" src="/img/flags/gb.png" alt="#">English<i class="fa fa-caret-down left-5"></i></a>
-										<ul>
-											<li><a href="#"><img class="right-5" src="/img/flags/fr.png" alt="#">French</a></li>
-											<li><a href="#"><img class="right-5" src="/img/flags/gb.png" alt="#">English</a></li>
-										</ul>
-									</li>
-								</ul>
-								<!-- End Language -->
-								<!-- Start Currency -->
-								<ul class="currency">
-									<li><a href="#"><strong>₴</strong>ГРН<i class="fa fa-caret-down left-5"></i></a>
-										<ul>
-											<li><a href="#">₴ ГРН</a></li>
-											<li><a href="#">$ EUR</a></li>
-										</ul>
-									</li>
-								</ul>
-								<!-- End Currency -->
-								<p class="welcome-msg">Раді Вам <?php if($_SESSION['login']!=$_SERVER['REMOTE_ADDR']) echo $_SESSION['login']; ?>!</p>
+								<p class="welcome-msg">Раді Вам <strong><?php if($_SESSION['login']!=$_SERVER['REMOTE_ADDR']) echo $_SESSION['login']; ?>!</strong></p>
 							</div>
 							<!-- Start Top-Link -->
 							<div class="top-link">
@@ -223,29 +203,24 @@
 							<div class="mainmenu">
 								<nav>
 									<ul>
-										<li><a href="index.html">Головна</a>
-											<ul>
-												<li><a href="index.html">Home Versions 1</a></li>
-												<li><a href="index-2.html">Home Versions 2</a></li>
-											</ul>
-										</li>
+										<li><a href="index.html">Головна</a></li>
 										<li><a href="about.html">Про нас</a></li>
 										<li class="hot"><a href="shop.html">Популярні продукти</a></li>
 										<li class="new"><a href="shop-list.html">Новинки</a></li>
-										<li><a href="shop.html">Акційні продукти</a></li>
+										<li><a href="shop.html">Акційні</a></li>
 										<li><a href="#">Сторінки</a>
 											<ul>
-												<li><a href="cart.html">Кошик</a></li>
-												<li><a href="checkout.html">Оформити замовлення</a></li>
-												<li><a href="account.html">Реєстрація</a></li>
-												<li><a href="my-account.html">Мій аккаунт</a></li>
-												<li><a href="product-details.html">Деталі продукту</a></li>
-												<li><a href="shop.html">Shop Grid View</a></li>
-												<li><a href="shop-list.html">Shop List View</a></li>
+												<li><a href="/cart/see">Кошик</a></li>
+												<li><a href="/checkout/order">Оформити замовлення</a></li>
+												<li><a href="/user/register">Реєстрація</a></li>
+												<li><a href="/user/account">Мій аккаунт</a></li>
+												<li><a href="shop.html">Популярні</a></li>
+												<li><a href="shop-list.html">Новинки</a></li>
+												<li><a href="shop.html">Акційні</a></li>
 												<li><a href="wishlist.html">Вибране</a></li>
 											</ul>
 										</li>
-										<li><a href="contact.html">Contact Us</a></li>
+										<li><a href="contact.html">Зворотній зв'зок</a></li>
 									</ul>
 								</nav>
 							</div>

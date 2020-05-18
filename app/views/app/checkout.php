@@ -22,68 +22,53 @@
 						<div class="checkout-area">
 							<div class="row">
 								<div class="col-md-12">
+									<?php if(!empty($data['products'])){ ?>
 									<div class="cart-title">
 										<h2 class="entry-title">Деталі замовлення</h2>
 									</div>
 									<!-- Accordion start -->
 									<div class="panel-group" id="accordion">
 										<!-- Start 1 Checkout-options -->
+										<?php if(!$_SESSION['auth']){ ?>
 										<div class="panel panel_default">
 											<div class="panel-heading">
 												<h4 class="panel-title">
-													<a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-options">Крок 1: Варіанти оформлення замовлення  <i class="fa fa-caret-down"></i> </a>
+													<a class="accordion-trigger" data-toggle="collapse" data-parent="#accordion" href="#checkout-options">Варіанти оформлення замовлення  <i class="fa fa-caret-down"></i> </a>
 												</h4>
 											</div>
 											<div id="checkout-options" class="collapse in">
 												<div class="panel-body">
-
-													<?php var_dump($data); if(!$_SESSION['auth']){ ?>
 													<div class="row">
 														<div class="col-md-6 col-xs-12">
 															<div class="checkout-collapse">
 																<h3 class="title-group-3 gfont-1">Новий покупець</h3>
 																<div class="radio">
 																	<label>
-																		<input type="radio" value="register" name="account" checked/>
+																		<input id="register-radio" type="radio" value="register" name="account" onclick="checkoutRadio(this)">
 																		Створити аккаунт
 																	</label>
 																</div>
 																<div class="radio">
 																	<label>
-																		<input type="radio" value="guest" name="account"/>
+																		<input id="guest-radio" type="radio" value="guest" name="guest" >
 																		Продовжити як Гість
 																	</label>
 																</div>
 																<p>Створивши обліковий запис, ви зможете здійснювати покупки швидше, бути в курсі статусу замовлення та стежити за раніше зробленими замовленнями.</p>
-																<input type="submit" class="btn btn-primary" value="Продовжити"/>
-															</div>
-														</div>
-														<div class="col-md-6 col-xs-12">
-															<div class="checkout-collapse">
-																<h3 class="title-group-3 gfont-1">Зареєстрований покупець</h3>
-																<div class="form-group">
-																	<label>E-mail</label>
-																	<input type="email" class="form-control" name="email" />
-																</div>
-																<div class="form-group">
-																	<label>Пароль</label>
-																	<input type="password" class="form-control" />
-																	<a href="#">Забули пароль?</a>
-																</div>
-																<input type="submit" class="btn btn-primary" value="Ввійти"/>
+																
 															</div>
 														</div>
 													</div>
-													<?php } else echo 'Перейдіть до кроку 2'; ?>
 												</div>
 											</div>
 										</div>
+										<?php } ?>
 										<!-- End Checkout-options -->
 										<!-- Start 2 Payment-Address -->
 										<div class="panel panel_default">
 											<div class="panel-heading">
 												<h4 class="panel-title">
-													<a class="accordion-trigger  collapsed" data-toggle="collapse" data-parent="#accordion" href="#payment-address">Крок 2: Аккаунт і дані для доставки <i class="fa fa-caret-down"></i> </a>
+													<a class="accordion-trigger  collapsed" data-toggle="collapse" data-parent="#accordion" href="#payment-address">Аккаунт і дані для доставки <i class="fa fa-caret-down"></i> </a>
 												</h4>
 											</div>
 											<div id="payment-address" class="collapse">
@@ -180,7 +165,7 @@
 										<div class="panel panel_default">
 											<div class="panel-heading">
 												<h4 class="panel-title">
-													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#shipping-method">Крок 3: Спосіб доставки та оплати <i class="fa fa-caret-down"></i> </a>
+													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#shipping-method">Спосіб доставки та оплати <i class="fa fa-caret-down"></i> </a>
 												</h4>
 											</div>
 											<div id="shipping-method" class="collapse">
@@ -221,7 +206,7 @@
 										<div class="panel panel_default">
 											<div class="panel-heading">
 												<h4 class="panel-title">
-													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#checkout-confirm">Крок 4: Підтвердити замовлення <i class="fa fa-caret-down"></i> </a>
+													<a class="accordion-trigger collapsed" data-toggle="collapse" data-parent="#accordion" href="#checkout-confirm">Підтвердити замовлення <i class="fa fa-caret-down"></i> </a>
 												</h4>
 											</div>
 											<div id="checkout-confirm" class="collapse">
@@ -286,6 +271,13 @@
 									</div>
 									<!-- Accordion end -->
 								</div>
+								<?php } else echo 
+									'<h2>Ваш кошик порожній</h2>
+									<p><strong>Але це легко виправити!</strong></p>
+									<div class="shopping-checkout">
+										<a href="/products/see/0/1" class="btn btn-default pull-left">Виправити це!</a>
+									</div>'; 
+								?>
 							</div>
 						</div>
 						<!-- End Shopping-Cart -->

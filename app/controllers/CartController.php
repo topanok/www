@@ -25,6 +25,7 @@
 			if(!empty($cart)){
 				$cartItems=$objCartItems->getItemsByParam('cart_id', $cart[0]->getId());
 				$dataСart['id']=$cart[0]->getId();
+				$_SESSION['СartId']=$dataСart['id'];
 				if(!empty($cartItems)){
 					//Апдейтим або пишем в cartitems
 					$dataItems['count']=$countToCart;
