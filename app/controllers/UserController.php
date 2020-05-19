@@ -47,7 +47,7 @@
 				}
 			}
 			else{
-				header("refresh: 0; url = http://localhost/user/register");
+				header("refresh: 0; url = http://localhost/user/login");
 			}
 		}
 
@@ -189,7 +189,7 @@
 				unset($_SESSION['errors']['form']['login']);
 				unset($_SESSION['values']['form']['login']);
 				echo '<h2>Вітаємо '.$_SESSION['login'].'!';
-				header('refresh: 2; url = '.$_SESSION['refferer']);
+				header('refresh: 1; url = '.$_SESSION['refferer']);
 			}
 			else{
 				$_SESSION['errors']['form']['login']['password']='<pre style="background-color: #F6CEEC">Невірний пароль!</pre>';
@@ -207,10 +207,10 @@
 				$data[0]['confirm']=1;
 				$db->save($user->set($data[0]));
 				$_SESSION['login']=$data[0]['login'];
-				$data= '<p>Ура , ви завершили реєстрацію!</p>
-				<p><a href="http://localhost/cabinet">Перейти</a> у кабінет<br></p>
-				<p><a href="http://localhost/index.php">Перейти</a> на головну</p>
-				<p><a href="http://localhost/user/logout">Вийти</a></p>';
+				$data= '
+				<p><a href="/user/account">Перейти</a> у кабінет<br></p>
+				<p><a href="/index.php">Перейти</a> на головну</p>
+				<p><a href="/user/logout">Вийти</a></p>';
 			}
 			$this->render('app/views/user/confirmEmail.php',$data);
 		}

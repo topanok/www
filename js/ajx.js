@@ -71,4 +71,68 @@
 		    window.location.href='http://localhost/user/register';
     	}
     }
+    function checkName(){
+    	let name=document.getElementById('user-name').value;
+    	name=name.replace(/<[^>]+>/g,'');
+    	if(name.length<2){
+    		$(".error-name").html('<pre style="background-color: pink">Введіть не менше 2-х символів!</pre>');
+    	}
+    	else{
+    		$(".error-name").remove();
+    	}
+    }
+    function checkReview(){
+    	let review=document.getElementById('user-review').value;
+	    	review=review.replace(/<[^>]+>/g,'');
+    		if(review.length<20){
+    			$(".error-review").html('<pre style="background-color: pink">Введіть не менше 20-ти символів!</pre>');
+    		}
+    		else{
+    			$(".error-review").remove();
+    		}
+    }
+    function addReview(prodId){
+    	let name=document.getElementById('user-name').value;
+    	name=name.replace(/<[^>]+>/g,'');
+    	if(name.length<2){
+    		$(".error-name").html('<pre style="background-color: pink">Введіть не менше 2-х символів!</pre>');
+    	}
+    	else{
+	    	let review=document.getElementById('user-review').value;
+	    	review=review.replace(/<[^>]+>/g,'');
+    		if(review.length<20){
+    			$(".error-review").html('<pre style="background-color: pink">Введіть не менше 20-ти символів!</pre>');
+    		}
+    		else{
+	    		let radio=document.getElementsByName('rating');
+	    		for(let i=0; i<radio.length; i++){
+	    			if(radio[i]['checked']==true){
+	    				var rating=radio[i].value;
+	    			}
+	    		}
+	    		if(typeof rating == 'undefined'){
+	    			$(".error-rating").html('<pre style="background-color: pink">Поставте оцінку!</pre>');
+	    		}
+	    		else{
+		    		$.ajax({
+			    	    type: "POST",
+					    url: "http://localhost/product/savereview",
+			    		data: {
+			        		"product_id": prodId,
+			        		"user_name": name,
+			        		"review": review,
+			        		"rating": rating
+			        	},
+			        	success: function(data){
+			        	    $(".review-message").remove();
+			       		    $(".sucess-mesage").html(data);
+			    		},
+			    		error: function(data){
+			    		    console.log(data);
+		        		}
+			    	});
+		    	}
+   			}
+   		}
+    }
 //});

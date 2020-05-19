@@ -2,11 +2,14 @@
 	namespace App\Controllers;
 	use Framework\Controller;
 	use Framework\Db;
+	use Framework\Mailer;
 	use Framework\Request;
 	use Framework\FormBuilder;
 	use Framework\Paginator;
 	use App\Models\ProductModelRepository;
 	use App\Models\CategoryModelRepository;
+	use App\Models\ReviewsModelRepository;
+	use App\Models\UsersModelRepository;
 	use Framework\Filesystem\Api\FileUploader;
 
 	class ProductController extends FrontController{
@@ -81,6 +84,28 @@
 			}
 		}
 
+		public function saveReview(){
+			$request = new Request;
+			$post = $request->getParams();
+			$post['user_ip']=$_SERVER['REMOTE_ADDR'];
+			$columns=['user_ip', 'product_id'];
+			$values=[$post['user_ip'], $post['product_id']];
+			$objRew = new ReviewsModelRepository;
+			$review=$objRew->getItemsByParams($columns , $values);
+			if(empty($review)){
+				$objRew->set($post);
+				$objDb=new Db($objRew->getTable());
+				$objDb->save($objRew->set($post));
+				$objUser=new UsersModelRepository;
+				$admins=$objUser->getItemByParam('privileges' , 'admin');
+				echo'<div class="toch-review-title"><pre style="background-color: #E0F2F7">Ваш відгук незабаром тут з\'явиться!</pre></div>';
+				/*$mail=new Mailer;
+				foreach ($admins as $admin) {
+					$mail->sendMail($admin->getEmail(), 'Новий відгук!', 'Додано новий відгук , перейдіть в адмінку, щоб його опублікувати <a href="http://localhost/user/account">перейти</a>');
+				}*/
+			}
+		}
+
 		public function see(int $page){
 			$_SESSION['page']=$page;
 			$data=[];
@@ -109,9 +134,37 @@
 				$_SESSION['auth']=false;
 				$_SESSION['login']=$_SERVER['REMOTE_ADDR'];
 			}
+			$columns=['user_ip', 'product_id'];
+			$values=[$_SERVER['REMOTE_ADDR'], $id];
+			$objRew = new ReviewsModelRepository;
+			$review=$objRew->getItemsByParams($columns , $values);
+			if(!empty($review)){
+				$data['reviewIsset']=true;
+			}
 			$prodModel=new ProductModelRepository;
 			$objDb=$prodModel->getObjDb($prodModel->getTable());
 			$data['product']=$objDb->getById($id);
+			//data for reviews
+			$objDb = new Db($objRew->getTable());
+			$columns = ['product_id', 'status'];
+			$values = [$id, 1];
+			$data['reviews'] = $objDb->getByParams($columns, $values);
+			if(!empty($data['reviews'])){
+				$ratingSum = 0;
+				foreach ($data['reviews'] as $review) {
+					$ratingSum += $review['rating'];
+				}
+				$data['reviewsCount']=count($data['reviews']);
+				$data['averageRating'] = floor($ratingSum / count($data['reviews']));
+			}else{
+				$data['reviewsCount']=0;
+				$data['averageRating']=0;
+			}
+			if($_SESSION['login'] != $_SERVER['REMOTE_ADDR']){
+				$objUser = new UsersModelRepository;
+				$user = $objUser->getItemByParam('login' , $_SESSION['login']);
+				$data['userName'] = $user[0]->getName();
+			}
 			$this->render('app/views/app/productDetails.php',$data);
 		}
 

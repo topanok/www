@@ -11,6 +11,9 @@
 				</div>
 				<div class="row">
 					<?php require_once 'sidebar.php'; ?>
+					<div class="col-md-6 col-xs-12">
+						<?php echo $data; ?>
+					</div>
 				</div>
 			</div>
 			<?php require_once $_SERVER['DOCUMENT_ROOT'].'/app/views/app/BrandLogo.php'; ?>

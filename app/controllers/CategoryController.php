@@ -81,17 +81,12 @@
 			$_SESSION['page']=$page;
 			$data=[];
 			$data['page']=$page;
-			$data['onPage']=5;
+			$data['onPage']=10;
 			$catModel=new CategoryModelRepository;
 			$objDb=$catModel->getObjDb($catModel->getTable());
 			$from=($page-1) * $data['onPage'];
 			$countCat=$objDb->getCount();
 			$data['categories']=$catModel->getLimitItems($from, $data['onPage']);
-			$result=$objDb->getColumns();
-			$data['columns'] = array();
-			foreach($result as $value) {
-				$data['columns'][] = $value['Field'];
-			}
 			$pagin=new Paginator;
 			$pagin->setOnPage($data['onPage']);
 			$pagin->setCountItems($countCat['count']);

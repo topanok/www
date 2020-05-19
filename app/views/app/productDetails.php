@@ -79,14 +79,12 @@
 									<h2 class="title-product"><?=$data['product']['name']; ?></h2>
 									<div class="about-toch-prond">
 										<p>
-											<span class="rating">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</span>
-											<a href="#">1 відгуків</a>
+											<?php for($i=0; $i<$data['averageRating']; $i++){ ?>
+											<span><i class="fa fa-star"></i></span>
+											<?php } for($i=0; $i<5-$data['averageRating']; $i++){?>
+											<span><i class="fa fa-star-o"></i></span>
+											<?php } ?>
+											<a href="#">Відгуки <strong><?=$data['reviewsCount']; ?></strong></a>
 											/
 											<a href="#">Написати відгук</a>
 										</p>
@@ -115,7 +113,7 @@
 										<div class="toch-menu">
 											<ul role="tablist">
 												<li role="presentation" class=" active"><a href="#description" role="tab" data-toggle="tab">Опис</a></li>
-												<li role="presentation"><a href="#reviews" role="tab" data-toggle="tab">Відгуки (1)</a></li>
+												<li role="presentation"><a href="#reviews" role="tab" data-toggle="tab">Відгуки (<?=$data['reviewsCount']; ?>)</a></li>
 											</ul>
 										</div>
 										<!-- End Toch-Menu -->
@@ -139,54 +137,66 @@
 														<div class="toch-reviews">
 															<div class="toch-table">
 																<table class="table table-striped table-bordered">
+																	<?php foreach($data['reviews'] as $review): ?>
 																	<tbody>
 																		<tr>
-																			<td><strong>plaza theme</strong></td>
-																			<td class="text-right"><strong>16/02/2016</strong></td>
+																			<td><strong class="user-name"><?=$review['user_name'];?></strong></td>
+																			<td class="text-right"><strong class="date-review"><?=$review['date']; ?></strong></td>
 																		</tr>
 																		<tr>
-																			<td colspan="2">
-																				<p>It is part of Australia's network of offshore processing centres for irregular migrants who arrive by boat, and also houses New Zealanders facing deportation from Australia.</p>
+																			<td colspan="2" class="user-review-td">
+																				<p><?=$review['review']; ?></p>
+																				<?php for($i=0; $i<$review['rating']; $i++){ ?>
 																				<span><i class="fa fa-star"></i></span>
-																				<span><i class="fa fa-star"></i></span>
-																				<span><i class="fa fa-star"></i></span>
-																				<span><i class="fa fa-star"></i></span>
+																				<?php } for($i=0; $i<5-$review['rating']; $i++){?>
 																				<span><i class="fa fa-star-o"></i></span>
+																				<?php } ?>
 																			</td>
 																		</tr>
 																	</tbody>
+																<?php endforeach; ?>
 																</table>
 															</div>
-															<div class="toch-review-title">
-																<h2>Write a review</h2>
-															</div>
+															<?php if (!isset($data['reviewIsset'])){ ?>
 															<div class="review-message">
+																<div class="toch-review-title">
+																	<h2>Залишити відгук</h2>
+																</div>
 																<div class="col-xs-12">
-																	<p><sup>*</sup>Your Name <br>
-																		<input type="text" class="form-control" />
-																	</p>
-																	<p><sup>*</sup>Your Name <br>
-																		<textarea class="form-control"></textarea>
-																	</p>
+																	<div class="enter-name">
+																		<p><sup>*</sup>Ваше ім'я <br>
+																		<input id="user-name" type="text" class="form-control" name="name" onchange="checkName()" placeholder="Мінімум 2 символи" value="<?php if(isset($data['userName'])) echo $data['userName']; ?>" />
+																		</p>
+																		<div class="error-name"></div>
+																	</div>
+																	<div class="enter-review">
+																		<p><sup>*</sup>Ваш відгук <br>
+																			<textarea id="user-review" class="form-control"  onchange="checkReview()" placeholder="Мінімум 20 символів" name="review"></textarea>
+																		</p>
+																		<div class="error-review"></div>
+																	</div>
+																	</div>
+																	<div class="help-block">
+																		<span class="note">Увага:</span>
+																		 HTML не підтримується!
+																	</div>
+																	<div class="get-rating">
+																		<span><sup>*</sup>Оцінка </span>
+																		погано
+																		<input type="radio" value="1" name="rating" />
+																		<input type="radio" value="2" name="rating" />
+																		<input type="radio" value="3" name="rating" />
+																		<input type="radio" value="4" name="rating" />
+																		<input type="radio" value="5" name="rating" />
+																		добре
+																		<div class="error-rating"></div>
+																	</div>
+																	<div class="buttons clearfix">
+																		<button class="btn btn-primary pull-right" onclick="addReview('<?=$data['product']['id'];?>')">Залишити відгук</button>
+																	</div>
 																</div>
-																<div class="help-block">
-																	<span class="note">Note:</span>
-																	 HTML is not translated!
-																</div>
-																<div class="get-rating">
-																	<span><sup>*</sup>Rating </span>
-																	Bad
-																	<input type="radio" value="1" name="rating" />
-																	<input type="radio" value="2" name="rating" />
-																	<input type="radio" value="3" name="rating" />
-																	<input type="radio" value="4" name="rating" />
-																	<input type="radio" value="5" name="rating" />
-																	Good
-																</div>
-																<div class="buttons clearfix">
-																	<button class="btn btn-primary pull-right">Continue</button>
-																</div>
-															</div>
+															<?php } else echo '<div class="toch-review-title"><pre style="background-color: #E0F2F7">Ви залишали відгук до цього продукту :-)</pre></div>'; ?>
+															<div class="sucess-mesage"></div>
 														</div>
 													</div>
 												</div>
