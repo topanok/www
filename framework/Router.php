@@ -20,8 +20,8 @@
 				$class = "App\Controllers\\{$class}";
 				$obj= new $class;
 				if(method_exists($class,$method)){
-					$func_reflection = new ReflectionMethod($class,$method);
-					$num_of_params = $func_reflection->getNumberOfParameters();
+					$reflection = new ReflectionMethod($class,$method);
+					$num_of_params = $reflection->getNumberOfParameters();
 					if(count($arrOfUri)-2==$num_of_params){
 						$correctUri=true;
 						$params=[];
@@ -33,8 +33,7 @@
 					}
 				}	
 			} 
-			if($correctUri);
-			else {
+			if(!$correctUri){
 				include '404.php';
 			}
 		}

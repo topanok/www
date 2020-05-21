@@ -135,4 +135,16 @@
    			}
    		}
     }
+    function goTo(writeReview){
+    	$('#li-presentation-description').removeClass();
+    	$('#li-presentation-reviews').attr( 'class', 'active' );
+    	$('#description').attr( 'class', 'tab-pane fade' );
+    	$('#reviews').attr( 'class', 'tab-pane fade in active' );
+    	if(writeReview=='true'){
+    		$('#write-review').removeAttr('hidden');
+    	}
+        $('html, body').animate({ 
+    		scrollTop: $('#mini-div').offset().top 
+  		}, 'slow');
+    }
 //});
