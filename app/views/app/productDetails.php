@@ -84,9 +84,10 @@
 											<?php } for($i=0; $i<5-$data['averageRating']; $i++){?>
 											<span><i class="fa fa-star-o"></i></span>
 											<?php } ?>
-											<a href="#" onclick="goTo('false');return false;">Відгуки <strong><?=$data['reviewsCount']; ?></strong></a>
-											/
-											<a href="#" onclick="goTo('true');return false;">Залишити відгук</a>
+											<a href="#" onclick="goTo('mini-div', null);return false;">Відгуки <strong><?=$data['reviewsCount']; ?></strong></a>
+											<?php if (!isset($data['reviewIsset'])): ?>
+											/<a href="#" onclick="goTo('mini-div', goToForm);return false;">Залишити відгук</a>
+											<?php endif; ?>
 										</p>
 										<hr />
 										<p class="short-description"><?=mb_strimwidth($data['product']['description'], 0, 200, "..."); ?></p>
@@ -118,7 +119,7 @@
 											</ul>
 										</div>
 										<!-- End Toch-Menu -->
-										<div class="tab-content toch-description-review">
+										<div id="content-reviews" class="tab-content toch-description-review">
 											<!-- Start display-description -->
 											<div role="tabpanel" class="tab-pane fade in active" id="description">
 												<div class="row">
@@ -156,46 +157,6 @@
 												<div class="row">
 													<div class="col-xs-12">
 														<div class="toch-reviews">
-															<div id="write-review" hidden class="review-message">
-																<?php if (!isset($data['reviewIsset'])){ ?>
-																<div class="toch-review-title">
-																	<h2>Залишити відгук</h2>
-																</div>
-																<div class="col-xs-12">
-																	<div class="enter-name">
-																		<p><sup>*</sup>Ваше ім'я <br>
-																		<input id="user-name" type="text" class="form-control" name="name" onchange="checkName()" placeholder="Мінімум 2 символи" value="<?php if(isset($data['userName'])) echo $data['userName']; ?>" />
-																		</p>
-																		<div class="error-name"></div>
-																	</div>
-																	<div class="enter-review">
-																		<p><sup>*</sup>Ваш відгук <br>
-																			<textarea id="user-review" class="form-control"  onchange="checkReview()" placeholder="Мінімум 20 символів" rows="5" name="review"></textarea>
-																		</p>
-																		<div class="error-review"></div>
-																	</div>
-																	</div>
-																	<div class="help-block">
-																		<span class="note">Увага:</span>
-																		 HTML не підтримується!
-																	</div>
-																	<div class="get-rating">
-																		<span><sup>*</sup>Оцінка </span>
-																		погано
-																		<input type="radio" value="1" name="rating" />
-																		<input type="radio" value="2" name="rating" />
-																		<input type="radio" value="3" name="rating" />
-																		<input type="radio" value="4" name="rating" />
-																		<input type="radio" value="5" name="rating" />
-																		добре
-																		<div class="error-rating"></div>
-																	</div>
-																	<div class="buttons clearfix">
-																		<button class="btn btn-primary pull-right" onclick="addReview('<?=$data['product']['id'];?>')">Залишити відгук</button>
-																	</div>
-																	<?php } else echo '<div class="toch-review-title"><pre style="background-color: #E0F2F7">Ви залишали відгук до цього продукту :-)</pre></div>'; ?>
-															</div>
-															<div class="sucess-mesage"></div>
 															<div class="toch-table">
 																<table class="table table-striped table-bordered">
 																	<?php foreach($data['reviews'] as $review): ?>

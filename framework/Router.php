@@ -13,7 +13,7 @@
 			$uri=$this->getUri();
 			$arrOfUri=explode('/',$uri);
 			$correctUri=false;
-			$controller=$arrOfUri[0].$this->endOfFile;
+			$controller=ucfirst($arrOfUri[0].$this->endOfFile);
 			if (file_exists('app/controllers/'.$controller) && count($arrOfUri)>=2) {
 				$class=ucfirst($arrOfUri[0]).$this->prefix;
 				$method=$arrOfUri[1];
